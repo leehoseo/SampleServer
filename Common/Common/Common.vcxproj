@@ -139,11 +139,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Base.h" />
+    <ClInclude Include="Iocp.h" />
+    <ClInclude Include="SocketAddress.h" />
     <ClInclude Include="Session.h" />
+    <ClInclude Include="Socket.h" />
+    <ClInclude Include="TcpSocket.h" />
+    <ClInclude Include="Thead.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Iocp.cpp" />
+    <ClCompile Include="SocketAddress.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Session.cpp" />
+    <ClCompile Include="Socket.cpp" />
+    <ClCompile Include="TcpSocket.cpp" />
+    <ClCompile Include="Thead.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

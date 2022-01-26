@@ -13,18 +13,60 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Thead">
+      <UniqueIdentifier>{dba1afe2-c6b7-44c4-90bf-e4405ff4f5d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IOCP">
+      <UniqueIdentifier>{7aede9d9-a76f-4e3f-83dc-f88fdde6c9b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{2a2abe16-5044-4bf0-8f0c-cb48a9f1d13a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Session.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Session.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>IOCP</Filter>
+    </ClCompile>
+    <ClCompile Include="Thead.cpp">
+      <Filter>Thead</Filter>
+    </ClCompile>
+    <ClCompile Include="Socket.cpp">
+      <Filter>IOCP</Filter>
+    </ClCompile>
+    <ClCompile Include="Iocp.cpp">
+      <Filter>IOCP</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketAddress.cpp">
+      <Filter>IOCP</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpSocket.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Session.h">
+      <Filter>IOCP</Filter>
+    </ClInclude>
+    <ClInclude Include="Thead.h">
+      <Filter>Thead</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket.h">
+      <Filter>IOCP</Filter>
+    </ClInclude>
+    <ClInclude Include="Iocp.h">
+      <Filter>IOCP</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketAddress.h">
+      <Filter>IOCP</Filter>
+    </ClInclude>
+    <ClInclude Include="Base.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TcpSocket.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
