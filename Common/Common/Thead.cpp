@@ -1,9 +1,12 @@
 #include "Thead.h"
 
-Thead::Thead()
+namespace HoseoServer
 {
-}
+	Thead::Thead()
+	{
+	}
 
-Thead::~Thead()
-{
-}
+	Thead::~Thead()
+	{
+	}
+};

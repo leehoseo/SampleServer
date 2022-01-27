@@ -1,125 +1,42 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <winsock2.h>
-#include <process.h>
+#include "Base.h"
+#include "Iocp.h"
+#include "TcpSocket.h"
+#include "Socket.h"
 
 #define BUFSIZE 1024
 
-typedef struct
+int main()
 {
-    SOCKET hClntSock;
-    SOCKADDR_IN clntAddr;
-} PER_HANDLE_DATA, * LPPER_HANDLE_DATA;
+	//Iocp iocp;
+	//Socket* listenSocket = new TcpSocket("127.0.0.1", 5555);
+	//listenSocket->listen();
 
-typedef struct
-{
-    OVERLAPPED overlapped;
-    char buffer[BUFSIZE];
-    WSABUF wsaBuf;
-} PER_IO_DATA, * LPPER_IO_DATA;
+	//iocp.AddSocket(*listenSocket , nullptr);
 
-unsigned int __stdcall CompletionThread(LPVOID pComPort);
-void ErrorHandling(char* message);
 
-#pragma comment(lib, "ws2_32.lib")
+	//Socket* clientSocket = new TcpSocket();
 
-int main(int argc, char** argv)
-{
-    WSADATA wsaData;
-    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
-    {
-       //ErrorHandling("WSAStartup() error!");
-    }
+	//listenSocket->acceptOverlapped(*clientSocket);
 
-    HANDLE hCompletionPort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
+	//listenSocket->setIsOverlapping(true);
 
-    SYSTEM_INFO SystemInfo;
-    GetSystemInfo(&SystemInfo);
-    for (int i = 0; i < SystemInfo.dwNumberOfProcessors; ++i)
-        _beginthreadex(NULL, 0, CompletionThread, (LPVOID)hCompletionPort, 0, NULL);
+	//while (true)
+	//{
+	//	// I/O 완료 이벤트가 있을 때까지 기다립니다.
+	//	IocpEvents readEvents;
+	//	iocp.getEvent(readEvents, 100);
 
-    SOCKET hServSock = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
+	//	// 받은 이벤트 각각을 처리합니다.
+	//	for (int index = 0; index < readEvents.m_eventCount; ++index)
+	//	{
+	//		OVERLAPPED_ENTRY& readEvent = readEvents.m_events[index];
 
-    SOCKADDR_IN servAddr;
-    servAddr.sin_family = AF_INET;
-    servAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    //servAddr.sin_port = htons(atoi("2738"));
-    servAddr.sin_port = htons(2738);
 
-    bind(hServSock, (SOCKADDR*)&servAddr, sizeof(servAddr));
-    listen(hServSock, 5);
+	//	}
+	//}
 
-    LPPER_IO_DATA PerIoData;
-    LPPER_HANDLE_DATA PerHandleData;
+	//delete(listenSocket);
+	//delete(clientSocket);
 
-    int RecvBytes;
-    int i, Flags;
-
-    while (TRUE)
-    {
-        SOCKADDR_IN clntAddr;
-        int addrLen = sizeof(clntAddr);
-
-        SOCKET hClntSock = accept(hServSock, (SOCKADDR*)&clntAddr, &addrLen);
-
-        PerHandleData = (LPPER_HANDLE_DATA)malloc(sizeof(PER_HANDLE_DATA));
-        PerHandleData->hClntSock = hClntSock;
-        memcpy(&(PerHandleData->clntAddr), &clntAddr, addrLen);
-
-        CreateIoCompletionPort((HANDLE)hClntSock, hCompletionPort, (DWORD)PerHandleData, 0);
-
-        PerIoData = (LPPER_IO_DATA)malloc(sizeof(PER_IO_DATA));
-        memset(&(PerIoData->overlapped), 0, sizeof(OVERLAPPED));
-        PerIoData->wsaBuf.len = BUFSIZE;
-        PerIoData->wsaBuf.buf = PerIoData->buffer;
-        Flags = 0;
-
-        WSARecv(PerHandleData->hClntSock, &(PerIoData->wsaBuf), 1, (LPDWORD)&RecvBytes, (LPDWORD)&Flags, &(PerIoData->overlapped), NULL);
-    }
-
-    return 0;
-}
-
-unsigned int __stdcall CompletionThread(LPVOID pComPort)
-{
-    HANDLE hCompletionPort = (HANDLE)pComPort;
-    DWORD BytesTransferred;
-    LPPER_HANDLE_DATA PerHandleData;
-    LPPER_IO_DATA PerIoData;
-    DWORD flags;
-
-    while (1) {
-        GetQueuedCompletionStatus(hCompletionPort, &BytesTransferred, (LPDWORD)&PerHandleData, (LPOVERLAPPED*)&PerIoData, INFINITE);
-
-        if (BytesTransferred == 0)
-        {
-            closesocket(PerHandleData->hClntSock);
-            free(PerHandleData);
-            free(PerIoData);
-            continue;
-        }
-
-        PerIoData->wsaBuf.buf[BytesTransferred] = '\0';
-        printf("Recv[%s]\n", PerIoData->wsaBuf.buf);
-
-        PerIoData->wsaBuf.len = BytesTransferred;
-        WSASend(PerHandleData->hClntSock, &(PerIoData->wsaBuf), 1, NULL, 0, NULL, NULL);
-
-        memset(&(PerIoData->overlapped), 0, sizeof(OVERLAPPED));
-        PerIoData->wsaBuf.len = BUFSIZE;
-        PerIoData->wsaBuf.buf = PerIoData->buffer;
-
-        flags = 0;
-
-        WSARecv(PerHandleData->hClntSock, &(PerIoData->wsaBuf), 1, NULL, &flags, &(PerIoData->overlapped), NULL);
-    }
-
-    return 0;
-}
-
-void ErrorHandling(char* message)
-{
-    fputs(message, stderr);
-    fputc('\n', stderr);
-    exit(1);
+	return 0;
 }

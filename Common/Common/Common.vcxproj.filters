@@ -22,6 +22,9 @@
     <Filter Include="Base">
       <UniqueIdentifier>{2a2abe16-5044-4bf0-8f0c-cb48a9f1d13a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{1e88f861-3dd1-4614-88f7-ee379e36b635}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,7 +46,7 @@
       <Filter>IOCP</Filter>
     </ClCompile>
     <ClCompile Include="TcpSocket.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>IOCP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -66,7 +69,7 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="TcpSocket.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>IOCP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,8 +1,11 @@
 #pragma once
-class Thead
+namespace HoseoServer
 {
-public:
-	Thead();
-	virtual ~Thead();
+	class Thead
+	{
+	public:
+		Thead();
+		virtual ~Thead();
+	};
 };
 
