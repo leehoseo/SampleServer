@@ -12,6 +12,7 @@ namespace HoseoServer
 		~SocketAddress();
 
 	public:
+		void init(const string& address, const uint8_t& port);
 		const bool isValied() const;
 
 		const string& getIpAddress() const;

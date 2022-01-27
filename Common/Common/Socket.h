@@ -2,10 +2,10 @@
 
 #include "Base.h"
 #include "SocketAddress.h"
-#include <MSWSock.h>
-#include <WinSock2.h>
+
+#define _WINSOCKAPI_
 #include <windows.h>
-#include <mswsock.h>
+#include <MSWSock.h>
 
 namespace HoseoServer
 {
@@ -18,6 +18,7 @@ namespace HoseoServer
 
 	public:
 		// Ελ½ΕΏλ
+		void		init(const string& address, const uint8_t& port);
 		void		listen();
 		const bool	bind();
 		const bool	connect();

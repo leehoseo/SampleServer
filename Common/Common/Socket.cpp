@@ -19,6 +19,11 @@ namespace HoseoServer
 		__noop;
 	}
 
+	void Socket::init(const string& address, const uint8_t& port)
+	{
+		_address.init(address, port);
+	}
+
 	void Socket::listen()
 	{
 		::listen(_socketHandle, 5000);
@@ -118,7 +123,6 @@ namespace HoseoServer
 	void Socket::setSendBuffer(const char* sendBuffer)
 	{
 		memset(_sendBuffer, 0, MAX_BUFFER_LENGTH);
-
 		strcat_s(_sendBuffer, MAX_BUFFER_LENGTH, sendBuffer);
 	}
 

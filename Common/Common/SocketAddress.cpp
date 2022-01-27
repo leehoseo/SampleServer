@@ -17,6 +17,12 @@ namespace HoseoServer
 	{
 	}
 
+	void SocketAddress::init(const string& address, const uint8_t& port)
+	{
+		_address = address;
+		_port = port;
+	}
+
 	const bool SocketAddress::isValied() const
 	{
 		return (false == _address.empty()) && (0 != _port);
