@@ -1,17 +1,15 @@
 #include "Base.h"
-#include "Iocp.h"
 #include "TcpSocket.h"
 #include "Socket.h"
-
-#define BUFSIZE 1024
+#include "Iocp.h"
 
 int main()
 {
-	//Iocp iocp;
-	//Socket* listenSocket = new TcpSocket("127.0.0.1", 5555);
-	//listenSocket->listen();
+	Iocp iocp(1);
+	/*Socket* listenSocket = new TcpSocket("127.0.0.1", 5555);
+	listenSocket->listen();*/
 
-	//iocp.AddSocket(*listenSocket , nullptr);
+	//iocp.AddSocket(*listenSocket, nullptr);
 
 
 	//Socket* clientSocket = new TcpSocket();
