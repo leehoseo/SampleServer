@@ -39,3 +39,6 @@
 *.tlog
 *.lastbuildstate
 *.pdb
+*.suo
+*.VC
+.ipch
