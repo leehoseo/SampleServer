@@ -113,6 +113,26 @@ const int Socket::sendOverlapped()
 	return WSASend(_socketHandle, &buffer, 1, NULL, 0, NULL, NULL);
 }
 
+const int Socket::updateAcceptContext(Socket& listenSocket)
+{
+	sockaddr_in ignore1;
+	sockaddr_in ignore3;
+	INT ignore2, ignore4;
+
+	char ignore[1000];
+	GetAcceptExSockaddrs(ignore,
+		0,
+		50,
+		50,
+		(sockaddr**)&ignore1,
+		&ignore2,
+		(sockaddr**)&ignore3,
+		&ignore4);
+
+	return setsockopt(_socketHandle, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT,
+		(char*)&listenSocket.getHandle(), sizeof(listenSocket.getHandle()));
+}
+
 void Socket::getReceiveBuffer(char* outBuffer)
 {
 	outBuffer = _receiveBuffer;

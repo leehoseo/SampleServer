@@ -23,7 +23,7 @@ public:
 	const bool	acceptOverlapped(Socket& acceptSocket); // accept 준비
 	const int	receiveOverlapped(); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
 	const int	sendOverlapped(); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
-
+	const int	updateAcceptContext(Socket& listenSocket);
 	// 버퍼 확인용 
 	const bool	isOverlapping() const;
 	void		setIsOverlapping(const bool isOverlapping);
