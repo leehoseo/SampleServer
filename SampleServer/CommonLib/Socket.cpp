@@ -29,7 +29,9 @@ void Socket::listen()
 
 const bool Socket::bind()
 {
-	if (::bind(_socketHandle, (sockaddr*)&_address, sizeof(_address)) < 0)
+	const sockaddr_in& sockAddr = _address.getSockAddress();
+
+	if (::bind(_socketHandle, (sockaddr*)&sockAddr, sizeof(sockAddr)) < 0)
 	{
 		cout << "bind failed:" << endl;
 		return false;
@@ -53,14 +55,14 @@ const bool Socket::acceptOverlapped(Socket& acceptSocket)
 {
 	if (_acceptExFunc == NULL)
 	{
-		GUID GuidAcceptEx = WSAID_ACCEPTEX;
+		UUID GuidAcceptEx = WSAID_ACCEPTEX;
 		DWORD bytes;
 		// AcceptEx는 여타 소켓함수와 달리 직접 호출하는 것이 아니고,
 		// 함수 포인터를 먼저 가져온 다음 호출할 수 있다. 그것을 여기서 한다.
 		WSAIoctl(_socketHandle,
 			SIO_GET_EXTENSION_FUNCTION_POINTER,
 			&GuidAcceptEx,
-			sizeof(GuidAcceptEx),
+			sizeof(UUID),
 			&_acceptExFunc,
 			sizeof(_acceptExFunc),
 			&bytes,

@@ -15,5 +15,5 @@ TcpSocket::TcpSocket()
 
 TcpSocket::~TcpSocket()
 {
-
+	closesocket(_socketHandle);
 }

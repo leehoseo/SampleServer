@@ -4,22 +4,27 @@
 #include "Iocp.h"
 #include <vector>
 
+#pragma optimize("",off)
+
 int main()
 {
+	WSADATA w;
+	WSAStartup(MAKEWORD(2, 2), &w);
+
 	Iocp iocp(1);
 	vector<Socket> socketList;
-	Socket listenSocket("127.0.0.1", 5555);
+	TcpSocket listenSocket("127.0.0.1", 5555);
+	listenSocket.bind();
 	listenSocket.listen();
-
 	iocp.AddSocket(listenSocket, nullptr);
 	
 	Socket* waitingSocket = nullptr;
 
 	{
-		Socket* newSocket = new Socket();
+		Socket* newSocket = new TcpSocket();
 		waitingSocket = newSocket;
 
-		if (false == listenSocket.acceptOverlapped(*waitingSocket))
+		if (false == listenSocket.acceptOverlapped(*newSocket))
 		{
 			//listenSocket.Close();
 		}
@@ -87,37 +92,40 @@ int main()
 				//if (remoteClient)
 				{
 					// 이미 수신된 상태이다. 수신 완료된 것을 그냥 꺼내 쓰자.
-					clientSocket.m_isReadOverlapped = false;
+					clientSocket.setIsOverlapping(false);
 					int ec = readEvent.dwNumberOfBytesTransferred;
 
 					if (ec <= 0)
 					{
 						// 읽은 결과가 0 즉 TCP 연결이 끝났다...
 						// 혹은 음수 즉 뭔가 에러가 난 상태이다...
-						ProcessClientLeave(remoteClient);
+						//ProcessClientLeave(remoteClient);
 					}
 					else
 					{
 						// 이미 수신된 상태이다. 수신 완료된 것을 그냥 꺼내 쓰자.
-						char* echoData = remoteClient->tcpConnection.m_receiveBuffer;
+						char* echoData = nullptr;
+						clientSocket.getReceiveBuffer(echoData);
+
 						int echoDataLength = ec;
 
 						// 원칙대로라면 TCP 스트림 특성상 일부만 송신하고 리턴하는 경우도 고려해야 하나,
 						// 지금은 독자의 이해가 우선이므로, 생략하도록 한다.
 						// 원칙대로라면 여기서 overlapped 송신을 해야 하지만 
 						// 독자의 이해를 위해서 그냥 블로킹 송신을 한다.
-						remoteClient->tcpConnection.Send(echoData, echoDataLength);
+						clientSocket.setSendBuffer(echoData);
+						clientSocket.sendOverlapped();
 
 						// 다시 수신을 받으려면 overlapped I/O를 걸어야 한다.
-						if (remoteClient->tcpConnection.ReceiveOverlapped() != 0
+						if (clientSocket.receiveOverlapped() != 0
 							&& WSAGetLastError() != ERROR_IO_PENDING)
 						{
-							ProcessClientLeave(remoteClient);
+							//ProcessClientLeave(remoteClient);
 						}
 						else
 						{
 							// I/O를 걸었다. 완료를 대기하는 중 상태로 바꾸자.
-							remoteClient->tcpConnection.m_isReadOverlapped = true;
+							clientSocket.setIsOverlapping(true);
 						}
 					}
 				}
@@ -125,12 +133,13 @@ int main()
 		}
 	}
 
-	const int size = socketList.size();
-	for (int index = 0; index < size; ++index)
-	{
-		delete(socketList[index]);
-	}
-	delete(listenSocket);
+	//const int size = socketList.size();
+	//for (int index = 0; index < size; ++index)
+	//{
+	//	delete(socketList[index]);
+	//}
+	//delete(listenSocket);
 
+	WSACleanup();
 	return 0;
 }

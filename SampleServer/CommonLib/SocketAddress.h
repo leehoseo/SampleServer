@@ -15,6 +15,7 @@ public:
 
 	const string& getIpAddress() const;
 	const uint8_t& getPort() const;
+	const sockaddr_in& getSockAddress() const;
 
 private:
 	string _address;
