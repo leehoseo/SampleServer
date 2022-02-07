@@ -105,28 +105,30 @@ const int Socket::receiveOverlapped()
 
 const int Socket::sendOverlapped()
 {
-	WSABUF buffer;
-	buffer.buf = _sendBuffer;
-	buffer.len = MAX_BUFFER_LENGTH;
-
-	return WSASend(_socketHandle, &buffer, 1, NULL, 0, NULL, NULL);
+	_buffer2.buf = _sendBuffer;
+	_buffer2.len = MAX_BUFFER_LENGTH;
+	int sendBytes = 0;
+	return WSASend(_socketHandle, &_buffer2, 1, (LPDWORD)&sendBytes, 0, &_receiveOverlappedBuffer, NULL);
 }
 
 const int Socket::updateAcceptContext(Socket* listenSocket)
 {
-	sockaddr_in ignore1;
-	sockaddr_in ignore3;
-	INT ignore2, ignore4;
+	sockaddr_in localAddr;
+	sockaddr_in remoteAddr;
+	int localLen = 0;
+	int remoteLen = 0;
 
 	char ignore[1000];
 	GetAcceptExSockaddrs(ignore,
 		0,
-		50,
-		50,
-		(sockaddr**)&ignore1,
-		&ignore2,
-		(sockaddr**)&ignore3,
-		&ignore4);
+		sizeof(SOCKADDR_STORAGE) + 16,
+		sizeof(SOCKADDR_STORAGE) + 16,
+		(sockaddr**)&localAddr,
+		&localLen,
+		(sockaddr**)&remoteAddr,
+		&remoteLen);
+
+	memcpy(&_address._sockAddress, &localAddr, localLen);
 
 	return setsockopt(_socketHandle, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT,
 		(char*)&listenSocket->getHandle(), sizeof(listenSocket->getHandle()));

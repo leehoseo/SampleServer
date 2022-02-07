@@ -5,6 +5,7 @@
 #include <vector>
 #include <process.h>
 #include <unordered_map>
+#include "TestSample.h"
 
 static int currentlpCompletionKey = 0;
 
@@ -69,7 +70,7 @@ int iocpTest()
 	while (true)
 	{
 		IocpEvents readEvents;
-		//iocp.getEvent(readEvents, 100);
+		//iocp.getEvent(readEvents, 0);
 
 
 		const bool result = GetQueuedCompletionStatusEx(iocp._iocpHandle, readEvents.m_events, Iocp::MAX_EVENT_COUNT, (ULONG*)&readEvents.m_eventCount, 0, FALSE);
@@ -100,30 +101,38 @@ int iocpTest()
 				}
 				else
 				{
-					iocp.AddSocket(*waitingSocket, nullptr);
-					if (0 != waitingSocket->receiveOverlapped()) // I/O 수신 요청 함
-					{
-						//listenSocket.Close();
-					}
-					else
-					{
-						waitingSocket->setIsOverlapping(true);
-						//socketList.push_back(*waitingSocket);
+					const bool result = CreateIoCompletionPort((HANDLE)waitingSocket->_socketHandle, iocp._iocpHandle, (DWORD)currentlpCompletionKey, 0);
+					socketList.insert(make_pair(currentlpCompletionKey++, waitingSocket));
+					waitingSocket->receiveOverlapped();
 
-						Socket* newSocket = new Socket();
-						waitingSocket = newSocket;
+					Socket* newSocket = new TcpSocket();
+					waitingSocket = newSocket;
 
-						if (false == listenSocket->acceptOverlapped(waitingSocket))
-						{
-							//listenSocket.Close();
-						}
-						else
-						{
-							//listenSocket.setIsOverlapping(true);
-						}
-						waitingSocket->receiveOverlapped();
-						socketList.insert(make_pair(currentlpCompletionKey++, waitingSocket));
-					}
+					listenSocket->acceptOverlapped(newSocket);
+					////iocp.AddSocket(*waitingSocket, nullptr);
+					//if (0 != waitingSocket->receiveOverlapped()) // I/O 수신 요청 함
+					//{
+					//	//listenSocket.Close();
+					//}
+					//else
+					//{
+					//	waitingSocket->setIsOverlapping(true);
+					//	//socketList.push_back(*waitingSocket);
+
+					//	Socket* newSocket = new TcpSocket();
+					//	waitingSocket = newSocket;
+
+					//	if (false == listenSocket->acceptOverlapped(waitingSocket))
+					//	{
+					//		//listenSocket.Close();
+					//	}
+					//	else
+					//	{
+					//		//listenSocket.setIsOverlapping(true);
+					//	}
+					//	waitingSocket->receiveOverlapped();
+					//	socketList.insert(make_pair(currentlpCompletionKey++, waitingSocket));
+					//}
 				}
 			}
 			else // 연결된 소켓
@@ -161,8 +170,8 @@ int iocpTest()
 						//// 지금은 독자의 이해가 우선이므로, 생략하도록 한다.
 						//// 원칙대로라면 여기서 overlapped 송신을 해야 하지만 
 						//// 독자의 이해를 위해서 그냥 블로킹 송신을 한다.
-						//clientSocket.setSendBuffer(echoData);
-						//clientSocket.sendOverlapped();
+						clientSocket->setSendBuffer("Hellooooo");
+						clientSocket->sendOverlapped();
 
 						// 다시 수신을 받으려면 overlapped I/O를 걸어야 한다.
 						if (clientSocket->receiveOverlapped() != 0
@@ -194,7 +203,7 @@ int iocpTest()
 
 int main()
 {
-	iocpTest();
+	iocpTest2();
 
 	return 0;
 }

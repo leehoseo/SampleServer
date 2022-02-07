@@ -35,6 +35,7 @@ public:
 	SOCKET _socketHandle; // 소켓 핸들
 	SocketAddress _address;
 	WSABUF _buffer;
+	WSABUF _buffer2;
 protected:
 
 private:
