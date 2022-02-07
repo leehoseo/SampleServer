@@ -6,19 +6,19 @@
 class SocketAddress
 {
 public:
-	SocketAddress(const string& address, const uint8_t& port);
+	SocketAddress(const string& address, const int& port);
 	~SocketAddress();
 
 public:
-	void init(const string& address, const uint8_t& port);
+	void init(const string& address, const int& port);
 	const bool isValied() const;
 
 	const string& getIpAddress() const;
-	const uint8_t& getPort() const;
+	const int& getPort() const;
 	const sockaddr_in& getSockAddress() const;
 
+	sockaddr_in _sockAddress;
 private:
 	string _address;
-	uint8_t _port;
-	sockaddr_in _sockAddress;
+	int _port;
 };

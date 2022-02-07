@@ -6,7 +6,7 @@ Socket::Socket()
 	ZeroMemory(&_receiveOverlappedBuffer, sizeof(_receiveOverlappedBuffer));
 }
 
-Socket::Socket(const string& address, const uint8_t& port)
+Socket::Socket(const string& address, const int& port)
 	: _address(address, port)
 {
 	ZeroMemory(&_receiveOverlappedBuffer, sizeof(_receiveOverlappedBuffer));
@@ -17,7 +17,7 @@ Socket::~Socket()
 	__noop;
 }
 
-void Socket::init(const string& address, const uint8_t& port)
+void Socket::init(const string& address, const int& port)
 {
 	_address.init(address, port);
 }
@@ -29,9 +29,7 @@ void Socket::listen()
 
 const bool Socket::bind()
 {
-	const sockaddr_in& sockAddr = _address.getSockAddress();
-
-	if (::bind(_socketHandle, (sockaddr*)&sockAddr, sizeof(sockAddr)) < 0)
+	if (::bind(_socketHandle, (sockaddr*)&_address._sockAddress, sizeof(_address._sockAddress)) < 0)
 	{
 		cout << "bind failed:" << endl;
 		return false;
@@ -51,7 +49,7 @@ const bool Socket::connect()
 	return true;
 }
 
-const bool Socket::acceptOverlapped(Socket& acceptSocket)
+const bool Socket::acceptOverlapped(Socket* acceptSocket)
 {
 	if (_acceptExFunc == NULL)
 	{
@@ -82,7 +80,7 @@ const bool Socket::acceptOverlapped(Socket& acceptSocket)
 	DWORD ignored2 = 0;
 
 	bool result = AcceptEx(_socketHandle,
-		acceptSocket._socketHandle,
+		acceptSocket->_socketHandle,
 		&ignored,
 		0,
 		50,
@@ -96,14 +94,13 @@ const bool Socket::acceptOverlapped(Socket& acceptSocket)
 
 const int Socket::receiveOverlapped()
 {
-	WSABUF buffer;
-	buffer.buf = _receiveBuffer;
-	buffer.len = MAX_BUFFER_LENGTH;
-
+	_buffer.buf = _receiveBuffer;
+	_buffer.len = MAX_BUFFER_LENGTH;
+	int RecvBytes = 0;
 	// overlapped I/O가 진행되는 동안 여기 값이 채워집니다.
 	_readFlags = 0;
 
-	return WSARecv(_socketHandle, &buffer, 1, NULL, &_readFlags, &_receiveOverlappedBuffer, NULL);
+	return WSARecv(_socketHandle, &_buffer, 1, (LPDWORD)&RecvBytes, &_readFlags, &_receiveOverlappedBuffer, NULL);
 }
 
 const int Socket::sendOverlapped()
@@ -115,7 +112,7 @@ const int Socket::sendOverlapped()
 	return WSASend(_socketHandle, &buffer, 1, NULL, 0, NULL, NULL);
 }
 
-const int Socket::updateAcceptContext(Socket& listenSocket)
+const int Socket::updateAcceptContext(Socket* listenSocket)
 {
 	sockaddr_in ignore1;
 	sockaddr_in ignore3;
@@ -132,7 +129,7 @@ const int Socket::updateAcceptContext(Socket& listenSocket)
 		&ignore4);
 
 	return setsockopt(_socketHandle, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT,
-		(char*)&listenSocket.getHandle(), sizeof(listenSocket.getHandle()));
+		(char*)&listenSocket->getHandle(), sizeof(listenSocket->getHandle()));
 }
 
 void Socket::getReceiveBuffer(char* outBuffer)

@@ -3,40 +3,86 @@
 #include "Socket.h"
 #include "Iocp.h"
 #include <vector>
+#include <process.h>
+#include <unordered_map>
 
-#pragma optimize("",off)
+static int currentlpCompletionKey = 0;
 
-int main()
+int iocpTest()
 {
 	WSADATA w;
 	WSAStartup(MAKEWORD(2, 2), &w);
 
 	Iocp iocp(1);
-	vector<Socket> socketList;
-	TcpSocket listenSocket("127.0.0.1", 5555);
-	listenSocket.bind();
-	listenSocket.listen();
-	iocp.AddSocket(listenSocket, nullptr);
-	
+	unordered_map<ULONG_PTR, Socket*> socketList;
+	Socket* listenSocket = new TcpSocket("127.0.0.1", 5555);
+	listenSocket->bind();
+	listenSocket->listen();
+
+	//SOCKET hServSock = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
+
+	//SOCKADDR_IN servAddr;
+	//servAddr.sin_family = AF_INET;
+	//servAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	////servAddr.sin_port = htons(atoi("2738"));
+	//servAddr.sin_port = htons(5555);
+
+	//bind(hServSock, (SOCKADDR*)&servAddr, sizeof(servAddr));
+	//listen(hServSock, 5);
+
+
 	Socket* waitingSocket = nullptr;
 
-	{
-		Socket* newSocket = new TcpSocket();
-		waitingSocket = newSocket;
+	Socket* newSocket = new TcpSocket();
 
-		if (false == listenSocket.acceptOverlapped(*newSocket))
-		{
-			//listenSocket.Close();
-		}
+	SOCKADDR_IN clntAddr;
+	int addrLen = sizeof(clntAddr);
+
+	/*newSocket->_socketHandle = accept(listenSocket->_socketHandle, (SOCKADDR*)&clntAddr, &addrLen);
+	newSocket->_address._sockAddress = clntAddr;*/
+	const bool result = CreateIoCompletionPort((HANDLE)listenSocket->_socketHandle, iocp._iocpHandle, (DWORD)currentlpCompletionKey, 0);
+	listenSocket->acceptOverlapped(newSocket);
+	socketList.insert(make_pair(currentlpCompletionKey++, listenSocket));
+
+	//const bool result = CreateIoCompletionPort((HANDLE)newSocket->_socketHandle, iocp._iocpHandle, (DWORD)currentlpCompletionKey, 0);
+
+
+	//socketList.insert( make_pair(currentlpCompletionKey, newSocket));
+
+	//newSocket->receiveOverlapped();
+
+	if (false == result)
+	{
+		cout << "IOCP add failed!" << endl;
 	}
 
-	listenSocket.setIsOverlapping(true);
+	//iocp.AddSocket(listenSocket, nullptr);
+	waitingSocket = newSocket;
+
+	//if (false == listenSocket.acceptOverlapped(*newSocket))
+	//{
+	//	//listenSocket.Close();
+	//}
+
+	//listenSocket.setIsOverlapping(true);
 
 	while (true)
 	{
-		// I/O 완료 이벤트가 있을 때까지 기다립니다.
 		IocpEvents readEvents;
-		iocp.getEvent(readEvents, 100);
+		//iocp.getEvent(readEvents, 100);
+
+
+		const bool result = GetQueuedCompletionStatusEx(iocp._iocpHandle, readEvents.m_events, Iocp::MAX_EVENT_COUNT, (ULONG*)&readEvents.m_eventCount, 0, FALSE);
+		if (false == result)
+		{
+			continue;
+			//cout << "IOCP getEvent failed!" << endl;
+			//output.m_eventCount = 0;
+		}
+
+		//GetQueuedCompletionStatus(iocp._iocpHandle, &BytesTransferred, (LPDWORD)&PerHandleData, (LPOVERLAPPED*)&PerIoData, INFINITE);
+
+		// I/O 완료 이벤트가 있을 때까지 기다립니다.
 
 		// 받은 이벤트 각각을 처리합니다.
 		for (int index = 0; index < readEvents.m_eventCount; ++index)
@@ -46,7 +92,7 @@ int main()
 			// 리슨소켓이면 0이다.
 			if (0 == readEvent.lpCompletionKey)
 			{
-				listenSocket.setIsOverlapping(false);
+				listenSocket->setIsOverlapping(false);
 
 				if (0 != waitingSocket->updateAcceptContext(listenSocket))
 				{
@@ -62,37 +108,39 @@ int main()
 					else
 					{
 						waitingSocket->setIsOverlapping(true);
-						socketList.push_back(*waitingSocket);
+						//socketList.push_back(*waitingSocket);
 
 						Socket* newSocket = new Socket();
 						waitingSocket = newSocket;
 
-						if (false == listenSocket.acceptOverlapped(*waitingSocket))
+						if (false == listenSocket->acceptOverlapped(waitingSocket))
 						{
 							//listenSocket.Close();
 						}
 						else
 						{
-							listenSocket.setIsOverlapping(true);
+							//listenSocket.setIsOverlapping(true);
 						}
-
+						waitingSocket->receiveOverlapped();
+						socketList.insert(make_pair(currentlpCompletionKey++, waitingSocket));
 					}
 				}
 			}
 			else // 연결된 소켓
 			{
 				// 받은 데이터를 그대로 회신한다.
-				Socket& clientSocket = socketList[readEvent.lpCompletionKey];
+				//auto finder = socketList.find(readEvent.lpCompletionKey);
+				Socket* clientSocket = socketList[readEvent.lpCompletionKey];
+
 				if (readEvent.dwNumberOfBytesTransferred <= 0)
 				{
 					int a = 0;
 				}
 
-
 				//if (remoteClient)
 				{
 					// 이미 수신된 상태이다. 수신 완료된 것을 그냥 꺼내 쓰자.
-					clientSocket.setIsOverlapping(false);
+					clientSocket->setIsOverlapping(false);
 					int ec = readEvent.dwNumberOfBytesTransferred;
 
 					if (ec <= 0)
@@ -104,20 +152,20 @@ int main()
 					else
 					{
 						// 이미 수신된 상태이다. 수신 완료된 것을 그냥 꺼내 쓰자.
-						char* echoData = nullptr;
-						clientSocket.getReceiveBuffer(echoData);
+						//char* echoData = nullptr;
+						// clientSocket.getReceiveBuffer(echoData);
 
-						int echoDataLength = ec;
+						//int echoDataLength = ec;
 
-						// 원칙대로라면 TCP 스트림 특성상 일부만 송신하고 리턴하는 경우도 고려해야 하나,
-						// 지금은 독자의 이해가 우선이므로, 생략하도록 한다.
-						// 원칙대로라면 여기서 overlapped 송신을 해야 하지만 
-						// 독자의 이해를 위해서 그냥 블로킹 송신을 한다.
-						clientSocket.setSendBuffer(echoData);
-						clientSocket.sendOverlapped();
+						//// 원칙대로라면 TCP 스트림 특성상 일부만 송신하고 리턴하는 경우도 고려해야 하나,
+						//// 지금은 독자의 이해가 우선이므로, 생략하도록 한다.
+						//// 원칙대로라면 여기서 overlapped 송신을 해야 하지만 
+						//// 독자의 이해를 위해서 그냥 블로킹 송신을 한다.
+						//clientSocket.setSendBuffer(echoData);
+						//clientSocket.sendOverlapped();
 
 						// 다시 수신을 받으려면 overlapped I/O를 걸어야 한다.
-						if (clientSocket.receiveOverlapped() != 0
+						if (clientSocket->receiveOverlapped() != 0
 							&& WSAGetLastError() != ERROR_IO_PENDING)
 						{
 							//ProcessClientLeave(remoteClient);
@@ -125,7 +173,7 @@ int main()
 						else
 						{
 							// I/O를 걸었다. 완료를 대기하는 중 상태로 바꾸자.
-							clientSocket.setIsOverlapping(true);
+							clientSocket->setIsOverlapping(true);
 						}
 					}
 				}
@@ -141,5 +189,12 @@ int main()
 	//delete(listenSocket);
 
 	WSACleanup();
+	return 0;
+}
+
+int main()
+{
+	iocpTest();
+
 	return 0;
 }

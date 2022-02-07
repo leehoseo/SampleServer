@@ -4,7 +4,7 @@
 class TcpSocket : public Socket
 {
 public:
-	TcpSocket(const string& address, const uint8_t& port);
+	TcpSocket(const string& address, const int& port);
 	TcpSocket();
 	virtual ~TcpSocket();
 };

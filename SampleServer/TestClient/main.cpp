@@ -5,8 +5,6 @@
 #include <thread>
 #include <stdio.h>
 
-void ErrorHandling(char* message);
-
 #pragma comment(lib, "ws2_32.lib")
 
 int main()
@@ -69,8 +67,8 @@ int main()
         }
 
         WSAWaitForMultipleEvents(1, &event, TRUE, WSA_INFINITE, FALSE);
-
-        WSAGetOverlappedResult(hSocket, &overlapped, (LPDWORD)&sendBytes, FALSE, NULL);
+        LPDWORD lpDword = 0;
+        WSAGetOverlappedResult(hSocket, &overlapped, (LPDWORD)&sendBytes, FALSE, (LPDWORD)&lpDword);
 
         printf("전송된바이트수: %d \n", sendBytes);
 
@@ -90,12 +88,4 @@ int main()
     WSACleanup();
 
     return 0;
-}
-
-void ErrorHandling(char* message)
-{
-    fputs(message, stderr);
-    fputc('\n', stderr);
-
-    exit(1);
 }

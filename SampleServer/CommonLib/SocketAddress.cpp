@@ -1,7 +1,7 @@
 #include "SocketAddress.h"
 #include <WS2tcpip.h>
 
-SocketAddress::SocketAddress(const string& address, const uint8_t& port)
+SocketAddress::SocketAddress(const string& address, const int& port)
 	: _address(address)
 	, _port(port)
 	, _sockAddress()
@@ -9,7 +9,8 @@ SocketAddress::SocketAddress(const string& address, const uint8_t& port)
 	memset(&_sockAddress, 0, sizeof(_sockAddress));
 
 	_sockAddress.sin_family = AF_INET;
-	inet_pton(AF_INET, address.c_str(), &_sockAddress.sin_addr);
+	_sockAddress.sin_addr.s_addr = htonl(INADDR_ANY);
+	//inet_pton(AF_INET, address.c_str(), &_sockAddress.sin_addr);
 	_sockAddress.sin_port = htons(port);
 }
 
@@ -17,7 +18,7 @@ SocketAddress::~SocketAddress()
 {
 }
 
-void SocketAddress::init(const string& address, const uint8_t& port)
+void SocketAddress::init(const string& address, const int& port)
 {
 	_address = address;
 	_port = port;
@@ -33,7 +34,7 @@ const string& SocketAddress::getIpAddress() const
 	return _address;
 }
 
-const uint8_t& SocketAddress::getPort() const
+const int& SocketAddress::getPort() const
 {
 	// TODO: 여기에 return 문을 삽입합니다.
 	return _port;
