@@ -11,19 +11,19 @@ class Socket
 {
 public:
 	Socket();
-	Socket(const string& address, const uint8_t& port);
+	Socket(const string& address, const int& port);
 	~Socket();
 
 public:
 	// 통신용
-	void		init(const string& address, const uint8_t& port);
+	void		init(const string& address, const int& port);
 	void		listen();
 	const bool	bind();
 	const bool	connect();
-	const bool	acceptOverlapped(Socket& acceptSocket); // accept 준비
+	const bool	acceptOverlapped(Socket* acceptSocket); // accept 준비
 	const int	receiveOverlapped(); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
 	const int	sendOverlapped(); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
-	const int	updateAcceptContext(Socket& listenSocket);
+	const int	updateAcceptContext(Socket* listenSocket);
 	// 버퍼 확인용 
 	const bool	isOverlapping() const;
 	void		setIsOverlapping(const bool isOverlapping);
@@ -32,13 +32,15 @@ public:
 
 	void		getReceiveBuffer(char* outBuffer);
 	void		setSendBuffer(const char* sendBuffer);
-protected:
 	SOCKET _socketHandle; // 소켓 핸들
+	SocketAddress _address;
+	WSABUF _buffer;
+	WSABUF _buffer2;
+protected:
 
 private:
 	static const int MAX_BUFFER_LENGTH = 1024;
 
-	SocketAddress _address;
 
 	// AcceptEx 함수 포인터
 	LPFN_ACCEPTEX _acceptExFunc = nullptr;

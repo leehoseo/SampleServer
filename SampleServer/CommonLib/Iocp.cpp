@@ -26,7 +26,7 @@ void Iocp::getEvent(IocpEvents& output, int timeoutMs)
 	const bool result = GetQueuedCompletionStatusEx(_iocpHandle, output.m_events, Iocp::MAX_EVENT_COUNT, (ULONG*)&output.m_eventCount, timeoutMs, FALSE);
 	if (false == result)
 	{
-		cout << "IOCP getEvent failed!" << endl;
+		//cout << "IOCP getEvent failed!" << endl;
 		output.m_eventCount = 0;
 	}
 }

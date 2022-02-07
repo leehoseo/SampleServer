@@ -19,8 +19,8 @@ public:
 	void AddSocket(Socket& socket, void* userPtr);
 	void getEvent(IocpEvents& output, int timeoutMs);
 
-private:
 	HANDLE _iocpHandle;
+private:
 	int _threadCount; // IOCP 생성시 및 소켓 추가시 계속 사용되는 값인지라...
 };
 

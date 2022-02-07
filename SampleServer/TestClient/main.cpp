@@ -5,8 +5,6 @@
 #include <thread>
 #include <stdio.h>
 
-void ErrorHandling(char* message);
-
 #pragma comment(lib, "ws2_32.lib")
 
 int main()
@@ -27,7 +25,7 @@ int main()
     memset(&recvAddr, 0, sizeof(recvAddr));
     recvAddr.sin_family = AF_INET;
     //recvAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    recvAddr.sin_port = htons(2738);
+    recvAddr.sin_port = htons(5555);
     inet_pton(AF_INET, "127.0.0.1", &recvAddr.sin_addr.s_addr);
 
     if (connect(hSocket, (SOCKADDR*)&recvAddr, sizeof(recvAddr)) == SOCKET_ERROR)
@@ -69,8 +67,8 @@ int main()
         }
 
         WSAWaitForMultipleEvents(1, &event, TRUE, WSA_INFINITE, FALSE);
-
-        WSAGetOverlappedResult(hSocket, &overlapped, (LPDWORD)&sendBytes, FALSE, NULL);
+        LPDWORD lpDword = 0;
+        WSAGetOverlappedResult(hSocket, &overlapped, (LPDWORD)&sendBytes, FALSE, (LPDWORD)&lpDword);
 
         printf("전송된바이트수: %d \n", sendBytes);
 
@@ -90,12 +88,4 @@ int main()
     WSACleanup();
 
     return 0;
-}
-
-void ErrorHandling(char* message)
-{
-    fputs(message, stderr);
-    fputc('\n', stderr);
-
-    exit(1);
 }
