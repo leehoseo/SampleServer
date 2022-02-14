@@ -2,17 +2,28 @@
 
 #include "Base.h"
 #include "SocketAddress.h"
+#include "PoolItem.h"
 
 #define _WINSOCKAPI_
 #include <windows.h>
 #include <MSWSock.h>
 
-class Socket
+
+class OVER_EX {
+private:
+public:
+	WSAOVERLAPPED   over_;
+	WSABUF          wsabuf_;
+	char            buffer_[1204];
+};
+
+
+class SocketWillDelete
 {
 public:
-	Socket();
-	Socket(const string& address, const int& port);
-	~Socket();
+	SocketWillDelete();
+	SocketWillDelete(const string& address, const int& port);
+	~SocketWillDelete();
 
 public:
 	// 통신용
@@ -20,10 +31,9 @@ public:
 	void		listen();
 	const bool	bind();
 	const bool	connect();
-	const bool	acceptOverlapped(Socket* acceptSocket); // accept 준비
+	const bool	acceptOverlapped(SocketWillDelete* acceptSocket); // accept 준비
 	const int	receiveOverlapped(); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
 	const int	sendOverlapped(); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
-	const int	updateAcceptContext(Socket* listenSocket);
 	// 버퍼 확인용 
 	const bool	isOverlapping() const;
 	void		setIsOverlapping(const bool isOverlapping);
@@ -57,4 +67,28 @@ private:
 
 	char _receiveBuffer[MAX_BUFFER_LENGTH];
 	char _sendBuffer[MAX_BUFFER_LENGTH];
+};
+
+class Socket : public PoolItem
+{
+public:
+	Socket();
+	virtual ~Socket();
+
+public:
+	// 생성시 초기화 또는 가져올때
+	virtual void init() override final;
+
+	// 파괴될때
+	virtual void release() override final;
+
+
+	// pop
+	virtual void active() override final;
+
+	// push
+	virtual void deactive() override final;
+private:
+
+	SOCKET _handle; // 소켓 핸들
 };

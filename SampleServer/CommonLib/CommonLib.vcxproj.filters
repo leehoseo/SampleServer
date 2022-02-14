@@ -25,6 +25,9 @@
     <Filter Include="Actor">
       <UniqueIdentifier>{c8e4a502-63a6-40aa-bb3c-0b6f0cfc7fc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pool">
+      <UniqueIdentifier>{2984ee03-247d-4673-86c1-4d764844665d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Iocp.cpp">
@@ -44,6 +47,21 @@
     </ClCompile>
     <ClCompile Include="Thead.cpp">
       <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="OverlappedBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Pool.hpp">
+      <Filter>Pool</Filter>
+    </ClCompile>
+    <ClCompile Include="PoolItem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PoolManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +85,21 @@
     </ClInclude>
     <ClInclude Include="Thead.h">
       <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="OverlappedBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Pool.h">
+      <Filter>Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="PoolItem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PoolManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,33 +1,33 @@
 #include "Socket.h"
 
-Socket::Socket()
+SocketWillDelete::SocketWillDelete()
 	: _address("", 0)
 {
 	ZeroMemory(&_receiveOverlappedBuffer, sizeof(_receiveOverlappedBuffer));
 }
 
-Socket::Socket(const string& address, const int& port)
+SocketWillDelete::SocketWillDelete(const string& address, const int& port)
 	: _address(address, port)
 {
 	ZeroMemory(&_receiveOverlappedBuffer, sizeof(_receiveOverlappedBuffer));
 }
 
-Socket::~Socket()
+SocketWillDelete::~SocketWillDelete()
 {
 	__noop;
 }
 
-void Socket::init(const string& address, const int& port)
+void SocketWillDelete::init(const string& address, const int& port)
 {
 	_address.init(address, port);
 }
 
-void Socket::listen()
+void SocketWillDelete::listen()
 {
 	::listen(_socketHandle, 5000);
 }
 
-const bool Socket::bind()
+const bool SocketWillDelete::bind()
 {
 	if (::bind(_socketHandle, (sockaddr*)&_address._sockAddress, sizeof(_address._sockAddress)) < 0)
 	{
@@ -38,7 +38,7 @@ const bool Socket::bind()
 	return true;
 }
 
-const bool Socket::connect()
+const bool SocketWillDelete::connect()
 {
 	if (::connect(_socketHandle, (sockaddr*)&_address, sizeof(_address)) < 0)
 	{
@@ -49,30 +49,30 @@ const bool Socket::connect()
 	return true;
 }
 
-const bool Socket::acceptOverlapped(Socket* acceptSocket)
+const bool SocketWillDelete::acceptOverlapped(SocketWillDelete* acceptSocket)
 {
-	if (_acceptExFunc == NULL)
-	{
-		UUID GuidAcceptEx = WSAID_ACCEPTEX;
-		DWORD bytes;
-		// AcceptEx는 여타 소켓함수와 달리 직접 호출하는 것이 아니고,
-		// 함수 포인터를 먼저 가져온 다음 호출할 수 있다. 그것을 여기서 한다.
-		WSAIoctl(_socketHandle,
-			SIO_GET_EXTENSION_FUNCTION_POINTER,
-			&GuidAcceptEx,
-			sizeof(UUID),
-			&_acceptExFunc,
-			sizeof(_acceptExFunc),
-			&bytes,
-			NULL,
-			NULL);
+	//if (_acceptExFunc == NULL)
+	//{
+	//	UUID GuidAcceptEx = WSAID_ACCEPTEX;
+	//	DWORD bytes;
+	//	// AcceptEx는 여타 소켓함수와 달리 직접 호출하는 것이 아니고,
+	//	// 함수 포인터를 먼저 가져온 다음 호출할 수 있다. 그것을 여기서 한다.
+	//	WSAIoctl(_socketHandle,
+	//		SIO_GET_EXTENSION_FUNCTION_POINTER,
+	//		&GuidAcceptEx,
+	//		sizeof(UUID),
+	//		&_acceptExFunc,
+	//		sizeof(_acceptExFunc),
+	//		&bytes,
+	//		NULL,
+	//		NULL);
 
-		if (_acceptExFunc == NULL)
-		{
-			cout << "Getting AcceptEx ptr failed." << endl;
-			return false;
-		}
-	}
+	//	if (_acceptExFunc == NULL)
+	//	{
+	//		cout << "Getting AcceptEx ptr failed." << endl;
+	//		return false;
+	//	}
+	//}
 
 
 	// 여기에는 accept된 소켓의 로컬주소와 리모트주소가 채워집니다
@@ -83,8 +83,8 @@ const bool Socket::acceptOverlapped(Socket* acceptSocket)
 		acceptSocket->_socketHandle,
 		&ignored,
 		0,
-		50,
-		50,
+		sizeof(SOCKADDR_IN) + 16,
+		sizeof(SOCKADDR_IN) + 16,
 		&ignored2,
 		&_receiveOverlappedBuffer
 	);
@@ -92,7 +92,7 @@ const bool Socket::acceptOverlapped(Socket* acceptSocket)
 	return result;
 }
 
-const int Socket::receiveOverlapped()
+const int SocketWillDelete::receiveOverlapped()
 {
 	_buffer.buf = _receiveBuffer;
 	_buffer.len = MAX_BUFFER_LENGTH;
@@ -103,59 +103,77 @@ const int Socket::receiveOverlapped()
 	return WSARecv(_socketHandle, &_buffer, 1, (LPDWORD)&RecvBytes, &_readFlags, &_receiveOverlappedBuffer, NULL);
 }
 
-const int Socket::sendOverlapped()
+const int SocketWillDelete::sendOverlapped()
 {
-	_buffer2.buf = _sendBuffer;
-	_buffer2.len = MAX_BUFFER_LENGTH;
+	OVER_EX* over_ex = new OVER_EX;
+	ZeroMemory(&over_ex->over_, sizeof(over_ex->over_));
+
+	over_ex->wsabuf_.len = 1024;
+	over_ex->wsabuf_.buf = over_ex->buffer_;
+
+	memcpy(over_ex->buffer_, &_sendBuffer, 1024);
+
 	int sendBytes = 0;
-	return WSASend(_socketHandle, &_buffer2, 1, (LPDWORD)&sendBytes, 0, &_receiveOverlappedBuffer, NULL);
+	return WSASend(_socketHandle, &over_ex->wsabuf_, 1, 0, 0, &over_ex->over_, NULL);
 }
 
-const int Socket::updateAcceptContext(Socket* listenSocket)
-{
-	sockaddr_in localAddr;
-	sockaddr_in remoteAddr;
-	int localLen = 0;
-	int remoteLen = 0;
-
-	char ignore[1000];
-	GetAcceptExSockaddrs(ignore,
-		0,
-		sizeof(SOCKADDR_STORAGE) + 16,
-		sizeof(SOCKADDR_STORAGE) + 16,
-		(sockaddr**)&localAddr,
-		&localLen,
-		(sockaddr**)&remoteAddr,
-		&remoteLen);
-
-	memcpy(&_address._sockAddress, &localAddr, localLen);
-
-	return setsockopt(_socketHandle, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT,
-		(char*)&listenSocket->getHandle(), sizeof(listenSocket->getHandle()));
-}
-
-void Socket::getReceiveBuffer(char* outBuffer)
+void SocketWillDelete::getReceiveBuffer(char* outBuffer)
 {
 	outBuffer = _receiveBuffer;
 }
 
-void Socket::setSendBuffer(const char* sendBuffer)
+void SocketWillDelete::setSendBuffer(const char* sendBuffer)
 {
 	memset(_sendBuffer, 0, MAX_BUFFER_LENGTH);
 	strcat_s(_sendBuffer, MAX_BUFFER_LENGTH, sendBuffer);
 }
 
-const SOCKET& Socket::getHandle() const
+const SOCKET& SocketWillDelete::getHandle() const
 {
 	return _socketHandle;
 }
 
-const bool Socket::isOverlapping() const
+const bool SocketWillDelete::isOverlapping() const
 {
 	return _isOverlapping;
 }
 
-void Socket::setIsOverlapping(const bool isOverlapping)
+void SocketWillDelete::setIsOverlapping(const bool isOverlapping)
 {
 	_isOverlapping = isOverlapping;
+}
+
+Socket::Socket()
+{
+}
+
+Socket::~Socket()
+{
+}
+
+void Socket::init()
+{
+	 _handle = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);	// windows
+
+	 {
+		 // https://snowfleur.tistory.com/193?category=756631
+		 // Page Locking 최소화를 위해 송 수신 버퍼를 0으로 설정함
+		 // 커널 레벨에서의 송수신버퍼를 이용하지 않고 애플리케이션에서 제공하는 버퍼로 바로 복사를 해버리기 때문에 
+		 // 복사 횟수가 한 번 줄어 속도가 굉장히 빨라진다.
+		 int zero = 0;
+		 setsockopt(_handle, SOL_SOCKET, SO_SNDBUF, (char*)&zero, sizeof(zero));
+		 setsockopt(_handle, SOL_SOCKET, SO_RCVBUF, (char*)&zero, sizeof(zero));
+	 }
+}
+
+void Socket::release()
+{
+}
+
+void Socket::active()
+{
+}
+
+void Socket::deactive()
+{
 }

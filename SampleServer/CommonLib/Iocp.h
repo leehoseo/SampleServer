@@ -3,7 +3,7 @@
 #include "Socket.h"
 
 class IocpEvents;
-class Socket;
+class SocketWillDelete;
 
 class Iocp
 {
@@ -16,7 +16,7 @@ public:
 	~Iocp();
 
 public:
-	void AddSocket(Socket& socket, void* userPtr);
+	void AddSocket(SocketWillDelete& socket, void* userPtr);
 	void getEvent(IocpEvents& output, int timeoutMs);
 
 	HANDLE _iocpHandle;

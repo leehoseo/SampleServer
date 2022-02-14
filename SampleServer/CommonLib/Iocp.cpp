@@ -11,7 +11,7 @@ Iocp::~Iocp()
 	CloseHandle(_iocpHandle);
 }
 
-void Iocp::AddSocket(Socket& socket, void* userPtr)
+void Iocp::AddSocket(SocketWillDelete& socket, void* userPtr)
 {
 	const bool result = CreateIoCompletionPort((HANDLE)socket.getHandle(), _iocpHandle, (ULONG_PTR)userPtr, _threadCount);
 

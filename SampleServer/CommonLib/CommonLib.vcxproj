@@ -564,7 +564,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Iocp.cpp" />
+    <ClCompile Include="OverlappedBuffer.cpp" />
+    <ClCompile Include="Pool.hpp" />
+    <ClCompile Include="PoolItem.cpp" />
+    <ClCompile Include="PoolManager.cpp" />
     <ClCompile Include="Session.cpp" />
+    <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="SocketAddress.cpp" />
     <ClCompile Include="TcpSocket.cpp" />
@@ -573,7 +578,12 @@
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="Iocp.h" />
+    <ClInclude Include="OverlappedBuffer.h" />
+    <ClInclude Include="Pool.h" />
+    <ClInclude Include="PoolItem.h" />
+    <ClInclude Include="PoolManager.h" />
     <ClInclude Include="Session.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="SocketAddress.h" />
     <ClInclude Include="TcpSocket.h" />

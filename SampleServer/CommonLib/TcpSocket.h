@@ -1,7 +1,7 @@
 #pragma once
 #include "Socket.h"
 
-class TcpSocket : public Socket
+class TcpSocket : public SocketWillDelete
 {
 public:
 	TcpSocket(const string& address, const int& port);
