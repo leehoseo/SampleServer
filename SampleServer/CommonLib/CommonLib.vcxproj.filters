@@ -28,6 +28,12 @@
     <Filter Include="Pool">
       <UniqueIdentifier>{2984ee03-247d-4673-86c1-4d764844665d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Base\Pattern">
+      <UniqueIdentifier>{107ba010-5192-43bd-9dc2-1e9b51e31e83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logger">
+      <UniqueIdentifier>{9de08aa0-1aa3-4c81-803f-6be0ca4c84ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Iocp.cpp">
@@ -42,26 +48,29 @@
     <ClCompile Include="SocketAddress.cpp">
       <Filter>Iocp</Filter>
     </ClCompile>
-    <ClCompile Include="TcpSocket.cpp">
-      <Filter>Iocp</Filter>
-    </ClCompile>
     <ClCompile Include="Thead.cpp">
       <Filter>Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="OverlappedBuffer.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Pool.hpp">
       <Filter>Pool</Filter>
     </ClCompile>
-    <ClCompile Include="PoolItem.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActor.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
     <ClCompile Include="PoolManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Pool</Filter>
     </ClCompile>
     <ClCompile Include="Singleton.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Base\Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="OverlappedBuffer.cpp">
+      <Filter>Iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,29 +86,32 @@
     <ClInclude Include="SocketAddress.h">
       <Filter>Iocp</Filter>
     </ClInclude>
-    <ClInclude Include="TcpSocket.h">
-      <Filter>Iocp</Filter>
-    </ClInclude>
     <ClInclude Include="Base.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Thead.h">
       <Filter>Thread</Filter>
     </ClInclude>
-    <ClInclude Include="OverlappedBuffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Pool.h">
       <Filter>Pool</Filter>
     </ClInclude>
-    <ClInclude Include="PoolItem.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Actor.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActor.h">
+      <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="PoolManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Pool</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Base\Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="OverlappedBuffer.h">
+      <Filter>Iocp</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Logger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

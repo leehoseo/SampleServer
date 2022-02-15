@@ -1,11 +1,22 @@
 #pragma once
 
-#include "Pool.h"
-#include "PoolItem.h"
+#include "Base.h"
+#include "Pool.hpp"
 #include <winsock2.h>
 
-#define MAX_BUFFER      1024
-class OverlappedBuffer : public PoolItem
+#define MAX_BUFFER      256
+
+enum class BufferType
+{
+	ACCEPT = 0,
+	SEND,
+	RECV,
+	DISCONNECT,
+	CONNECT,
+	COUNT,
+};
+
+class OverlappedBuffer// : public IPoolItem
 {
 public:
     OverlappedBuffer();
@@ -13,22 +24,22 @@ public:
 
 public:
 	// 생성시 초기화 또는 가져올때
-	virtual void init() override final;
+	void init();
 
 	// 파괴될때
-	virtual void release() override final;
+	void release();
 
 
 	// pop
-	virtual void active() override final;
+	void active();
 
 	// push
-	virtual void deactive() override final;
+	void deactive();
 
 public:
-    WSAOVERLAPPED   _overlapped;
-    WSABUF          _wsaBuffer;
-    char            _buffer[MAX_BUFFER];
+	WSAOVERLAPPED   _overlapped;
+	WSABUF          _wsaBuffer;
+	char            _buffer[MAX_BUFFER];
+	SESSION_ID		_session_id;
+	BufferType		_type;
 };
-
-

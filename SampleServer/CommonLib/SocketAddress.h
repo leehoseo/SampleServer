@@ -1,24 +1,25 @@
 #pragma once
 
 #include "Base.h"
+#include <string>
 #include <WinSock2.h>
 
 class SocketAddress
 {
 public:
-	SocketAddress(const string& address, const int& port);
+	SocketAddress();
 	~SocketAddress();
 
 public:
-	void init(const string& address, const int& port);
+	void init(const std::string& address, const int& port, const bool isServer);
 	const bool isValied() const;
 
-	const string& getIpAddress() const;
+	const std::string& getIp() const;
 	const int& getPort() const;
-	const sockaddr_in& getSockAddress() const;
+	sockaddr_in& getSockAddress();
 
 	sockaddr_in _sockAddress;
 private:
-	string _address;
+	std::string _address;
 	int _port;
 };

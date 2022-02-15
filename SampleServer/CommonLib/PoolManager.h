@@ -1,23 +1,23 @@
 #pragma once
 
 #include "Singleton.h"
-#include "Pool.h"
+#include "Pool.hpp"
 #include "OverlappedBuffer.h"
+#include "Session.h"
 
 class PoolManager : public Singleton<PoolManager>
 {
-private:
+public:
 	PoolManager();
-
-private:
-	virtual ~PoolManager();
+	virtual ~PoolManager() {}
 
 public:
-	void init();
-
 	Pool<OverlappedBuffer>& getOverlappedBufferPool();
+	Pool<Session>&			getSessionPool();
+
 
 private:
 	Pool<OverlappedBuffer> _overlappedBufferPool;
+	Pool<Session> _sessionPool;
 };
 

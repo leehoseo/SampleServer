@@ -563,30 +563,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Iocp.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="OverlappedBuffer.cpp" />
+    <ClCompile Include="PlayerActor.cpp" />
     <ClCompile Include="Pool.hpp" />
-    <ClCompile Include="PoolItem.cpp" />
     <ClCompile Include="PoolManager.cpp" />
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="SocketAddress.cpp" />
-    <ClCompile Include="TcpSocket.cpp" />
     <ClCompile Include="Thead.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Iocp.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="OverlappedBuffer.h" />
+    <ClInclude Include="PlayerActor.h" />
     <ClInclude Include="Pool.h" />
-    <ClInclude Include="PoolItem.h" />
     <ClInclude Include="PoolManager.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="SocketAddress.h" />
-    <ClInclude Include="TcpSocket.h" />
     <ClInclude Include="Thead.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

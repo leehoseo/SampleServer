@@ -1,9 +1,11 @@
 #pragma once
 
-#include <iostream>
+// 옮길 예정
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib,"mswsock.lib")
 
 using namespace std;
 
-// Test
+typedef int SESSION_ID;
+static const SESSION_ID undefinedSessionId = 0;
+

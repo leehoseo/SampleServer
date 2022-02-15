@@ -2,18 +2,12 @@
 
 PoolManager::PoolManager()
 {
-    init();
-}
+    const int overlappedBufferPoolSize = 5;
+    const int sessionPoolSize = 5;
 
-PoolManager::~PoolManager()
-{
-}
-
-void PoolManager::init()
-{
-    const int overlappedBufferPoolSize = 1;
     {
         _overlappedBufferPool.init(overlappedBufferPoolSize);
+        _sessionPool.init(sessionPoolSize);
     }
 }
 
@@ -25,4 +19,14 @@ Pool<OverlappedBuffer>& PoolManager::getOverlappedBufferPool()
     }
 
     return _overlappedBufferPool;
+}
+
+Pool<Session>& PoolManager::getSessionPool()
+{
+    if (false == _sessionPool.isValid())
+    {
+        // 에러 처리
+    }
+
+    return _sessionPool;
 }
