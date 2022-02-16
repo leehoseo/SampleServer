@@ -21,6 +21,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientLib", "ClientLib\Clie
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerLib", "ServerLib\ServerLib.vcxproj", "{80B76E5D-81AB-4284-97C7-8B4E6BA6516D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B884973F-BEDD-48A4-8465-D5101F3F18C6} = {B884973F-BEDD-48A4-8465-D5101F3F18C6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
