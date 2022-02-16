@@ -3,5 +3,11 @@
 
 class ServerIocp : public Iocp
 {
+public:
+	ServerIocp();
+	virtual ~ServerIocp();
+
+public:
+	virtual void runXXX();
 };
 

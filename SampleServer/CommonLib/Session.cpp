@@ -41,16 +41,6 @@ void Session::deactive()
     __noop;
 }
 
-void Session::setSocketAddr(const std::string& address, const int& port, const bool isServer)
-{
-    _address.init(address, port, isServer);
-}
-
-SocketAddress& Session::getSocketAddr()
-{
-    return _address;
-}
-
 SOCKET& Session::getSocketHandle()
 {
     return _socket.getHandle();

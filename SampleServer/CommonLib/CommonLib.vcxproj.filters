@@ -45,9 +45,6 @@
     <ClCompile Include="Socket.cpp">
       <Filter>Iocp</Filter>
     </ClCompile>
-    <ClCompile Include="SocketAddress.cpp">
-      <Filter>Iocp</Filter>
-    </ClCompile>
     <ClCompile Include="Thead.cpp">
       <Filter>Thread</Filter>
     </ClCompile>
@@ -81,9 +78,6 @@
       <Filter>Iocp</Filter>
     </ClInclude>
     <ClInclude Include="Socket.h">
-      <Filter>Iocp</Filter>
-    </ClInclude>
-    <ClInclude Include="SocketAddress.h">
       <Filter>Iocp</Filter>
     </ClInclude>
     <ClInclude Include="Base.h">

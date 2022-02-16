@@ -22,13 +22,14 @@ public:
 	~Iocp();
 
 public:
-	void serverRun();				// iocp의 시작 클래스 분리해야한다
-	void clientRun();				// iocp의 시작
+
+	void run();
+	virtual void runXXX() = 0;
 
 	// socket 핸들링
 	const bool	listen(Session* session);
-	const bool	bind(Session* session);
-	const bool	connect(Session* session);
+	const bool	bind(Session* session, sockaddr_in& socketAddr);
+	const bool	connect(Session* session, sockaddr_in& socketAddr);
 	const bool	accept(); // accept 준비
 	const bool	disconnect(Session* session); // disconnect 준비
 	void		recv(Session* session); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
@@ -39,15 +40,14 @@ public:
 
 	void workerThread();
 
-private:
+protected:
 	int _threadCount; // IOCP 생성시 및 소켓 추가시 계속 사용되는 값인지라...
+
 	HANDLE _handle;
 	std::unordered_map< SESSION_ID, Session*> _sessionList;
 
-	// listenSession은 따로 보관한다.
-	Session* _listenSession = nullptr;
-
-	int testNum = 0;
+	// client, Server Accept용으로 쓰는 세션은 따로 보관한다.
+	Session* _mainSession = nullptr;
 };
 
 // IOCP의 GetQueuedCompletionStatus로 받은 I/O 완료신호들

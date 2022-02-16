@@ -3,5 +3,11 @@
 
 class ClientIocp : public Iocp
 {
+public:
+	ClientIocp();
+	virtual ~ClientIocp();
+
+public:
+	virtual void runXXX();
 };
 

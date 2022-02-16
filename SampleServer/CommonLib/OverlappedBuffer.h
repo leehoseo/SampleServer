@@ -4,7 +4,7 @@
 #include "Pool.hpp"
 #include <winsock2.h>
 
-#define MAX_BUFFER      256
+#define MAX_BUFFER      1204
 
 enum class BufferType
 {

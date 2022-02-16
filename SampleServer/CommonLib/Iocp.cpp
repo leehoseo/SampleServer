@@ -3,20 +3,10 @@
 #include "Session.h"
 #include "Logger.h"
 #include "PoolManager.h"
-#include "SocketAddress.h"
 #include <WS2tcpip.h>
 #include <thread>
 
 #pragma optimize ("" , off )
-
-class OVER_EX {
-private:
-public:
-	WSAOVERLAPPED   over_;
-	WSABUF          wsabuf_;
-	char            buffer_[MAX_BUFFER];
-	SOCKET          socket_;
-};
 
 Iocp::Iocp(const int threadCount)
 {
@@ -29,77 +19,9 @@ Iocp::~Iocp()
 	CloseHandle(_handle);
 }
 
-void Iocp::serverRun()
+void Iocp::run()
 {
-	// 서버에서 사용할 세션 생성
-	_listenSession = PoolManager::getInstance()->getSessionPool().pop();
-	addSession(_listenSession);
-
-	// 나중에 외부에서도 세팅할 수 있게 바꾸는게 범용성에 좋음
-	_listenSession->setSocketAddr("127.0.0.1", 5555, true);
-
-	bind(_listenSession);
-	listen(_listenSession);
-
-	accept();
-	
-	workerThread();
-}
-
-void Iocp::clientRun()
-{
-	testNum = 100;
-	Session* clientSession = PoolManager::getInstance()->getSessionPool().pop();
-	clientSession->setSocketAddr("127.0.0.1", 5555, true);
-	addSession(clientSession);
-
-	SOCKADDR_IN server_addr;
-	ZeroMemory(&server_addr, sizeof(server_addr));
-	server_addr.sin_family = PF_INET;
-	server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-
-	if (SOCKET_ERROR == ::bind(clientSession->getSocketHandle(), reinterpret_cast<sockaddr*>(&server_addr), sizeof(server_addr)))
-	{
-		closesocket(clientSession->getSocketHandle());
-		WSACleanup();
-	}
-
-	{
-		server_addr.sin_port = htons(5555);
-		inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr.s_addr);
-
-		LPFN_CONNECTEX connectFunc;
-
-		DWORD dwbyte{ 0 };
-		GUID guid = WSAID_CONNECTEX;
-		/*SocketAddress& socketAddress = session->getSocketAddr();
-		sockaddr_in& socketAddr = socketAddress.getSockAddress();*/
-		OverlappedBuffer* overlappedBuffer = PoolManager::getInstance()->getOverlappedBufferPool().pop();
-
-		overlappedBuffer->_session_id = clientSession->getSessionId();
-		overlappedBuffer->_type = BufferType::CONNECT;
-
-		WSAIoctl(clientSession->getSocketHandle(), SIO_GET_EXTENSION_FUNCTION_POINTER,
-			&guid, sizeof(guid),
-			&connectFunc, sizeof(connectFunc),
-			&dwbyte, NULL, NULL);
-
-		if (FALSE == connectFunc(clientSession->getSocketHandle(), reinterpret_cast<SOCKADDR*>(&server_addr),
-			sizeof(server_addr), NULL, NULL, NULL,
-			reinterpret_cast<LPOVERLAPPED>(&overlappedBuffer->_overlapped))
-			)
-		{
-			auto error = GetLastError();
-			if (WSA_IO_PENDING != error)
-			{
-				Logger::getInstance()->log(Logger::Level::WARNING, "Error_Connect");
-			}
-		}
-	}
-	//bind(clientSession);
-	//connect(clientSession);
-
-	recv(clientSession);
+	runXXX();
 
 	workerThread();
 }
@@ -115,11 +37,8 @@ const bool Iocp::listen(Session* session)
 	return true;
 }
 
-const bool Iocp::bind(Session* session)
+const bool Iocp::bind(Session* session, sockaddr_in& socketAddr)
 {
-	SocketAddress& socketAddress = session->getSocketAddr();
-	sockaddr_in& socketAddr = socketAddress.getSockAddress();
-
 	if (SOCKET_ERROR == ::bind(session->getSocketHandle(), reinterpret_cast<sockaddr*>(&socketAddr), sizeof(socketAddr))) 
 	{
 		Logger::getInstance()->log(Logger::Level::WARNING, "Error_Bind");
@@ -128,14 +47,12 @@ const bool Iocp::bind(Session* session)
 	return true;
 }
 
-const bool Iocp::connect(Session* session)
+const bool Iocp::connect(Session* session, sockaddr_in& socketAddr)
 {
 	LPFN_CONNECTEX connectFunc;
 
 	DWORD dwbyte{ 0 };
 	GUID guid = WSAID_CONNECTEX;
-	SocketAddress& socketAddress = session->getSocketAddr();
-	sockaddr_in& socketAddr = socketAddress.getSockAddress();
 	OverlappedBuffer* overlappedBuffer = PoolManager::getInstance()->getOverlappedBufferPool().pop();
 
 	SOCKET& connectSocket = session->getSocketHandle();
@@ -177,14 +94,14 @@ const bool Iocp::accept()
 
 	DWORD dwbyte{ 0 };
 	GUID GuidAccept = WSAID_ACCEPTEX;
-	WSAIoctl(_listenSession->getSocketHandle(), SIO_GET_EXTENSION_FUNCTION_POINTER,
+	WSAIoctl(_mainSession->getSocketHandle(), SIO_GET_EXTENSION_FUNCTION_POINTER,
 		&GuidAccept, sizeof(GuidAccept),
 		&acceptFunc, sizeof(acceptFunc),
 		&dwbyte, NULL, NULL);
 
 	// 클래스의 가상함수 테이블 메모리때문에 acceptEx에 대한 응답을 받을때 주소값이 4byte씩 밀리는 버그가 있다.
 	// 무었때문이며 이것을 해결할 수 있는가..?
-	acceptFunc(_listenSession->getSocketHandle(), newSession->getSocketHandle(), &overlappedBuffer->_buffer, 0
+	acceptFunc(_mainSession->getSocketHandle(), newSession->getSocketHandle(), &overlappedBuffer->_buffer, 0
 		, sizeof(sockaddr_in) + 16, sizeof(sockaddr_in) + 16, &dwbyte, reinterpret_cast<LPOVERLAPPED>(&overlappedBuffer->_overlapped));
 
 	return true;
@@ -257,7 +174,6 @@ void Iocp::send(Session* session)
 	std::string word = { "HELLO Client Id : " };
 
 	word += std::to_string(session->getSessionId());
-	word += std::to_string(testNum++);
 	
 	for (int i = 0; i < word.size() + 1; ++i) 
 	{
@@ -265,6 +181,7 @@ void Iocp::send(Session* session)
 	}
 
 	memcpy(overlappedBuffer->_buffer, &s, MAX_BUFFER);
+
 	WSASend(session->getSocketHandle(), &overlappedBuffer->_wsaBuffer, 1, 0, 0, &overlappedBuffer->_overlapped, NULL);
 }
 

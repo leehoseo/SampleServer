@@ -6,9 +6,9 @@ int main()
 	WSADATA w;
 	WSAStartup(MAKEWORD(2, 2), &w);
 
-	Iocp iocp(1);
+	Iocp* iocp = new ServerIocp();
 
-	iocp.serverRun();
+	iocp->run();
 
 	WSACleanup();
 	return 0;

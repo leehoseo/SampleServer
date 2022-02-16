@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Socket.h"
-#include "SocketAddress.h"
 #include "Base.h"
 #include <winsock2.h>
 #include <MSWSock.h>
@@ -13,8 +12,6 @@ public:
 	~Session();
 
 public:
-	void				setSocketAddr(const std::string& address, const int& port, const bool isServer);
-	SocketAddress&		getSocketAddr();
 	SOCKET&				getSocketHandle();
 	const SESSION_ID&	getSessionId();
 
@@ -33,5 +30,4 @@ public:	// 생성시 초기화 또는 가져올때
 private:
 	SESSION_ID		_id = 0;
 	Socket			_socket;
-	SocketAddress	_address;
 };
