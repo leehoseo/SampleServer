@@ -1,5 +1,7 @@
 #include "ServerIocp.h"
 #include "PoolManager.h"
+#include "TrChat.h"
+#include "TrChatProc.h"
 
 ServerIocp::ServerIocp()
 	: Iocp(1)
@@ -28,4 +30,17 @@ void ServerIocp::runXXX()
 	listen(_mainSession);
 
 	accept();
+}
+
+void ServerIocp::recvTr( Tr* tr)
+{
+	switch (tr->_trId)
+	{
+		case TrId::eTrChatReq:
+		{
+			TrChatReqProc proc;
+			proc.process(tr);
+		}
+		break;
+	}
 }

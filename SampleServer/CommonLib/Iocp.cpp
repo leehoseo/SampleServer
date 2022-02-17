@@ -5,6 +5,7 @@
 #include "PoolManager.h"
 #include <WS2tcpip.h>
 #include <thread>
+#include "Tr.h"
 
 #pragma optimize ("" , off )
 
@@ -120,23 +121,16 @@ const bool Iocp::disconnect(Session* session)
 		&disconnectFunc, sizeof(disconnectFunc),
 		&dwbyte, NULL, NULL);
 
-	if ( NULL == disconnectFunc ) 
-	{
-		Logger::getInstance()->log(Logger::Level::WARNING, "disconnect NULL Error");
-	}
-	else 
-	{
-		overlappedBuffer->_session_id = session->getSessionId();
-		overlappedBuffer->_type = BufferType::DISCONNECT;
+	overlappedBuffer->_session_id = session->getSessionId();
+	overlappedBuffer->_type = BufferType::DISCONNECT;
 
-		int error = disconnectFunc(session->getSocketHandle(), reinterpret_cast<LPOVERLAPPED>(&overlappedBuffer->_overlapped), TF_REUSE_SOCKET, 0);
-		if ( FALSE == error ) 
+	int error = disconnectFunc(session->getSocketHandle(), reinterpret_cast<LPOVERLAPPED>(&overlappedBuffer->_overlapped), TF_REUSE_SOCKET, 0);
+	if (FALSE == error)
+	{
+		if (WSA_IO_PENDING != GetLastError())
 		{
-			if (WSA_IO_PENDING != GetLastError() )
-			{
-				Logger::getInstance()->log(Logger::Level::WARNING, "Disconnect Error");
-				return false;
-			}
+			Logger::getInstance()->log(Logger::Level::WARNING, "Disconnect Error");
+			return false;
 		}
 	}
 
@@ -163,26 +157,26 @@ void Iocp::recv(Session* session)
 	}
 }
 
-void Iocp::send(Session* session)
+void Iocp::send(Session* session, Tr* tr)
 {
 	OverlappedBuffer* overlappedBuffer = PoolManager::getInstance()->getOverlappedBufferPool().pop();
-	char s[MAX_BUFFER];
 
 	overlappedBuffer->_session_id = session->getSessionId();
 	overlappedBuffer->_type = BufferType::SEND;
+	overlappedBuffer->_wsaBuffer.len = tr->_maxSize;
 
-	std::string word = { "HELLO Client Id : " };
-
-	word += std::to_string(session->getSessionId());
-	
-	for (int i = 0; i < word.size() + 1; ++i) 
-	{
-		s[i] = word[i];
-	}
-
-	memcpy(overlappedBuffer->_buffer, &s, MAX_BUFFER);
+	memcpy(overlappedBuffer->_buffer, tr, tr->_maxSize);
 
 	WSASend(session->getSocketHandle(), &overlappedBuffer->_wsaBuffer, 1, 0, 0, &overlappedBuffer->_overlapped, NULL);
+}
+
+void Iocp::sendHelloReq()
+{
+}
+
+void Iocp::recvTr(Tr* tr)
+{
+	
 }
 
 void Iocp::addSession(Session* session)
@@ -191,6 +185,8 @@ void Iocp::addSession(Session* session)
 
 	if (false == result)
 	{
+		DWORD error = GetLastError();
+
 		Logger::getInstance()->log(Logger::Level::WARNING, "IOCP add failed!");
 	}
 
@@ -203,6 +199,8 @@ void Iocp::getEvent(IocpEvents& output, int timeoutMs)
 	if (false == result)
 	{
 		//cout << "IOCP getEvent failed!" << endl;
+		//DWORD error = GetLastError();
+
 		output.m_eventCount = 0;
 	}
 }
@@ -249,9 +247,8 @@ void Iocp::workerThread()
 					//SOCKADDR_IN remoteAddr = *(reinterpret_cast<PSOCKADDR_IN>(pRemoteSocketAddr));
 					//접속한 클라이언트 IP와 포트 정보 얻기
 					std::string connectStr = "Accept New Clients ID: " + std::to_string(overlappedBuffer->_session_id);
-
+					Logger::getInstance()->log(Logger::Level::DEBUG, connectStr);
 					recv(onEventSession);
-					send(onEventSession);
 					accept();
 				}
 				break;
@@ -262,20 +259,33 @@ void Iocp::workerThread()
 				break;
 				case BufferType::RECV:
 				{
-					Logger::getInstance()->log(Logger::Level::DEBUG, overlappedBuffer->_wsaBuffer.buf);
+					// 강제 종료되었다.
+					if (0 == readEvent.dwNumberOfBytesTransferred)
+					{
+						disconnect(onEventSession);
+					}
+					else
+					{
+						Tr tr;
+						memcpy(&tr, &overlappedBuffer->_buffer, readEvent.dwNumberOfBytesTransferred);
 
-					send(onEventSession);
-					recv(onEventSession);
+						recvTr(&tr);
+						
+						recv(onEventSession);
+					}
 				}
 				break;
 				case BufferType::DISCONNECT:
 				{
+					_sessionList.erase(onEventSession->getSessionId());
+
 					PoolManager::getInstance()->getSessionPool().push(onEventSession);
 				}
 				break;
 				case BufferType::CONNECT:
 				{
-
+					// 클라이언트가 알아서 보낼거다
+					sendHelloReq();
 				}
 				break;
 			}

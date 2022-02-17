@@ -3,13 +3,13 @@
 #include "Socket.h"
 #include <unordered_map>
 #include <WinSock2.h>
-//#include <MSWSock.h>
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib,"mswsock.lib")
 
 class IocpEvents;
 class Session;
+class Tr;
 
 class Iocp
 {
@@ -33,7 +33,10 @@ public:
 	const bool	accept(); // accept 준비
 	const bool	disconnect(Session* session); // disconnect 준비
 	void		recv(Session* session); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
-	void		send(Session* session); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
+	void		send(Session* session , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
+
+	virtual void sendHelloReq();
+	virtual void recvTr(Tr* tr);
 
 	void addSession(Session* session);
 	void getEvent(IocpEvents& output, int timeoutMs);

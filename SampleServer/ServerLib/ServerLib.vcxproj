@@ -146,9 +146,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ServerIocp.h" />
+    <ClInclude Include="TrChatProc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerIocp.cpp" />
+    <ClCompile Include="TrChatProc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

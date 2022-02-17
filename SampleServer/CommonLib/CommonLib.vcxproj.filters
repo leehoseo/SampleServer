@@ -34,6 +34,12 @@
     <Filter Include="Logger">
       <UniqueIdentifier>{9de08aa0-1aa3-4c81-803f-6be0ca4c84ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tr">
+      <UniqueIdentifier>{6a426f64-93a2-4ee9-95ae-9b5e2d20c5d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tr\ChatTr">
+      <UniqueIdentifier>{fa8a2896-f7f5-44da-88f8-0d5f652edf2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Iocp.cpp">
@@ -68,6 +74,15 @@
     </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="Tr.cpp">
+      <Filter>Tr</Filter>
+    </ClCompile>
+    <ClCompile Include="TrId.cpp">
+      <Filter>Tr</Filter>
+    </ClCompile>
+    <ClCompile Include="Proc.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +121,18 @@
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Tr.h">
+      <Filter>Tr</Filter>
+    </ClInclude>
+    <ClInclude Include="TrId.h">
+      <Filter>Tr</Filter>
+    </ClInclude>
+    <ClInclude Include="TrChat.h">
+      <Filter>Tr\ChatTr</Filter>
+    </ClInclude>
+    <ClInclude Include="Proc.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

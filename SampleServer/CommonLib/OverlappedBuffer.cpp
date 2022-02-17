@@ -2,6 +2,7 @@
 
 OverlappedBuffer::OverlappedBuffer()
 {
+	init();
 }
 
 OverlappedBuffer::~OverlappedBuffer()
@@ -31,10 +32,5 @@ void OverlappedBuffer::active()
 
 void OverlappedBuffer::deactive()
 {
-	ZeroMemory(&_overlapped, sizeof(_overlapped));
-	ZeroMemory(&_wsaBuffer, sizeof(_wsaBuffer));
-	ZeroMemory(&_buffer, sizeof(_buffer));
-
-	_session_id = undefinedSessionId;
-	_type = BufferType::COUNT;
+	init();
 }

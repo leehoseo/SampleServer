@@ -570,10 +570,13 @@
     <ClCompile Include="PlayerActor.cpp" />
     <ClCompile Include="Pool.hpp" />
     <ClCompile Include="PoolManager.cpp" />
+    <ClCompile Include="Proc.cpp" />
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="Thead.cpp" />
+    <ClCompile Include="Tr.cpp" />
+    <ClCompile Include="TrId.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
@@ -584,10 +587,14 @@
     <ClInclude Include="PlayerActor.h" />
     <ClInclude Include="Pool.h" />
     <ClInclude Include="PoolManager.h" />
+    <ClInclude Include="Proc.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="Thead.h" />
+    <ClInclude Include="Tr.h" />
+    <ClInclude Include="TrChat.h" />
+    <ClInclude Include="TrId.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

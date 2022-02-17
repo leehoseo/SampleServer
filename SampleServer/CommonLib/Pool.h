@@ -1,5 +1,4 @@
 #pragma once
-
 #include <list>
 
 // Lock 추가해야한다.
@@ -56,7 +55,6 @@ void Pool<T>::init(const int size)
 		T* newItem = new T();
 		newItem->init();
 
-
 		_list.push_back(newItem);
 	}
 
@@ -79,6 +77,12 @@ const bool Pool<T>::isValid() const
 template<typename T>
 T* Pool<T>::pop()
 {
+	if (true == _list.empty())
+	{
+		// 에러 처리 or 확장
+		return nullptr;
+	}
+
 	T* item = _list.back();
 	_list.pop_back();
 

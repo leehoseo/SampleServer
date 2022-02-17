@@ -9,5 +9,8 @@ public:
 
 public:
 	virtual void runXXX();
+
+	virtual void sendHelloReq();
+	virtual void recvTr(Tr* tr);
 };
 

@@ -1,17 +1,17 @@
 #include "ClientIocp.h"
 #include "PoolManager.h"
 #include "Logger.h"
-
 #include <WS2tcpip.h>
+
+#include "TrChat.h"
+#pragma optimize ("" , off )
 
 ClientIocp::ClientIocp()
 	: Iocp(1)
-{
-}
+{}
 
 ClientIocp::~ClientIocp()
-{
-}
+{}
 
 void ClientIocp::runXXX()
 {
@@ -35,35 +35,17 @@ void ClientIocp::runXXX()
 	}
 
 	recv(_mainSession);
+}
 
-	//{
 
-	//	LPFN_CONNECTEX connectFunc;
+void ClientIocp::sendHelloReq()
+{
+	TrChatReq chatReq;
+	chatReq.set(9999, "¾È³çÇÏ½¦¿ä");
 
-	//	DWORD dwbyte{ 0 };
-	//	GUID guid = WSAID_CONNECTEX;
-	//	/*SocketAddress& socketAddress = session->getSocketAddr();
-	//	sockaddr_in& socketAddr = socketAddress.getSockAddress();*/
-	//	OverlappedBuffer* overlappedBuffer = PoolManager::getInstance()->getOverlappedBufferPool().pop();
+	send(_mainSession, &chatReq);
+}
 
-	//	overlappedBuffer->_session_id = clientSession->getSessionId();
-	//	overlappedBuffer->_type = BufferType::CONNECT;
-
-	//	WSAIoctl(clientSession->getSocketHandle(), SIO_GET_EXTENSION_FUNCTION_POINTER,
-	//		&guid, sizeof(guid),
-	//		&connectFunc, sizeof(connectFunc),
-	//		&dwbyte, NULL, NULL);
-
-	//	if (FALSE == connectFunc(clientSession->getSocketHandle(), reinterpret_cast<SOCKADDR*>(&server_addr),
-	//		sizeof(server_addr), NULL, NULL, NULL,
-	//		reinterpret_cast<LPOVERLAPPED>(&overlappedBuffer->_overlapped))
-	//		)
-	//	{
-	//		auto error = GetLastError();
-	//		if (WSA_IO_PENDING != error)
-	//		{
-	//			Logger::getInstance()->log(Logger::Level::WARNING, "Error_Connect");
-	//		}
-	//	}
-	//}
+void ClientIocp::recvTr( Tr* tr)
+{
 }

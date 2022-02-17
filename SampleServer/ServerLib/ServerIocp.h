@@ -9,5 +9,7 @@ public:
 
 public:
 	virtual void runXXX();
+
+	virtual void recvTr(Tr* tr);
 };
 

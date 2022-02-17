@@ -4,11 +4,10 @@
 #include "Pool.hpp"
 #include <winsock2.h>
 
-#define MAX_BUFFER      1204
-
 enum class BufferType
 {
-	ACCEPT = 0,
+	UNDEFINED = 0,
+	ACCEPT,
 	SEND,
 	RECV,
 	DISCONNECT,
@@ -28,7 +27,6 @@ public:
 
 	// ÆÄ±«µÉ¶§
 	void release();
-
 
 	// pop
 	void active();
