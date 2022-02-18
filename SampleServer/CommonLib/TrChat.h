@@ -3,11 +3,11 @@
 #include <string.h>
 
 #pragma pack(push, 1)    // 1바이트 크기로 정렬 byte padding
-class TrChatReq : public Tr
+class TrChatReqPacket : public Tr
 {
 public:
-	TrChatReq() : Tr( TrId::eTrChatReq, ThreadType::eContents , sizeof(TrChatReq))	{}
-	~TrChatReq() {}
+	TrChatReqPacket() : Tr( TrId::TrChatReq, ThreadType::eContents , sizeof(TrChatReqPacket))	{}
+	~TrChatReqPacket() {}
 
 	void set(const int actorKey , const char* str)
 	{

@@ -12,4 +12,3 @@ public:
 
 	virtual void recvTr(Tr* tr);
 };
-

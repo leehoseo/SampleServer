@@ -40,7 +40,7 @@ void ClientIocp::runXXX()
 
 void ClientIocp::sendHelloReq()
 {
-	TrChatReq chatReq;
+	TrChatReqPacket chatReq;
 	chatReq.set(9999, "æ»≥Á«œΩ¶ø‰");
 
 	send(_mainSession, &chatReq);

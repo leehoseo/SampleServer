@@ -34,13 +34,10 @@ void ServerIocp::runXXX()
 
 void ServerIocp::recvTr( Tr* tr)
 {
+#define MAKE_PROC(trId) case TrId::##trId: { trId##Proc proc; proc.process(tr); } break;
+	
 	switch (tr->_trId)
 	{
-		case TrId::eTrChatReq:
-		{
-			TrChatReqProc proc;
-			proc.process(tr);
-		}
-		break;
+		MAKE_PROC(TrChatReq);
 	}
 }

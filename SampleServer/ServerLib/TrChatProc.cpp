@@ -4,7 +4,7 @@
 
 void TrChatReqProc::process(Tr* tr)
 {
-	TrChatReq* chatReq = static_cast<TrChatReq*>(tr);
+	TrChatReqPacket* chatReq = static_cast<TrChatReqPacket*>(tr);
 
 	// ∞À¡ı
 	{
