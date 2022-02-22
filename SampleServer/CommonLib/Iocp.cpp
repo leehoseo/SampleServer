@@ -4,7 +4,7 @@
 #include "Logger.h"
 #include "PoolManager.h"
 #include "Dispatcher.h"
-#include "TrEvent.h"
+#include "RecvEvent.h"
 #include <WS2tcpip.h>
 #include <thread>
 #include "Tr.h"
@@ -22,10 +22,88 @@ Iocp::~Iocp()
 	CloseHandle(_handle);
 }
 
-void Iocp::run()
+void Iocp::execute()
 {
-	runXXX();
-	workerThread();
+	DWORD		io_byte{};
+	ULONGLONG	id{}; //x64
+
+	IocpEvents readEvents;
+	getEvent(readEvents, 0);
+
+	for (int index = 0; index < readEvents.m_eventCount; ++index)
+	{
+		OVERLAPPED_ENTRY& readEvent = readEvents.m_events[index];
+		OverlappedBuffer* overlappedBuffer = reinterpret_cast<OverlappedBuffer*>(readEvent.lpOverlapped);
+
+		Session* onEventSession = _sessionList[overlappedBuffer->_session_id];
+
+		if (nullptr == onEventSession)
+		{
+			PoolManager::getInstance()->getOverlappedBufferPool().push(overlappedBuffer);
+			continue;
+		}
+
+		switch (overlappedBuffer->_type)
+		{
+		case BufferType::ACCEPT:
+		{
+			PSOCKADDR pRemoteSocketAddr = nullptr;
+			PSOCKADDR pLocalSocketAddr = nullptr;
+			INT pRemoteSocketAddrLength = 0;
+			INT pLocalSocketAddrLength = 0;
+
+			GetAcceptExSockaddrs(
+				&overlappedBuffer->_buffer, 0,
+				sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16,
+				&pLocalSocketAddr, &pLocalSocketAddrLength, &pRemoteSocketAddr, &pRemoteSocketAddrLength);
+
+
+			std::string connectStr = "Accept New Clients ID: " + std::to_string(overlappedBuffer->_session_id);
+			Logger::getInstance()->log(Logger::Level::DEBUG, connectStr);
+
+			recv(onEventSession);
+			accept();
+		}
+		break;
+		case BufferType::SEND:
+		{
+
+		}
+		break;
+		case BufferType::RECV:
+		{
+			// ���� ����Ǿ���?.
+			if (0 == readEvent.dwNumberOfBytesTransferred)
+			{
+				disconnect(onEventSession);
+			}
+			else
+			{
+				Tr* tr = new Tr();
+				memcpy(&tr, &overlappedBuffer->_buffer, readEvent.dwNumberOfBytesTransferred);
+
+				RecvEvent* trEvent = new RecvEvent(tr, 0);
+				Dispatcher::getInstance()->push(trEvent);
+
+				recv(onEventSession);
+			}
+		}
+		break;
+		case BufferType::DISCONNECT:
+		{
+			_sessionList.erase(onEventSession->getSessionId());
+
+			PoolManager::getInstance()->getSessionPool().push(onEventSession);
+		}
+		break;
+		case BufferType::CONNECT:
+		{
+		}
+		break;
+		}
+
+		PoolManager::getInstance()->getOverlappedBufferPool().push(overlappedBuffer);
+	}
 }
 
 const bool Iocp::listen(Session* session)
@@ -169,13 +247,20 @@ void Iocp::send(Session* session, Tr* tr)
 	WSASend(session->getSocketHandle(), &overlappedBuffer->_wsaBuffer, 1, 0, 0, &overlappedBuffer->_overlapped, NULL);
 }
 
-void Iocp::sendHelloReq()
+void Iocp::send(const Session_ID sessionId, Tr* tr)
 {
+	Session* session = _sessionList.find(sessionId)->second;
+	send(session, tr);
 }
 
-void Iocp::recvTr(Tr* tr)
+void Iocp::send(const std::vector<Session_ID> sessionIdList, Tr* tr)
 {
-	
+	const int size = sessionIdList.size();
+
+	for (int index = 0; index < size; ++index)
+	{
+		send(sessionIdList[index], tr);
+	}
 }
 
 void Iocp::addSession(Session* session)
@@ -198,96 +283,5 @@ void Iocp::getEvent(IocpEvents& output, int timeoutMs)
 	if (false == result)
 	{
 		output.m_eventCount = 0;
-	}
-}
-
-void Iocp::workerThread()
-{
-	while (true) 
-	{
-		DWORD		io_byte{};
-		ULONGLONG	id{}; //x64
-
-		IocpEvents readEvents;
-		getEvent(readEvents, 0);
-
-		for (int index = 0; index < readEvents.m_eventCount; ++index)
-		{
-			OVERLAPPED_ENTRY& readEvent = readEvents.m_events[index];
-			OverlappedBuffer* overlappedBuffer = reinterpret_cast<OverlappedBuffer*>(readEvent.lpOverlapped);
-
-			Session* onEventSession = _sessionList[overlappedBuffer->_session_id];
-
-			if (nullptr == onEventSession)
-			{
-				PoolManager::getInstance()->getOverlappedBufferPool().push(overlappedBuffer);
-				continue;
-			}
-
-			switch (overlappedBuffer->_type)
-			{
-				case BufferType::ACCEPT:
-				{
-					PSOCKADDR pRemoteSocketAddr = nullptr;
-					PSOCKADDR pLocalSocketAddr = nullptr;
-					INT pRemoteSocketAddrLength = 0;
-					INT pLocalSocketAddrLength = 0;
-
-					GetAcceptExSockaddrs(
-						&overlappedBuffer->_buffer, 0,
-						sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16,
-						&pLocalSocketAddr, &pLocalSocketAddrLength, &pRemoteSocketAddr, &pRemoteSocketAddrLength);
-
-
-					std::string connectStr = "Accept New Clients ID: " + std::to_string(overlappedBuffer->_session_id);
-					Logger::getInstance()->log(Logger::Level::DEBUG, connectStr);
-
-					recv(onEventSession);
-					accept();
-				}
-				break;
-				case BufferType::SEND:
-				{
-
-				}
-				break;
-				case BufferType::RECV:
-				{
-					// ���� ����Ǿ���?.
-					if (0 == readEvent.dwNumberOfBytesTransferred)
-					{
-						disconnect(onEventSession);
-					}
-					else
-					{
-						Tr* tr = new Tr();
-						memcpy(&tr, &overlappedBuffer->_buffer, readEvent.dwNumberOfBytesTransferred);
-
-						TrEvent* trEvent = new TrEvent(tr, 0);
-						Dispatcher::getInstance()->push(trEvent);
-
-						//recvTr(&tr);
-						
-						recv(onEventSession);
-					}
-				}
-				break;
-				case BufferType::DISCONNECT:
-				{
-					_sessionList.erase(onEventSession->getSessionId());
-
-					PoolManager::getInstance()->getSessionPool().push(onEventSession);
-				}
-				break;
-				case BufferType::CONNECT:
-				{
-					// Ŭ���̾�Ʈ�� �˾Ƽ� �����Ŵ�
-					sendHelloReq();
-				}
-				break;
-			}
-
-			PoolManager::getInstance()->getOverlappedBufferPool().push(overlappedBuffer);
-		}
 	}
 }

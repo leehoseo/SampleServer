@@ -1,6 +1,7 @@
 #include "Thread.h"
 
-Thread::Thread()
+Thread::Thread(const ThreadType& type)
+	: _type(type)
 {
 }
 

@@ -5,7 +5,7 @@
 class TrThread : public Thread
 {
 public: 
-	TrThread( const TrType& type );
+	TrThread(const ThreadType& threadType, const TrType& type );
 	virtual ~TrThread();
 
 public:

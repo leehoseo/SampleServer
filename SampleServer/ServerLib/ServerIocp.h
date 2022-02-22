@@ -8,7 +8,5 @@ public:
 	virtual ~ServerIocp();
 
 public:
-	virtual void runXXX();
-
-	virtual void recvTr(Tr* tr);
+	virtual void init();
 };

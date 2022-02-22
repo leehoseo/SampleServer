@@ -105,16 +105,13 @@
     <ClCompile Include="ScopeLock.cpp">
       <Filter>Lock</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkThread.cpp">
-      <Filter>Thread</Filter>
-    </ClCompile>
     <ClCompile Include="Proc.cpp">
       <Filter>Tr</Filter>
     </ClCompile>
     <ClCompile Include="Time.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="TrEvent.cpp">
+    <ClCompile Include="RecvEvent.cpp">
       <Filter>Dispatcher\Event</Filter>
     </ClCompile>
     <ClCompile Include="TrQueueManager.cpp">
@@ -127,6 +124,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="NetworkContents.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadContents.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SendEvent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -191,16 +194,13 @@
     <ClInclude Include="ScopeLock.h">
       <Filter>Lock</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkThread.h">
-      <Filter>Thread</Filter>
-    </ClInclude>
     <ClInclude Include="Proc.h">
       <Filter>Tr</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="TrEvent.h">
+    <ClInclude Include="RecvEvent.h">
       <Filter>Dispatcher\Event</Filter>
     </ClInclude>
     <ClInclude Include="TrQueueManager.h">
@@ -213,6 +213,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="NetworkContents.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadContents.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SendEvent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

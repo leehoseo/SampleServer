@@ -23,8 +23,8 @@ public:
 
 public:
 
-	void run();
-	virtual void runXXX() = 0;
+	virtual void init() = 0;
+	void execute();
 
 	// socket 핸들링
 	const bool	listen(Session* session);
@@ -34,14 +34,11 @@ public:
 	const bool	disconnect(Session* session); // disconnect 준비
 	void		recv(Session* session); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
 	void		send(Session* session , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
-
-	virtual void sendHelloReq();
-	virtual void recvTr(Tr* tr);
+	void		send( const Session_ID sessionId , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
+	void		send( const std::vector<Session_ID> sessionIdList , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
 
 	void addSession(Session* session);
 	void getEvent(IocpEvents& output, int timeoutMs);
-
-	void workerThread();
 
 protected:
 	int _threadCount; // IOCP 생성시 및 소켓 추가시 계속 사용되는 값인지라...

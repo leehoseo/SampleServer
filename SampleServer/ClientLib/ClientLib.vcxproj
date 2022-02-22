@@ -148,11 +148,13 @@
     <ClInclude Include="ClientNetworkContents.h" />
     <ClInclude Include="ClientActor.h" />
     <ClInclude Include="ClientIocp.h" />
+    <ClInclude Include="ClientThreadContents.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClientNetworkContents.cpp" />
     <ClCompile Include="ClientActor.cpp" />
     <ClCompile Include="ClientIocp.cpp" />
+    <ClCompile Include="ClientThreadContents.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,7 +3,8 @@
 
 enum class EventType
 {
-	Tr = 0,
+	Recv = 0,
+	Send,
 	Action,
 	Logger,
 	Count,

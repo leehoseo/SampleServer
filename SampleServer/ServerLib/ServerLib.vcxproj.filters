@@ -27,6 +27,9 @@
     <ClInclude Include="ServerNetworkContents.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ServerThreadContents.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerIocp.cpp">
@@ -39,6 +42,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ServerNetworkContents.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerThreadContents.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

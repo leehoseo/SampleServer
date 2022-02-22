@@ -148,12 +148,14 @@
     <ClInclude Include="ServerActor.h" />
     <ClInclude Include="ServerIocp.h" />
     <ClInclude Include="ServerNetworkContents.h" />
+    <ClInclude Include="ServerThreadContents.h" />
     <ClInclude Include="TrChatProc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerActor.cpp" />
     <ClCompile Include="ServerIocp.cpp" />
     <ClCompile Include="ServerNetworkContents.cpp" />
+    <ClCompile Include="ServerThreadContents.cpp" />
     <ClCompile Include="TrChatProc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

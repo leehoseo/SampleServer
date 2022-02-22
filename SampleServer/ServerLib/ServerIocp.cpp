@@ -1,7 +1,5 @@
 #include "ServerIocp.h"
 #include "PoolManager.h"
-#include "TrChat.h"
-#include "TrChatProc.h"
 
 ServerIocp::ServerIocp()
 	: Iocp(1)
@@ -14,7 +12,7 @@ ServerIocp::~ServerIocp()
 
 }
 
-void ServerIocp::runXXX()
+void ServerIocp::init()
 {
 	// 서버에서 사용할 세션 생성
 	_mainSession = PoolManager::getInstance()->getSessionPool().pop();
@@ -30,14 +28,4 @@ void ServerIocp::runXXX()
 	listen(_mainSession);
 
 	accept();
-}
-
-void ServerIocp::recvTr( Tr* tr)
-{
-#define MAKE_PROC(trId) case TrId::##trId: { trId##Proc proc; proc.process(tr); } break;
-	
-	switch (tr->_trId)
-	{
-		MAKE_PROC(TrChatReq);
-	}
 }

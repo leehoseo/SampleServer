@@ -1,15 +1,25 @@
 #include "SystemManager.h"
-#include "Iocp.h"
+#include "ServerActor.h"
 #include "ServerIocp.h"
+#include "Dispatcher.h"
 
 int main()
 {
 	WSADATA w;
 	WSAStartup(MAKEWORD(2, 2), &w);
 
-	Iocp* iocp = new ServerIocp();
+	SystemManager::getInstance()->init(new ServerActor(), new ServerIocp());
+	SystemManager::getInstance()->insertAndRunThread();
 
-	iocp->run();
+
+	Iocp* iocp = SystemManager::getInstance()->getIcop();
+	iocp->init();
+
+	while (true)
+	{
+		iocp->execute();
+		Dispatcher::getInstance()->execute();
+	}
 
 	WSACleanup();
 

@@ -1,6 +1,10 @@
 #pragma once
+#include "Actor.h"
 
-class ServerActor
+class ServerActor : public Actor
 {
+public:
+	ServerActor();
+	virtual ~ServerActor();
 };
 

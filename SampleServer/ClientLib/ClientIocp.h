@@ -8,9 +8,6 @@ public:
 	virtual ~ClientIocp();
 
 public:
-	virtual void runXXX();
-
-	virtual void sendHelloReq();
-	virtual void recvTr(Tr* tr);
+	virtual void init();
 };
 

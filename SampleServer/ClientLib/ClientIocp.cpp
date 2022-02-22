@@ -13,7 +13,7 @@ ClientIocp::ClientIocp()
 ClientIocp::~ClientIocp()
 {}
 
-void ClientIocp::runXXX()
+void ClientIocp::init()
 {
 	_mainSession = PoolManager::getInstance()->getSessionPool().pop();
 	addSession(_mainSession);
@@ -35,17 +35,4 @@ void ClientIocp::runXXX()
 	}
 
 	recv(_mainSession);
-}
-
-
-void ClientIocp::sendHelloReq()
-{
-	TrChatReqPacket chatReq;
-	chatReq.set(9999, "æ»≥Á«œΩ¶ø‰");
-
-	send(_mainSession, &chatReq);
-}
-
-void ClientIocp::recvTr( Tr* tr)
-{
 }

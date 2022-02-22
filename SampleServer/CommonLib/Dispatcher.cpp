@@ -1,6 +1,8 @@
 #include "Dispatcher.h"
 #include "Time.h"
-#include "TrEvent.h"
+#include "RecvEvent.h"
+#include "SendEvent.h"
+//#include "ScopeLock.h"
 
 Dispatcher::Dispatcher()
 {
@@ -30,7 +32,7 @@ void Dispatcher::pop(Event* outEvent)
 	_eventList.pop();
 }
 
-void Dispatcher::run()
+void Dispatcher::execute()
 {
 	while (true)
 	{
@@ -45,13 +47,13 @@ void Dispatcher::run()
 
 		EventHandle* handle = nullptr;
 
+#define CaseHandle(Type) case EventType::##Type: handle = new Type##EventHandle(); break;
+
 		switch (event->_type)
 		{
-			case EventType::Tr: handle = new TrEventHandle(); break;
-			case EventType::Action: break;
-			case EventType::Logger:	break;
-			case EventType::Count:	break;
-			default:				break;
+			CaseHandle(Recv);
+			CaseHandle(Send);
+			default: break;
 		}
 		
 		if ( nullptr == handle )
