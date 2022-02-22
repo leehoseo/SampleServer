@@ -1,8 +1,5 @@
 #pragma once
 #include "Contents.h"
-#include <thread>
-#include <vector>
-#include <unordered_map>
 
 class ThreadContents : public Contents
 {
