@@ -145,9 +145,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ClientNetworkContents.h" />
+    <ClInclude Include="ClientActor.h" />
     <ClInclude Include="ClientIocp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClientNetworkContents.cpp" />
+    <ClCompile Include="ClientActor.cpp" />
     <ClCompile Include="ClientIocp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

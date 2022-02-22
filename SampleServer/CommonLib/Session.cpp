@@ -17,7 +17,7 @@ Session::~Session()
 
 void Session::init()
 {
-    static SESSION_ID sessionCount = 0;
+    static Session_ID sessionCount = 0;
     _id = ++sessionCount;
 
     if (INT_MAX <= sessionCount)
@@ -46,7 +46,7 @@ SOCKET& Session::getSocketHandle()
     return _socket.getHandle();
 }
 
-const SESSION_ID& Session::getSessionId()
+const Session_ID& Session::getSessionId()
 {
     return _id;
 }

@@ -14,7 +14,7 @@ public:
 
 public:
 	Proc();
-	~Proc() {};
+	~Proc();
 
 public:
 	virtual void process(Tr* tr) = 0;
@@ -29,7 +29,7 @@ static void insertProcList(TrId id, Proc* proc)
 class trId##Proc : public Proc						\
 {													\
 public:												\
-	trId##Proc() : Proc() {}				\
+	trId##Proc() : Proc() {}						\
 	virtual ~trId##Proc() {}						\
 													\
 public:												\

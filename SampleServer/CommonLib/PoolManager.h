@@ -9,7 +9,7 @@ class PoolManager : public Singleton<PoolManager>
 {
 public:
 	PoolManager();
-	virtual ~PoolManager() {}
+	virtual ~PoolManager() {};
 
 public:
 	Pool<OverlappedBuffer>& getOverlappedBufferPool();

@@ -5,8 +5,8 @@ Tr::Tr()
 }
 
 
-Tr::Tr(const TrId trId, const ThreadType threadType, const int maxSize)
-	: _threadType(threadType)
+Tr::Tr(const TrId trId, const TrType trType, const int maxSize)
+	: _trType(trType)
 	, _maxSize(maxSize)
 	, _trId(trId)
 {

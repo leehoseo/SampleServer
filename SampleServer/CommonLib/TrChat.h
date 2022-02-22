@@ -6,7 +6,7 @@
 class TrChatReqPacket : public Tr
 {
 public:
-	TrChatReqPacket() : Tr( TrId::TrChatReq, ThreadType::eContents , sizeof(TrChatReqPacket))	{}
+	TrChatReqPacket() : Tr( TrId::TrChatReq, TrType::eContents , sizeof(TrChatReqPacket))	{}
 	~TrChatReqPacket() {}
 
 	void set(const int actorKey , const char* str)

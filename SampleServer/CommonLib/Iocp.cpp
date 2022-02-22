@@ -3,6 +3,8 @@
 #include "Session.h"
 #include "Logger.h"
 #include "PoolManager.h"
+#include "Dispatcher.h"
+#include "TrEvent.h"
 #include <WS2tcpip.h>
 #include <thread>
 #include "Tr.h"
@@ -23,7 +25,6 @@ Iocp::~Iocp()
 void Iocp::run()
 {
 	runXXX();
-
 	workerThread();
 }
 
@@ -100,8 +101,6 @@ const bool Iocp::accept()
 		&acceptFunc, sizeof(acceptFunc),
 		&dwbyte, NULL, NULL);
 
-	// Å¬·¡½ºÀÇ °¡»óÇÔ¼ö Å×ÀÌºí ¸Þ¸ð¸®¶§¹®¿¡ acceptEx¿¡ ´ëÇÑ ÀÀ´äÀ» ¹ÞÀ»¶§ ÁÖ¼Ò°ªÀÌ 4byte¾¿ ¹Ð¸®´Â ¹ö±×°¡ ÀÖ´Ù.
-	// ¹«¾ú¶§¹®ÀÌ¸ç ÀÌ°ÍÀ» ÇØ°áÇÒ ¼ö ÀÖ´Â°¡..?
 	acceptFunc(_mainSession->getSocketHandle(), newSession->getSocketHandle(), &overlappedBuffer->_buffer, 0
 		, sizeof(sockaddr_in) + 16, sizeof(sockaddr_in) + 16, &dwbyte, reinterpret_cast<LPOVERLAPPED>(&overlappedBuffer->_overlapped));
 
@@ -198,9 +197,6 @@ void Iocp::getEvent(IocpEvents& output, int timeoutMs)
 	const bool result = GetQueuedCompletionStatusEx(_handle, output.m_events, Iocp::MAX_EVENT_COUNT, (ULONG*)&output.m_eventCount, timeoutMs, FALSE);
 	if (false == result)
 	{
-		//cout << "IOCP getEvent failed!" << endl;
-		//DWORD error = GetLastError();
-
 		output.m_eventCount = 0;
 	}
 }
@@ -215,7 +211,6 @@ void Iocp::workerThread()
 		IocpEvents readEvents;
 		getEvent(readEvents, 0);
 
-		// ¹ÞÀº ÀÌº¥Æ® °¢°¢À» Ã³¸®ÇÕ´Ï´Ù.
 		for (int index = 0; index < readEvents.m_eventCount; ++index)
 		{
 			OVERLAPPED_ENTRY& readEvent = readEvents.m_events[index];
@@ -238,16 +233,15 @@ void Iocp::workerThread()
 					INT pRemoteSocketAddrLength = 0;
 					INT pLocalSocketAddrLength = 0;
 
-					//Á¤º¸ ¾ò±â
 					GetAcceptExSockaddrs(
 						&overlappedBuffer->_buffer, 0,
 						sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16,
 						&pLocalSocketAddr, &pLocalSocketAddrLength, &pRemoteSocketAddr, &pRemoteSocketAddrLength);
 
-					//SOCKADDR_IN remoteAddr = *(reinterpret_cast<PSOCKADDR_IN>(pRemoteSocketAddr));
-					//Á¢¼ÓÇÑ Å¬¶óÀÌ¾ðÆ® IP¿Í Æ÷Æ® Á¤º¸ ¾ò±â
+
 					std::string connectStr = "Accept New Clients ID: " + std::to_string(overlappedBuffer->_session_id);
 					Logger::getInstance()->log(Logger::Level::DEBUG, connectStr);
+
 					recv(onEventSession);
 					accept();
 				}
@@ -259,17 +253,20 @@ void Iocp::workerThread()
 				break;
 				case BufferType::RECV:
 				{
-					// °­Á¦ Á¾·áµÇ¾ú´Ù.
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿?.
 					if (0 == readEvent.dwNumberOfBytesTransferred)
 					{
 						disconnect(onEventSession);
 					}
 					else
 					{
-						Tr tr;
+						Tr* tr = new Tr();
 						memcpy(&tr, &overlappedBuffer->_buffer, readEvent.dwNumberOfBytesTransferred);
 
-						recvTr(&tr);
+						TrEvent* trEvent = new TrEvent(tr, 0);
+						Dispatcher::getInstance()->push(trEvent);
+
+						//recvTr(&tr);
 						
 						recv(onEventSession);
 					}
@@ -284,7 +281,7 @@ void Iocp::workerThread()
 				break;
 				case BufferType::CONNECT:
 				{
-					// Å¬¶óÀÌ¾ðÆ®°¡ ¾Ë¾Æ¼­ º¸³¾°Å´Ù
+					// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ë¾Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å´ï¿½
 					sendHelloReq();
 				}
 				break;

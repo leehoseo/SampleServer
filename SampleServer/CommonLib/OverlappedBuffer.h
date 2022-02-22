@@ -38,6 +38,6 @@ public:
 	WSAOVERLAPPED   _overlapped;
 	WSABUF          _wsaBuffer;
 	char            _buffer[MAX_BUFFER];
-	SESSION_ID		_session_id;
+	Session_ID		_session_id;
 	BufferType		_type;
 };

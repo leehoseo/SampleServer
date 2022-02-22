@@ -47,7 +47,7 @@ protected:
 	int _threadCount; // IOCP 생성시 및 소켓 추가시 계속 사용되는 값인지라...
 
 	HANDLE _handle;
-	std::unordered_map< SESSION_ID, Session*> _sessionList;
+	std::unordered_map< Session_ID, Session*> _sessionList;
 
 	// client, Server Accept용으로 쓰는 세션은 따로 보관한다.
 	Session* _mainSession = nullptr;
