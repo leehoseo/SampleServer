@@ -97,6 +97,7 @@ void Iocp::execute()
 		break;
 		case BufferType::CONNECT:
 		{
+			recv(onEventSession);
 		}
 		break;
 		}
