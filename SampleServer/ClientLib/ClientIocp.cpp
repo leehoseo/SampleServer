@@ -3,7 +3,6 @@
 #include "Logger.h"
 #include <WS2tcpip.h>
 
-#include "TrChat.h"
 #pragma optimize ("" , off )
 
 ClientIocp::ClientIocp()
@@ -30,7 +29,7 @@ void ClientIocp::init()
 
 	{
 		server_addr.sin_port = htons(5555);
-		inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr.s_addr);
+		inet_pton(AF_INET, "172.30.1.19", &server_addr.sin_addr.s_addr);
 		connect(_mainSession, server_addr);
 	}
 
