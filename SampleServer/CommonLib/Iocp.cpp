@@ -57,7 +57,6 @@ void Iocp::execute()
 				sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16,
 				&pLocalSocketAddr, &pLocalSocketAddrLength, &pRemoteSocketAddr, &pRemoteSocketAddrLength);
 
-
 			std::string connectStr = "Accept New Clients ID: " + std::to_string(overlappedBuffer->_session_id);
 			Logger::getInstance()->log(Logger::Level::DEBUG, connectStr);
 
@@ -232,6 +231,19 @@ void Iocp::recv(Session* session)
 			Logger::getInstance()->log(Logger::Level::WARNING, "Error");
 		}
 	}
+}
+
+void Iocp::send(Tr* tr)
+{
+	OverlappedBuffer* overlappedBuffer = PoolManager::getInstance()->getOverlappedBufferPool().pop();
+
+	overlappedBuffer->_session_id = _mainSession->getSessionId();
+	overlappedBuffer->_type = BufferType::SEND;
+	overlappedBuffer->_wsaBuffer.len = tr->_maxSize;
+
+	memcpy(overlappedBuffer->_buffer, tr, tr->_maxSize);
+
+	WSASend(_mainSession->getSocketHandle(), &overlappedBuffer->_wsaBuffer, 1, 0, 0, &overlappedBuffer->_overlapped, NULL);
 }
 
 void Iocp::send(Session* session, Tr* tr)

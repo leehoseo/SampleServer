@@ -11,7 +11,6 @@ int main()
 	SystemManager::getInstance()->init(new ServerActor(), new ServerIocp());
 	SystemManager::getInstance()->insertAndRunThread();
 
-
 	Iocp* iocp = SystemManager::getInstance()->getIcop();
 	iocp->init();
 

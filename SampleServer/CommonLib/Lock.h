@@ -11,6 +11,7 @@ public:
 
 	void lock();
 	void unlock();
+	std::mutex& get();
 
 private:
 	std::mutex _lock;

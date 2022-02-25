@@ -3,7 +3,7 @@
 #include "Lock.h"
 #include "Tr.h"
 #include <queue>
-
+#include "Thread.h"
 class TrQueueManager : public Singleton< TrQueueManager>
 {
 public:
@@ -12,7 +12,9 @@ public:
 
 public:
 	void push(Tr* tr);
-	void pop( const TrType& type, Tr* outTr);
+	void pop( const ThreadType& type, Tr* outTr);
+	bool isExist( const ThreadType& type);
+
 
 private:
 	Lock _aiLock;
@@ -23,8 +25,5 @@ private:
 
 	Lock _contentsLock;
 	std::queue<Tr*> _contentsTrList;
-
-	Lock _clientLock;
-	std::queue<Tr*> _clientTrList;
 };
 

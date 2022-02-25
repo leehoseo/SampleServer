@@ -12,3 +12,9 @@ void ClientThreadContents::insertAndRunThread()
 {
 
 }
+
+void ClientThreadContents::notifyOne(const ThreadType& type)
+{
+	
+}
+

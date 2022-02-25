@@ -14,7 +14,7 @@ void Logger::log(const Level& level, const std::string& string)
 		case Level::WARNING:
 		{
 			std::cout << string.c_str() << std::endl;
-			__debugbreak;
+			__debugbreak();
 		}
 		break;
 

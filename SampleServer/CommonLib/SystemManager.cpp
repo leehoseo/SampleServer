@@ -1,6 +1,8 @@
 #include "SystemManager.h"
 #include "ThreadContents.h"
 
+#pragma optimize("", off)
+
 SystemManager::SystemManager()
 {
 }

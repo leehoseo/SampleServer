@@ -1,8 +1,10 @@
 #include "Dispatcher.h"
-#include "Time.h"
+#include "BaseTime.h"
 #include "RecvEvent.h"
 #include "SendEvent.h"
 //#include "ScopeLock.h"
+
+#pragma optimize("", off)
 
 Dispatcher::Dispatcher()
 {
@@ -34,7 +36,7 @@ void Dispatcher::pop(Event* outEvent)
 
 void Dispatcher::execute()
 {
-	while (true)
+	//while (true)
 	{
 		Event* event = nullptr;
 		pop(event);
@@ -42,7 +44,7 @@ void Dispatcher::execute()
 		if (nullptr == event)
 		{
 			// 쓰레드 대기로 변경
-			continue;
+			return;
 		}
 
 		EventHandle* handle = nullptr;
@@ -59,7 +61,7 @@ void Dispatcher::execute()
 		if ( nullptr == handle )
 		{
 			delete event;
-			continue; // 아직 Event 구현이 안됨
+			return; // 아직 Event 구현이 안됨
 		}
 
 		handle->process(event);

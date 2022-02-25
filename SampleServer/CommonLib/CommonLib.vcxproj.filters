@@ -108,7 +108,7 @@
     <ClCompile Include="Proc.cpp">
       <Filter>Tr</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="BaseTime.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="RecvEvent.cpp">
@@ -197,7 +197,7 @@
     <ClInclude Include="Proc.h">
       <Filter>Tr</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="BaseTime.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="RecvEvent.h">

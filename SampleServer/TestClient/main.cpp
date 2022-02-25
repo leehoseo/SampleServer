@@ -3,7 +3,7 @@
 #include "ClientActor.h"
 #include "Dispatcher.h"
 #include "SystemManager.h"
-
+#include "TrChat.h"
 int main()
 {
 	WSADATA w;
@@ -15,8 +15,19 @@ int main()
 	Iocp* iocp = SystemManager::getInstance()->getIcop();
 	iocp->init();
 
+	
+	bool tester = false;
+
 	while (true)
 	{
+		if (true == tester)
+		{
+			TrChatReq req;
+			req.set(4444, "hey");
+			iocp->send(&req);
+		}
+
+
 		iocp->execute();
 		Dispatcher::getInstance()->execute();
 	}

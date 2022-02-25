@@ -584,7 +584,7 @@
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="Thread.cpp" />
     <ClCompile Include="ThreadContents.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="BaseTime.cpp" />
     <ClCompile Include="Tr.cpp" />
     <ClCompile Include="RecvEvent.cpp" />
     <ClCompile Include="TrId.cpp" />
@@ -614,7 +614,7 @@
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="Thread.h" />
     <ClInclude Include="ThreadContents.h" />
-    <ClInclude Include="Time.h" />
+    <ClInclude Include="BaseTime.h" />
     <ClInclude Include="Tr.h" />
     <ClInclude Include="TrChat.h" />
     <ClInclude Include="RecvEvent.h" />

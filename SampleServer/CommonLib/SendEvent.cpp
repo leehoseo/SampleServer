@@ -1,6 +1,5 @@
 #include "SendEvent.h"
-#include "Time.h"
-#include "Thread.h"
+#include "BaseTime.h"
 #include "TrQueueManager.h"
 #include "SystemManager.h"
 #include "Iocp.h"

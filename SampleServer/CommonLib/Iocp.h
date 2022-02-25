@@ -34,6 +34,7 @@ public:
 	const bool	disconnect(Session* session); // disconnect 준비
 	void		recv(Session* session); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
 	void		send(Session* session , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
+	void		send(Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
 	void		send( const Session_ID sessionId , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
 	void		send( const std::vector<Session_ID> sessionIdList , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
 

@@ -5,13 +5,11 @@
 class TrThread : public Thread
 {
 public: 
-	TrThread(const ThreadType& threadType, const TrType& type );
+	TrThread(const ThreadType& type );
 	virtual ~TrThread();
 
 public:
-	virtual void run();
-
-private:
-	TrType _type;
+	virtual bool work();
+	virtual bool checkWaitExitCondition();	// 기본바로 wait을 탈출한다.
 };
 

@@ -2,6 +2,8 @@
 #include "Tr.h"
 #include "TrChatProc.h"
 
+#pragma optimize("", off)
+
 ServerNetworkContents::ServerNetworkContents()
 {
 }

@@ -9,5 +9,6 @@ public:
 
 public:
 	virtual void insertAndRunThread();
+	virtual void notifyOne(const ThreadType& type);
 };
 

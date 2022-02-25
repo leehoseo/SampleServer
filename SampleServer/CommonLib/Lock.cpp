@@ -17,3 +17,8 @@ void Lock::unlock()
 {
 	_lock.unlock();
 }
+
+std::mutex& Lock::get()
+{
+	return _lock;
+}

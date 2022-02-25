@@ -8,7 +8,7 @@ class SystemManager : public Singleton<SystemManager>
 public:
 	SystemManager();
 	~SystemManager();
-
+		
 public:
 	void init(Actor* mainActor, Iocp* iocp );
 	Actor* getMainActor();
