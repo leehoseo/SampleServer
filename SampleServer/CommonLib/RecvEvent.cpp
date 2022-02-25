@@ -2,6 +2,8 @@
 #include "BaseTime.h"
 #include "TrQueueManager.h"
 
+#pragma optimize ("", off)
+
 RecvEvent::RecvEvent(Tr* tr, const TickCount64 timer)
 	: Event(EventType::Recv)
 	, _tr(tr)
@@ -11,7 +13,6 @@ RecvEvent::RecvEvent(Tr* tr, const TickCount64 timer)
 
 RecvEvent::~RecvEvent()
 {
-	delete _tr;
 }
 
 

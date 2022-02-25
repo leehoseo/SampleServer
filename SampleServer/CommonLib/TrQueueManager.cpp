@@ -43,15 +43,16 @@ void TrQueueManager::push(Tr* tr)
 
 		}
 		break;
-
-		Actor* mainActor = SystemManager::getInstance()->getMainActor();
-		ThreadContents* contents = static_cast<ThreadContents*>(mainActor->getContents(ContentsType::eThread));
-		contents->notifyOne(tr->_type);
 	}
+
+	Actor* mainActor = SystemManager::getInstance()->getMainActor();
+	ThreadContents* contents = static_cast<ThreadContents*>(mainActor->getContents(ContentsType::eThread));
+	contents->notifyOne(tr->_type);
 }
 
-void TrQueueManager::pop(const ThreadType& type, Tr* outTr)
+Tr* TrQueueManager::pop(const ThreadType& type)
 {
+	Tr* outTr = nullptr;
 	switch (type)
 	{
 	case ThreadType::eAi:
@@ -86,6 +87,8 @@ void TrQueueManager::pop(const ThreadType& type, Tr* outTr)
 	}
 	break;
 	}
+
+	return outTr;
 }
 
 bool TrQueueManager::isExist(const ThreadType& type)

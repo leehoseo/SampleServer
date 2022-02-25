@@ -12,7 +12,7 @@ public:
 
 public:
 	void push(Tr* tr);
-	void pop( const ThreadType& type, Tr* outTr);
+	Tr* pop( const ThreadType& type);
 	bool isExist( const ThreadType& type);
 
 

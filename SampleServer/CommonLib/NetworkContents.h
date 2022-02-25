@@ -13,4 +13,3 @@ public:
 	virtual const ContentsType getType() { return ContentsType::eNetwork; };
 	virtual void recvTr(Tr* tr) = 0;
 };
-

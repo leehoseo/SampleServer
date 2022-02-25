@@ -12,7 +12,6 @@ public:
 
 public:
 	Tr* _tr;
-	TickCount64 _timer;
 };
 
 class RecvEventHandle : public EventHandle

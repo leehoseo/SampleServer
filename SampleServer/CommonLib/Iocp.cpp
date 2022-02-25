@@ -79,7 +79,7 @@ void Iocp::execute()
 			else
 			{
 				Tr* tr = new Tr();
-				memcpy(&tr, &overlappedBuffer->_buffer, readEvent.dwNumberOfBytesTransferred);
+				memcpy(tr, overlappedBuffer->_buffer, readEvent.dwNumberOfBytesTransferred);
 
 				RecvEvent* trEvent = new RecvEvent(tr, 0);
 				Dispatcher::getInstance()->push(trEvent);
@@ -233,19 +233,6 @@ void Iocp::recv(Session* session)
 	}
 }
 
-void Iocp::send(Tr* tr)
-{
-	OverlappedBuffer* overlappedBuffer = PoolManager::getInstance()->getOverlappedBufferPool().pop();
-
-	overlappedBuffer->_session_id = _mainSession->getSessionId();
-	overlappedBuffer->_type = BufferType::SEND;
-	overlappedBuffer->_wsaBuffer.len = tr->_maxSize;
-
-	memcpy(overlappedBuffer->_buffer, tr, tr->_maxSize);
-
-	WSASend(_mainSession->getSocketHandle(), &overlappedBuffer->_wsaBuffer, 1, 0, 0, &overlappedBuffer->_overlapped, NULL);
-}
-
 void Iocp::send(Session* session, Tr* tr)
 {
 	OverlappedBuffer* overlappedBuffer = PoolManager::getInstance()->getOverlappedBufferPool().pop();
@@ -257,6 +244,11 @@ void Iocp::send(Session* session, Tr* tr)
 	memcpy(overlappedBuffer->_buffer, tr, tr->_maxSize);
 
 	WSASend(session->getSocketHandle(), &overlappedBuffer->_wsaBuffer, 1, 0, 0, &overlappedBuffer->_overlapped, NULL);
+}
+
+void Iocp::send(Tr* tr)
+{
+	send(_mainSession, tr);
 }
 
 void Iocp::send(const Session_ID sessionId, Tr* tr)

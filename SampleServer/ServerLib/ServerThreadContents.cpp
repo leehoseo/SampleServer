@@ -23,7 +23,7 @@ void ServerThreadContents::insertAndRunThread()
 		_actionThread.init(2);
 	}
 	{
-		_contentsThread.init(2);
+		_contentsThread.init(1);
 	}
 }
 

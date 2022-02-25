@@ -13,7 +13,6 @@ public:
 
 public:
 	Tr* _tr;
-	TickCount64 _timer;
 	std::vector<Session_ID> _sessionIdList;
 };
 

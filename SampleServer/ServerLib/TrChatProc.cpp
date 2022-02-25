@@ -1,6 +1,8 @@
 #include "TrChatProc.h"
 #include "TrChat.h"
 #include "Logger.h"
+#include <chrono>
+#include <thread>
 
 void TrChatReqProc::process(Tr* tr)
 {
@@ -13,18 +15,4 @@ void TrChatReqProc::process(Tr* tr)
 	
 	std::string chatStr = "Id : " + std::to_string(chatReq->_actorKey) + "´ÔÀÇ ¸Þ¼¼Áö : " + chatReq->_str;
 	Logger::getInstance()->log(Logger::Level::DEBUG, chatStr);
-
-
-	bool tester = false;
-
-	while (true)
-	{
-		int num = 0;
-		++num;
-
-		if (true == tester)
-		{
-			break;
-		}
-	}
 }

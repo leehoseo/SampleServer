@@ -14,20 +14,10 @@ int main()
 
 	Iocp* iocp = SystemManager::getInstance()->getIcop();
 	iocp->init();
-
 	
-	bool tester = false;
-
+	// 요건 쓰래드로 빼 말아
 	while (true)
 	{
-		if (true == tester)
-		{
-			TrChatReq req;
-			req.set(4444, "hey");
-			iocp->send(&req);
-		}
-
-
 		iocp->execute();
 		Dispatcher::getInstance()->execute();
 	}

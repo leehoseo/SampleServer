@@ -20,8 +20,7 @@ bool TrThread::work()
 {
 	Actor* mainActor = SystemManager::getInstance()->getMainActor();
 	NetworkContents* contents = static_cast<NetworkContents*>(mainActor->getContents(ContentsType::eNetwork));
-	Tr* tr = nullptr;
-	TrQueueManager::getInstance()->pop(_type, tr);
+	Tr* tr = TrQueueManager::getInstance()->pop(_type);
 
 	if (nullptr == tr)
 	{
@@ -31,7 +30,6 @@ bool TrThread::work()
 	contents->recvTr(tr);
 
 	delete tr;
-
 	return true;
 }
 

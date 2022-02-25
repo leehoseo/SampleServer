@@ -1,8 +1,27 @@
 #include "Thread.h"
+#include <Windows.h>
 #include <condition_variable>
+#include <processthreadsapi.h>
 #include "ScopeLock.h"
 
 #pragma optimize("", off)
+
+const wchar_t* getThreadStr(const ThreadType& type)
+{
+	switch (type)
+	{
+	case ThreadType::eAi:
+		return L"Ai";
+	case ThreadType::eAction:
+		return L"Action";
+	case ThreadType::eContents:
+		return L"Contents";
+	case ThreadType::eCount:
+		return L"None";
+	default:
+		break;
+	}
+}
 
 Thread::Thread(const ThreadType& type)
 	: _type(type)
@@ -33,8 +52,12 @@ bool Thread::work()
 	return false;
 }
 
+int num = 0;
 void Thread::run()
 {
+	PCWSTR threadName = getThreadStr(getType());
+	SetThreadDescription(GetCurrentThread() , threadName);
+
 	while (true)
 	{
 		{

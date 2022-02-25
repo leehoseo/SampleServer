@@ -5,7 +5,7 @@ class Actor;
 enum class ContentsType
 {
 	eNetwork = 0,
-	eThread = 0,
+	eThread,
 	eCount,
 };
 

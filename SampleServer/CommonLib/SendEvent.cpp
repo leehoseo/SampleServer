@@ -14,7 +14,6 @@ SendEvent::SendEvent(Tr* tr, const TickCount64 timer, const std::vector<Session_
 
 SendEvent::~SendEvent()
 {
-	delete _tr;
 }
 
 SendEventHandle::SendEventHandle()

@@ -3,7 +3,7 @@
 #include "Singleton.h"
 #include "Event.h"
 #include <queue>
-//#include "ScopeLock.h"
+#include "Lock.h"
 
 class Dispatcher : public Singleton<Dispatcher>
 {
@@ -16,10 +16,9 @@ public:
 	void execute();
 
 private:
-	void pop( Event* outEvent );
+	Event* pop();
 
 private:
 	std::priority_queue<Event*> _eventList;
-	//Lock _lock;
+	Lock _lock;
 };
-

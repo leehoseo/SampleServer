@@ -4,8 +4,8 @@ PoolManager::PoolManager()
 {
     // 클라이언트랑 서버랑 Pool 갯수가 달라도 될 것 같다 이건 따로 만들어보자
  
-    const int overlappedBufferPoolSize = 3;
-    const int sessionPoolSize = 3;
+    const int overlappedBufferPoolSize = 100;
+    const int sessionPoolSize = 5;
 
     {
         _overlappedBufferPool.init(overlappedBufferPoolSize);
