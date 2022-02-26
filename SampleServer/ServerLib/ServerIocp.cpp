@@ -19,10 +19,10 @@ void ServerIocp::init()
 	addSession(_mainSession);
 
 	sockaddr_in server_addr;
-	ZeroMemory(&server_addr, sizeof(server_addr));
-	server_addr.sin_family = PF_INET;
-	server_addr.sin_port = htons(5555);
+	memset(&server_addr, 0, sizeof(server_addr));
+	server_addr.sin_family = AF_INET;
 	server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+	server_addr.sin_port = htons(13481);
 
 	bind(_mainSession, server_addr);
 	listen(_mainSession);
