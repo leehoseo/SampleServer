@@ -22,7 +22,7 @@ void ServerIocp::init()
 	memset(&server_addr, 0, sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
 	server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-	server_addr.sin_port = htons(13481);
+	server_addr.sin_port = htons(13480);
 
 	bind(_mainSession, server_addr);
 	listen(_mainSession);

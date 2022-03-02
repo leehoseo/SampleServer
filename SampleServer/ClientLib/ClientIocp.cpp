@@ -28,8 +28,8 @@ void ClientIocp::init()
 	}
 
 	{
-		server_addr.sin_port = 45845;
-		inet_pton(AF_INET, "172.30.1.46", &server_addr.sin_addr.s_addr);
+		server_addr.sin_port = htons(13480);
+		inet_pton(AF_INET, "220.74.6.41", &server_addr.sin_addr.s_addr);
 		//inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr.s_addr);
 		connect(_mainSession, server_addr);
 	}
