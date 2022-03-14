@@ -126,6 +126,13 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>rmdir "$(SolutionDir)lib" /q /s
+if not exist "$(SolutionDir)lib" mkdir "$(SolutionDir)lib"
+if not exist "$(SolutionDir)lib\header" mkdir "$(SolutionDir)lib\header"
+copy $(SolutionDir)$(Configuration)\*.lib $(SolutionDir)lib\.
+copy $(ProjectDir)*.h $(SolutionDir)lib\header\.</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -155,6 +162,11 @@
     <ClCompile Include="ClientActor.cpp" />
     <ClCompile Include="ClientIocp.cpp" />
     <ClCompile Include="ClientThreadContents.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonLib\CommonLib.vcxproj">
+      <Project>{b884973f-bedd-48a4-8465-d5101f3f18c6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
