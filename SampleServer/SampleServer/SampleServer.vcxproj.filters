@@ -21,10 +21,40 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="ServerThreadContents.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TrChatProc.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerNetworkContents.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerIocp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerActor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerNetworkContents.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerThreadContents.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TrChatProc.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerActor.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerIocp.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

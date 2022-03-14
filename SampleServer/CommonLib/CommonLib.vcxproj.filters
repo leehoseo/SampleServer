@@ -132,6 +132,12 @@
     <ClCompile Include="SendEvent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="IocpThread.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DispatcherThread.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Iocp.h">
@@ -219,6 +225,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="SendEvent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="IocpThread.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DispatcherThread.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

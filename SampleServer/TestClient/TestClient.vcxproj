@@ -141,15 +141,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClientActor.cpp" />
+    <ClCompile Include="ClientIocp.cpp" />
+    <ClCompile Include="ClientNetworkContents.cpp" />
+    <ClCompile Include="ClientThreadContents.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientLib\ClientLib.vcxproj">
-      <Project>{dc0b6c8a-0347-4220-96ea-04c4d3da7be2}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\CommonLib\CommonLib.vcxproj">
       <Project>{b884973f-bedd-48a4-8465-d5101f3f18c6}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ClientActor.h" />
+    <ClInclude Include="ClientIocp.h" />
+    <ClInclude Include="ClientNetworkContents.h" />
+    <ClInclude Include="ClientThreadContents.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

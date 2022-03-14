@@ -31,7 +31,7 @@ class EventHandle
 {
 public:
 	EventHandle();
-	~EventHandle();
+	virtual ~EventHandle();
 
 public:
 	virtual void process(Event* event) = 0;

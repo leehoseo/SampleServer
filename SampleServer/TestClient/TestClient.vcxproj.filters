@@ -18,5 +18,31 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="ClientNetworkContents.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientThreadContents.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientActor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientIocp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ClientIocp.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientNetworkContents.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientThreadContents.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientActor.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
