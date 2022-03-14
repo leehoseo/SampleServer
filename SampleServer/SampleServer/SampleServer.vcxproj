@@ -152,16 +152,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ServerActor.cpp" />
+    <ClCompile Include="ServerIocp.cpp" />
+    <ClCompile Include="ServerNetworkContents.cpp" />
+    <ClCompile Include="ServerThreadContents.cpp" />
+    <ClCompile Include="TrChatProc.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ServerActor.h" />
+    <ClInclude Include="ServerIocp.h" />
+    <ClInclude Include="ServerNetworkContents.h" />
+    <ClInclude Include="ServerThreadContents.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TrChatProc.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLib\CommonLib.vcxproj">
       <Project>{b884973f-bedd-48a4-8465-d5101f3f18c6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ServerLib\ServerLib.vcxproj">
-      <Project>{80b76e5d-81ab-4284-97c7-8b4e6ba6516d}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

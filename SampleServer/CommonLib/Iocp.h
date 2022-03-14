@@ -19,7 +19,7 @@ public:
 
 public:
 	Iocp(const int threadCount = 0);
-	~Iocp();
+	virtual ~Iocp();
 
 public:
 

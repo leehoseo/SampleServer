@@ -566,8 +566,10 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Contents.cpp" />
     <ClCompile Include="Dispatcher.cpp" />
+    <ClCompile Include="DispatcherThread.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Iocp.cpp" />
+    <ClCompile Include="IocpThread.cpp" />
     <ClCompile Include="Lock.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="NetworkContents.cpp" />
@@ -596,8 +598,10 @@
     <ClInclude Include="Base.h" />
     <ClInclude Include="Contents.h" />
     <ClInclude Include="Dispatcher.h" />
+    <ClInclude Include="DispatcherThread.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Iocp.h" />
+    <ClInclude Include="IocpThread.h" />
     <ClInclude Include="Lock.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="NetworkContents.h" />
