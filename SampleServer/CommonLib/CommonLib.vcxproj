@@ -527,6 +527,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>rmdir "$(SolutionDir)lib" /q /s
+if not exist "$(SolutionDir)lib" mkdir "$(SolutionDir)lib"
+if not exist "$(SolutionDir)lib\header" mkdir "$(SolutionDir)lib\header"
+copy $(SolutionDir)$(Configuration)\*.lib $(SolutionDir)lib\.
+copy $(ProjectDir)*.h $(SolutionDir)lib\header\.</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
