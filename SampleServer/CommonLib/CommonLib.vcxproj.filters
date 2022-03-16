@@ -49,6 +49,9 @@
     <Filter Include="Lock">
       <UniqueIdentifier>{6a0086c1-c42a-492a-a13e-aaec7ce59445}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{6c54278b-bc2d-480b-873c-31f31f7b7674}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Iocp.cpp">
@@ -117,26 +120,26 @@
     <ClCompile Include="TrQueueManager.cpp">
       <Filter>Tr</Filter>
     </ClCompile>
-    <ClCompile Include="SystemManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Contents.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkContents.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ThreadContents.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SendEvent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="IocpThread.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="NetworkThread.cpp">
+      <Filter>Thread</Filter>
     </ClCompile>
     <ClCompile Include="DispatcherThread.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkContents.cpp">
+      <Filter>Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="Contents.cpp">
+      <Filter>Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadContents.cpp">
+      <Filter>Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemManager.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="SendEvent.cpp">
+      <Filter>Dispatcher\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,26 +215,26 @@
     <ClInclude Include="TrQueueManager.h">
       <Filter>Tr</Filter>
     </ClInclude>
-    <ClInclude Include="SystemManager.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="DispatcherThread.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkThread.h">
+      <Filter>Thread</Filter>
     </ClInclude>
     <ClInclude Include="Contents.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Contents</Filter>
     </ClInclude>
     <ClInclude Include="NetworkContents.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Contents</Filter>
     </ClInclude>
     <ClInclude Include="ThreadContents.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="SendEvent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="IocpThread.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DispatcherThread.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Dispatcher\Event</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

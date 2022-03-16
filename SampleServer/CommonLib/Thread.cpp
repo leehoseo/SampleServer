@@ -11,13 +11,17 @@ const wchar_t* getThreadStr(const ThreadType& type)
 	switch (type)
 	{
 	case ThreadType::eAi:
-		return L"Ai";
+		return L"Sample Ai";
 	case ThreadType::eAction:
-		return L"Action";
+		return L"Sample Action";
 	case ThreadType::eContents:
-		return L"Contents";
+		return L"Sample Contents";
+	case ThreadType::eNetwork:
+		return L"Sample Network";
+	case ThreadType::eDispatcher:
+		return L"Sample Dispatcher";
 	case ThreadType::eCount:
-		return L"None";
+		return L"Sample None";
 	default:
 		break;
 	}

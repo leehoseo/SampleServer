@@ -10,6 +10,8 @@ enum class ThreadType
 	eAi = 0,
 	eAction,
 	eContents,
+	eNetwork,
+	eDispatcher,
 
 	eCount,
 };
