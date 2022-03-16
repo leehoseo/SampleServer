@@ -458,6 +458,18 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>rmdir "$(SolutionDir)lib" /q /s
+if not exist "$(SolutionDir)lib" mkdir "$(SolutionDir)lib"
+if not exist "$(SolutionDir)lib\Include" mkdir "$(SolutionDir)lib\Include"
+if not exist "$(SolutionDir)lib\Libraries" mkdir "$(SolutionDir)lib\Libraries"
+if not exist "$(SolutionDir)lib\Libraries\Win32" mkdir "$(SolutionDir)lib\Libraries\Win32"
+if not exist "$(SolutionDir)lib\Libraries\Win64" mkdir "$(SolutionDir)lib\Libraries\Win64"
+
+copy $(SolutionDir)$(PlatformShortName)\$(Configuration)\CommonLib.lib $(SolutionDir)lib\Libraries\Win32\.
+copy $(SolutionDir)$(PlatformShortName)\$(Configuration)\CommonLib.lib $(SolutionDir)lib\Libraries\Win64\.
+copy $(ProjectDir)*.h $(SolutionDir)lib\Include\.</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -492,6 +504,18 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>rmdir "$(SolutionDir)lib" /q /s
+if not exist "$(SolutionDir)lib" mkdir "$(SolutionDir)lib"
+if not exist "$(SolutionDir)lib\Include" mkdir "$(SolutionDir)lib\Include"
+if not exist "$(SolutionDir)lib\Libraries" mkdir "$(SolutionDir)lib\Libraries"
+if not exist "$(SolutionDir)lib\Libraries\Win32" mkdir "$(SolutionDir)lib\Libraries\Win32"
+if not exist "$(SolutionDir)lib\Libraries\Win64" mkdir "$(SolutionDir)lib\Libraries\Win64"
+
+copy $(SolutionDir)$(PlatformShortName)\$(Configuration)\CommonLib.lib $(SolutionDir)lib\Libraries\Win32\.
+copy $(SolutionDir)$(PlatformShortName)\$(Configuration)\CommonLib.lib $(SolutionDir)lib\Libraries\Win64\.
+copy $(ProjectDir)*.h $(SolutionDir)lib\Include\.</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -530,9 +554,14 @@
     <PostBuildEvent>
       <Command>rmdir "$(SolutionDir)lib" /q /s
 if not exist "$(SolutionDir)lib" mkdir "$(SolutionDir)lib"
-if not exist "$(SolutionDir)lib\header" mkdir "$(SolutionDir)lib\header"
-copy $(SolutionDir)$(Configuration)\*.lib $(SolutionDir)lib\.
-copy $(ProjectDir)*.h $(SolutionDir)lib\header\.</Command>
+if not exist "$(SolutionDir)lib\Include" mkdir "$(SolutionDir)lib\Include"
+if not exist "$(SolutionDir)lib\Libraries" mkdir "$(SolutionDir)lib\Libraries"
+if not exist "$(SolutionDir)lib\Libraries\Win32" mkdir "$(SolutionDir)lib\Libraries\Win32"
+if not exist "$(SolutionDir)lib\Libraries\Win64" mkdir "$(SolutionDir)lib\Libraries\Win64"
+
+copy $(SolutionDir)$(PlatformShortName)\$(Configuration)\CommonLib.lib $(SolutionDir)lib\Libraries\Win32\.
+copy $(SolutionDir)$(PlatformShortName)\$(Configuration)\CommonLib.lib $(SolutionDir)lib\Libraries\Win64\.
+copy $(ProjectDir)*.h $(SolutionDir)lib\Include\.</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -568,6 +597,18 @@ copy $(ProjectDir)*.h $(SolutionDir)lib\header\.</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>rmdir "$(SolutionDir)lib" /q /s
+if not exist "$(SolutionDir)lib" mkdir "$(SolutionDir)lib"
+if not exist "$(SolutionDir)lib\Include" mkdir "$(SolutionDir)lib\Include"
+if not exist "$(SolutionDir)lib\Libraries" mkdir "$(SolutionDir)lib\Libraries"
+if not exist "$(SolutionDir)lib\Libraries\Win32" mkdir "$(SolutionDir)lib\Libraries\Win32"
+if not exist "$(SolutionDir)lib\Libraries\Win64" mkdir "$(SolutionDir)lib\Libraries\Win64"
+
+copy $(SolutionDir)$(PlatformShortName)\$(Configuration)\CommonLib.lib $(SolutionDir)lib\Libraries\Win32\.
+copy $(SolutionDir)$(PlatformShortName)\$(Configuration)\CommonLib.lib $(SolutionDir)lib\Libraries\Win64\.
+copy $(ProjectDir)*.h $(SolutionDir)lib\Include\.</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
