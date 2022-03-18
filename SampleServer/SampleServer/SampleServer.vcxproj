@@ -168,7 +168,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActorManager.cpp" />
+    <ClCompile Include="CharacterActor.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayerActor.cpp" />
     <ClCompile Include="ServerActor.cpp" />
     <ClCompile Include="ServerIocp.cpp" />
     <ClCompile Include="ServerNetworkContents.cpp" />
@@ -176,6 +179,9 @@
     <ClCompile Include="TrChatProc.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActorManager.h" />
+    <ClInclude Include="CharacterActor.h" />
+    <ClInclude Include="PlayerActor.h" />
     <ClInclude Include="ServerActor.h" />
     <ClInclude Include="ServerIocp.h" />
     <ClInclude Include="ServerNetworkContents.h" />

@@ -18,3 +18,19 @@ void PlayerActor::setSessionId(const Session_ID& sessionId)
 {
 	_sessionId = sessionId;
 }
+
+void PlayerActor::init()
+{
+}
+
+void PlayerActor::release()
+{
+}
+
+void PlayerActor::active()
+{
+}
+
+void PlayerActor::deactive()
+{
+}

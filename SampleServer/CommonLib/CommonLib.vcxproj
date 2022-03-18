@@ -642,7 +642,6 @@ copy $(ProjectDir)*.hpp D:\Programming\Server\SampleUnreal\SampleClient\Source\T
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="CharacterActor.cpp" />
     <ClCompile Include="Contents.cpp" />
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="DispatcherThread.cpp" />
@@ -653,7 +652,6 @@ copy $(ProjectDir)*.hpp D:\Programming\Server\SampleUnreal\SampleClient\Source\T
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="NetworkContents.cpp" />
     <ClCompile Include="OverlappedBuffer.cpp" />
-    <ClCompile Include="PlayerActor.cpp" />
     <ClCompile Include="Pool.hpp" />
     <ClCompile Include="PoolManager.cpp" />
     <ClCompile Include="Proc.cpp" />
@@ -675,7 +673,6 @@ copy $(ProjectDir)*.hpp D:\Programming\Server\SampleUnreal\SampleClient\Source\T
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Base.h" />
-    <ClInclude Include="CharacterActor.h" />
     <ClInclude Include="Contents.h" />
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="DispatcherThread.h" />
@@ -686,7 +683,6 @@ copy $(ProjectDir)*.hpp D:\Programming\Server\SampleUnreal\SampleClient\Source\T
     <ClInclude Include="Logger.h" />
     <ClInclude Include="NetworkContents.h" />
     <ClInclude Include="OverlappedBuffer.h" />
-    <ClInclude Include="PlayerActor.h" />
     <ClInclude Include="Pool.h" />
     <ClInclude Include="PoolManager.h" />
     <ClInclude Include="Proc.h" />

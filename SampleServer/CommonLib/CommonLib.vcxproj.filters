@@ -75,9 +75,6 @@
     <ClCompile Include="Actor.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerActor.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="PoolManager.cpp">
       <Filter>Pool</Filter>
     </ClCompile>
@@ -144,9 +141,6 @@
     <ClCompile Include="SendEvent.cpp">
       <Filter>Dispatcher\Event</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterActor.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Iocp.h">
@@ -168,9 +162,6 @@
       <Filter>Pool</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerActor.h">
       <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="PoolManager.h">
@@ -243,10 +234,7 @@
       <Filter>Dispatcher\Event</Filter>
     </ClInclude>
     <ClInclude Include="TrAuth.h">
-      <Filter>Tr\ChatTr</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterActor.h">
-      <Filter>Actor</Filter>
+      <Filter>Tr\Authentication</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
