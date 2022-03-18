@@ -52,6 +52,9 @@
     <Filter Include="Contents">
       <UniqueIdentifier>{6c54278b-bc2d-480b-873c-31f31f7b7674}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tr\Authentication">
+      <UniqueIdentifier>{a60bbafb-5ffa-4593-95b9-76f925e670f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Iocp.cpp">
@@ -140,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="SendEvent.cpp">
       <Filter>Dispatcher\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterActor.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +241,12 @@
     </ClInclude>
     <ClInclude Include="SendEvent.h">
       <Filter>Dispatcher\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="TrAuth.h">
+      <Filter>Tr\ChatTr</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterActor.h">
+      <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

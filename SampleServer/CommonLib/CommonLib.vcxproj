@@ -642,6 +642,7 @@ copy $(ProjectDir)*.hpp D:\Programming\Server\SampleUnreal\SampleClient\Source\T
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="CharacterActor.cpp" />
     <ClCompile Include="Contents.cpp" />
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="DispatcherThread.cpp" />
@@ -674,6 +675,7 @@ copy $(ProjectDir)*.hpp D:\Programming\Server\SampleUnreal\SampleClient\Source\T
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Base.h" />
+    <ClInclude Include="CharacterActor.h" />
     <ClInclude Include="Contents.h" />
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="DispatcherThread.h" />
@@ -698,6 +700,7 @@ copy $(ProjectDir)*.hpp D:\Programming\Server\SampleUnreal\SampleClient\Source\T
     <ClInclude Include="ThreadContents.h" />
     <ClInclude Include="BaseTime.h" />
     <ClInclude Include="Tr.h" />
+    <ClInclude Include="TrAuth.h" />
     <ClInclude Include="TrChat.h" />
     <ClInclude Include="RecvEvent.h" />
     <ClInclude Include="TrId.h" />

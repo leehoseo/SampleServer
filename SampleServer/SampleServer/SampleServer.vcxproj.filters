@@ -16,45 +16,57 @@
     <Filter Include="Proc">
       <UniqueIdentifier>{ba514ddd-8709-4b07-ab27-6316c1a3509b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\TrChat">
+      <UniqueIdentifier>{fcc84b27-df8e-4bfc-a913-b258fe250801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Contents">
+      <UniqueIdentifier>{fe638583-0922-4427-b608-96153c25d39c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Actor">
+      <UniqueIdentifier>{1d261b27-6282-4ac9-9c2a-28a8f42f5888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Network">
+      <UniqueIdentifier>{ad82c494-030d-434f-9031-151164d7190f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ServerThreadContents.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="TrChatProc.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\TrChat</Filter>
     </ClCompile>
     <ClCompile Include="ServerNetworkContents.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Contents</Filter>
     </ClCompile>
-    <ClCompile Include="ServerIocp.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="ServerThreadContents.cpp">
+      <Filter>소스 파일\Contents</Filter>
     </ClCompile>
     <ClCompile Include="ServerActor.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerIocp.cpp">
+      <Filter>소스 파일\Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="TrChatProc.h">
+      <Filter>소스 파일\TrChat</Filter>
+    </ClInclude>
     <ClInclude Include="ServerNetworkContents.h">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Contents</Filter>
     </ClInclude>
     <ClInclude Include="ServerThreadContents.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TrChatProc.h">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Contents</Filter>
     </ClInclude>
     <ClInclude Include="ServerActor.h">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Actor</Filter>
     </ClInclude>
     <ClInclude Include="ServerIocp.h">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
