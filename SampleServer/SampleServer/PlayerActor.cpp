@@ -21,16 +21,21 @@ void PlayerActor::setSessionId(const Session_ID& sessionId)
 
 void PlayerActor::init()
 {
+	__super::init();
 }
 
 void PlayerActor::release()
 {
+	__super::release();
+	_sessionId = undefinedSessionId;
 }
 
 void PlayerActor::active()
 {
+	__super::active();
 }
 
 void PlayerActor::deactive()
 {
+	__super::deactive();
 }

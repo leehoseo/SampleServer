@@ -1,7 +1,6 @@
 #include "Contents.h"
 #include "Actor.h"
 
-
 Contents::Contents()
 {
 }
@@ -10,14 +9,23 @@ Contents::~Contents()
 {
 }
 
-void Contents::init(Actor* owner)
+Actor* Contents::getOwner()
+{
+	return _owner;
+}
+
+void Contents::init()
+{
+}
+
+void Contents::active(Actor* owner)
 {
 	_owner = owner;
 }
 
-Actor* Contents::getOwner()
+void Contents::deactive()
 {
-	return _owner;
+	_owner = nullptr;
 }
 
 bool Contents::isValid()

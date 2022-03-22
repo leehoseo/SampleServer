@@ -12,6 +12,7 @@ class IocpEvents;
 class Session;
 class Tr;
 
+class TrNetworkConnectReq;
 class Iocp
 {
 public:
@@ -30,7 +31,7 @@ public:
 	// socket 핸들링
 	const bool	listen(Session* session);
 	const bool	bind(Session* session, sockaddr_in& socketAddr);
-	const bool	connect(Session* session, sockaddr_in& socketAddr);
+	const bool	connect(Session* session, sockaddr_in& socketAddr, TrNetworkConnectReq* tr);
 	const bool	accept(); // accept 준비
 	const bool	disconnect(Session* session); // disconnect 준비
 	void		recv(Session* session); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
@@ -41,6 +42,8 @@ public:
 
 	void addSession(Session* session);
 	void getEvent(IocpEvents& output, int timeoutMs);
+
+	const Session_ID& getMainSessionId();
 
 protected:
 	int _threadCount; // IOCP 생성시 및 소켓 추가시 계속 사용되는 값인지라...

@@ -6,8 +6,8 @@ enum class TrId
 {
 	TrChatReq = 0,
 	TrChatAck,
+	TrNetworkConnectReq,
 	TrNetworkConnectAck,
-	TrLogInReq,
-	TrLogInAck,
+	TrActorLoginAck,
 	Count,
 };

@@ -7,7 +7,7 @@ class Actor
 {
 public:
 	Actor();
-	~Actor();
+	virtual ~Actor();
 public:
 	// 생성시 초기화 또는 가져올때
 	virtual void init();

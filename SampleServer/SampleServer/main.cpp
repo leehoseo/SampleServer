@@ -2,6 +2,7 @@
 #include "ServerActor.h"
 #include "ServerIocp.h"
 #include "Dispatcher.h"
+#include "TrQueueManager.h"
 
 int main()
 {
@@ -9,16 +10,12 @@ int main()
 	WSAStartup(MAKEWORD(2, 2), &w);
 
 	SystemManager::getInstance()->init(new ServerActor(), new ServerIocp());
-	SystemManager::getInstance()->insertAndRunThread();
+	//TrQueueManager::getInstance()->init();
 
 	Iocp* iocp = SystemManager::getInstance()->getIcop();
 	iocp->init();
 
-	while (true)
-	{
-		iocp->execute();
-		Dispatcher::getInstance()->execute();
-	}
+	SystemManager::getInstance()->insertAndRunThread();
 
 	WSACleanup();
 

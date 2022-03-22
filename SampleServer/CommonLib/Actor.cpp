@@ -24,6 +24,11 @@ void Actor::active()
 
 void Actor::deactive()
 {
+    for (auto iter = _contentsList.begin(); iter != _contentsList.end(); ++iter)
+    {
+        Contents* contents = iter->second;
+        contents->deactive();
+    }
 }
 
 Contents* Actor::getContents(const ContentsType& type)
@@ -38,6 +43,6 @@ const ActorKey& Actor::getActorKey()
 
 void Actor::insertContents(Contents* contents)
 {
-    contents->init(this);
+    contents->active(this);
     _contentsList.insert(std::make_pair(contents->getType(), contents));
 }

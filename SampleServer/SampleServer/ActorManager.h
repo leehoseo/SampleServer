@@ -13,6 +13,8 @@ public:
 	PlayerActor* createPlayerActor();
 	void deletePlayerActor(const ActorKey& actorKey);
 
+	void getActivePlayerActorSessionIds(std::vector<Session_ID>& sessionIdList);
+
 private:
 	Pool<PlayerActor>& getPlayerActorPool();
 	Pool<PlayerActor> _playerActorPool;			// Pool에 대기중인 엑터들

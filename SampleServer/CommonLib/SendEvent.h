@@ -9,6 +9,7 @@ class SendEvent : public Event
 {
 public:
 	SendEvent(Tr* tr, const TickCount64 timer, const std::vector<Session_ID>& sessionIdList);
+	SendEvent(Tr* tr, const TickCount64 timer, const Session_ID& sessionId);
 	virtual ~SendEvent();
 
 public:
@@ -25,3 +26,7 @@ public:
 public:
 	virtual void process(Event* event);
 };
+
+void makeSendEventToServer(Tr* tr, const TickCount64 timer);
+void makeSendEventToClient(Tr* tr, const TickCount64 timer, const std::vector<Session_ID>& sessionIdList);
+void makeSendEventToClient(Tr* tr, const TickCount64 timer, const Session_ID& sessionId);

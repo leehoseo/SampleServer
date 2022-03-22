@@ -14,7 +14,7 @@ public:
 
 public:
 	Proc();
-	~Proc();
+	virtual ~Proc();
 
 public:
 	virtual void process(Tr* tr) = 0;

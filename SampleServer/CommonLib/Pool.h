@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#pragma optimize ("", off)
 
 // Lock 추가해야한다.
 template< typename T>

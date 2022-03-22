@@ -30,6 +30,15 @@ void ActorManager::deletePlayerActor(const ActorKey& actorKey)
 	_playerActorPool.push(deletedPlayerActor);
 }
 
+void ActorManager::getActivePlayerActorSessionIds(std::vector<Session_ID>& sessionIdList)
+{
+	for (auto iter = _playerActorList.begin(); iter != _playerActorList.end(); ++iter)
+	{
+		PlayerActor* playerActor = iter->second;
+		sessionIdList.push_back(playerActor->getSessionId());
+	}
+}
+
 Pool<PlayerActor>& ActorManager::getPlayerActorPool()
 {
 	if (false == _playerActorPool.isValid())

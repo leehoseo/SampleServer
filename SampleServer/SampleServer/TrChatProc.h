@@ -11,7 +11,3 @@ public:
 public:
 	virtual void process(Tr* tr);
 };
-
-//insertarocList(TrId::TrChatReq, new TrChatReqProc());
-
-//MAKE_PROC(TrChatReq);

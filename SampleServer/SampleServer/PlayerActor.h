@@ -15,16 +15,16 @@ public:
 
 public:
 	// 생성시 초기화 또는 가져올때
-	void init();
+	virtual void init();
 
 	// 파괴될때
-	void release();
+	virtual void release();
 
 	// pop
-	void active();
+	virtual void active();
 
 	// push
-	void deactive();
+	virtual void deactive();
 
 
 private:

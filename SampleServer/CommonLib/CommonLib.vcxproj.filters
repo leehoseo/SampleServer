@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Iocp">
-      <UniqueIdentifier>{728f1224-5dbf-40fc-89e6-0092d28201d4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Thread">
       <UniqueIdentifier>{68bcf7af-c1ff-4956-b905-8f6bcf559e2f}</UniqueIdentifier>
     </Filter>
@@ -55,16 +52,19 @@
     <Filter Include="Tr\Authentication">
       <UniqueIdentifier>{a60bbafb-5ffa-4593-95b9-76f925e670f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{728f1224-5dbf-40fc-89e6-0092d28201d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Iocp.cpp">
-      <Filter>Iocp</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="Session.cpp">
-      <Filter>Iocp</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="Socket.cpp">
-      <Filter>Iocp</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="Thread.cpp">
       <Filter>Thread</Filter>
@@ -82,7 +82,7 @@
       <Filter>Base\Pattern</Filter>
     </ClCompile>
     <ClCompile Include="OverlappedBuffer.cpp">
-      <Filter>Iocp</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Logger</Filter>
@@ -144,13 +144,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Iocp.h">
-      <Filter>Iocp</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="Session.h">
-      <Filter>Iocp</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="Socket.h">
-      <Filter>Iocp</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="Base.h">
       <Filter>Base</Filter>
@@ -171,7 +171,7 @@
       <Filter>Base\Pattern</Filter>
     </ClInclude>
     <ClInclude Include="OverlappedBuffer.h">
-      <Filter>Iocp</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Logger</Filter>

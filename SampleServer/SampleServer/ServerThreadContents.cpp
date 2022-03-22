@@ -16,15 +16,11 @@ ServerThreadContents::~ServerThreadContents()
 
 void ServerThreadContents::insertAndRunThread()
 {
-	{
-		_aiThread.init(3);
-	}
-	{
-		_actionThread.init(2);
-	}
-	{
-		_contentsThread.init(1);
-	}
+	_aiThread.init(3);
+	_actionThread.init(2);
+	_contentsThread.init(1);
+	//_networkThread.init(1);
+	//_dispatcherThread.init(1);
 }
 
 
@@ -41,6 +37,12 @@ void ServerThreadContents::notifyOne(const ThreadType& type)
 	case ThreadType::eContents:
 		_contentsThread.notifyOne();
 		break;
+	//case ThreadType::eNetwork:
+	//	_networkThread.notifyOne();
+	//	break;
+	//case ThreadType::eDispatcher:
+	//	_dispatcherThread.notifyOne();
+	//	break;
 	case ThreadType::eCount:
 		break;
 	default:

@@ -18,12 +18,14 @@ public:
 public: 
 	virtual const ContentsType getType() = 0;
 
-	virtual void init(Actor* owner);
+	virtual void init();
+	virtual void active(Actor* owner);
+	virtual void deactive();
 	Actor* getOwner();
 
 	bool isValid();
 
 protected:
-	Actor* _owner;
+	Actor* _owner = nullptr;
 };
 

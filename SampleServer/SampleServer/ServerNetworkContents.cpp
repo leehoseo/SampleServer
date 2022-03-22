@@ -1,6 +1,7 @@
 #include "ServerNetworkContents.h"
 #include "Tr.h"
 #include "TrChatProc.h"
+#include "TrAuthProc.h"
 
 #pragma optimize("", off)
 
@@ -19,5 +20,6 @@ void ServerNetworkContents::recvTr(Tr* tr)
 	switch (tr->_trId)
 	{
 		CaseHandle(TrChatReq);
+		CaseHandle(TrNetworkConnectReq);
 	}
 }

@@ -167,6 +167,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame_Editor|x64'">
+    <ClCompile />
+    <ClCompile />
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ActorManager.cpp" />
     <ClCompile Include="CharacterActor.cpp" />
@@ -176,6 +180,7 @@
     <ClCompile Include="ServerIocp.cpp" />
     <ClCompile Include="ServerNetworkContents.cpp" />
     <ClCompile Include="ServerThreadContents.cpp" />
+    <ClCompile Include="TrAuthProc.cpp" />
     <ClCompile Include="TrChatProc.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +192,7 @@
     <ClInclude Include="ServerNetworkContents.h" />
     <ClInclude Include="ServerThreadContents.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TrAuthProc.h" />
     <ClInclude Include="TrChatProc.h" />
   </ItemGroup>
   <ItemGroup>

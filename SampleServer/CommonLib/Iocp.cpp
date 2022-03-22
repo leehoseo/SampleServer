@@ -3,11 +3,11 @@
 #include "Session.h"
 #include "Logger.h"
 #include "PoolManager.h"
-#include "Dispatcher.h"
 #include "RecvEvent.h"
 #include <WS2tcpip.h>
 #include <thread>
 #include "Tr.h"
+#include "TrAuth.h"
 
 #pragma optimize ("" , off )
 
@@ -60,6 +60,14 @@ void Iocp::execute()
 			std::string connectStr = "Accept New Clients ID: " + std::to_string(overlappedBuffer->_session_id);
 			Logger::getInstance()->log(Logger::Level::DEBUG, connectStr);
 
+			{
+				TrNetworkConnectReq* req = new TrNetworkConnectReq();
+				memcpy(req, overlappedBuffer->_buffer, readEvent.dwNumberOfBytesTransferred);
+				req->_sessionId = overlappedBuffer->_session_id;
+
+				makeRecvEvent(req, 0);
+			}
+
 			recv(onEventSession);
 			accept();
 		}
@@ -71,7 +79,6 @@ void Iocp::execute()
 		break;
 		case BufferType::RECV:
 		{
-			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿?.
 			if (0 == readEvent.dwNumberOfBytesTransferred)
 			{
 				disconnect(onEventSession);
@@ -80,9 +87,7 @@ void Iocp::execute()
 			{
 				Tr* tr = new Tr();
 				memcpy(tr, overlappedBuffer->_buffer, readEvent.dwNumberOfBytesTransferred);
-
-				RecvEvent* trEvent = new RecvEvent(tr, 0);
-				Dispatcher::getInstance()->push(trEvent);
+				makeRecvEvent(tr, 0);
 
 				recv(onEventSession);
 			}
@@ -127,7 +132,7 @@ const bool Iocp::bind(Session* session, sockaddr_in& socketAddr)
 	return true;
 }
 
-const bool Iocp::connect(Session* session, sockaddr_in& socketAddr)
+const bool Iocp::connect(Session* session, sockaddr_in& socketAddr, TrNetworkConnectReq* tr)
 {
 	LPFN_CONNECTEX connectFunc;
 
@@ -139,6 +144,9 @@ const bool Iocp::connect(Session* session, sockaddr_in& socketAddr)
 
 	overlappedBuffer->_session_id = session->getSessionId();
 	overlappedBuffer->_type = BufferType::CONNECT;
+	overlappedBuffer->_wsaBuffer.len = tr->_maxSize;
+
+	memcpy(overlappedBuffer->_buffer, tr, tr->_maxSize);
 
 	WSAIoctl(connectSocket, SIO_GET_EXTENSION_FUNCTION_POINTER,
 		&guid, sizeof(guid),
@@ -146,7 +154,7 @@ const bool Iocp::connect(Session* session, sockaddr_in& socketAddr)
 		&dwbyte, NULL, NULL);
 
 	if (FALSE == connectFunc(connectSocket, reinterpret_cast<SOCKADDR*>(&socketAddr),
-							 sizeof(socketAddr), NULL, NULL, NULL,
+							 sizeof(socketAddr), overlappedBuffer->_buffer, tr->_maxSize, NULL,
 							 reinterpret_cast<LPOVERLAPPED>(&overlappedBuffer->_overlapped)) 
 		) 
 	{
@@ -179,7 +187,8 @@ const bool Iocp::accept()
 		&acceptFunc, sizeof(acceptFunc),
 		&dwbyte, NULL, NULL);
 
-	acceptFunc(_mainSession->getSocketHandle(), newSession->getSocketHandle(), &overlappedBuffer->_buffer, 0
+
+	acceptFunc(_mainSession->getSocketHandle(), newSession->getSocketHandle(), &overlappedBuffer->_buffer, sizeof(TrNetworkConnectReq)
 		, sizeof(sockaddr_in) + 16, sizeof(sockaddr_in) + 16, &dwbyte, reinterpret_cast<LPOVERLAPPED>(&overlappedBuffer->_overlapped));
 
 	return true;
@@ -289,4 +298,9 @@ void Iocp::getEvent(IocpEvents& output, int timeoutMs)
 	{
 		output.m_eventCount = 0;
 	}
+}
+
+const Session_ID& Iocp::getMainSessionId()
+{
+	return _mainSession->getSessionId();
 }

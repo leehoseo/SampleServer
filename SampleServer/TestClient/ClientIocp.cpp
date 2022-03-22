@@ -2,6 +2,7 @@
 #include "PoolManager.h"
 #include "Logger.h"
 #include <WS2tcpip.h>
+#include "TrAuth.h"
 
 #pragma optimize ("" , off )
 
@@ -31,7 +32,10 @@ void ClientIocp::init()
 		server_addr.sin_port = htons(13480);
 		inet_pton(AF_INET, "220.74.6.41", &server_addr.sin_addr.s_addr);
 		//inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr.s_addr);
-		connect(_mainSession, server_addr);
+
+		TrNetworkConnectReq ack;
+		ack.set("hello");
+		connect(_mainSession, server_addr, &ack);
 	}
 
 	//recv(_mainSession);
