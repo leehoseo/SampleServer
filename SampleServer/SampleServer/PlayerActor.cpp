@@ -26,8 +26,9 @@ void PlayerActor::init()
 
 void PlayerActor::release()
 {
-	__super::release();
 	_sessionId = undefinedSessionId;
+
+	__super::release();
 }
 
 void PlayerActor::active()

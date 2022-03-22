@@ -38,6 +38,23 @@ public:
 };
 #pragma pack(pop)
 
+#pragma pack(push, 1)    // 1바이트 크기로 정렬 byte padding
+class TrNetworkDisConnectReq : public Tr
+{
+public:
+	TrNetworkDisConnectReq() : Tr(TrId::TrNetworkDisConnectReq, ThreadType::eContents, sizeof(TrNetworkDisConnectReq)) {}
+	~TrNetworkDisConnectReq() {}
+
+	void set(const Session_ID& sessionId)
+	{
+		// 검증을 넣는다.
+		_sessionId = sessionId;
+	}
+public:
+	Session_ID _sessionId = undefinedSessionId;
+};
+#pragma pack(pop)
+
 
 #pragma pack(push, 1)    // 1바이트 크기로 정렬 byte padding
 class TrActorLoginAck : public Tr

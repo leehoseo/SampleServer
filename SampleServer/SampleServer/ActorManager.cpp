@@ -23,11 +23,33 @@ PlayerActor* ActorManager::createPlayerActor()
 	return newPlayerActor;
 }
 
-void ActorManager::deletePlayerActor(const ActorKey& actorKey)
-{
-	PlayerActor* deletedPlayerActor = _playerActorList.find(actorKey)->second;
+//void ActorManager::deletePlayerActor(const ActorKey& actorKey)
+//{
+//	auto iter = _playerActorList.find(actorKey);
+//	if (_playerActorList.end() == iter)
+//	{
+//		return;
+//	}
+//
+//	PlayerActor* deletedPlayerActor = iter->second;
+//
+//	_playerActorPool.push(deletedPlayerActor);
+//	_playerActorList.erase(actorKey);
+//}
 
-	_playerActorPool.push(deletedPlayerActor);
+void ActorManager::deletePlayerActor(const Session_ID& sessionId)
+{
+	for (auto iter = _playerActorList.begin(); iter != _playerActorList.end(); ++iter)
+	{
+		PlayerActor* deletedPlayerActor = iter->second;
+		if (deletedPlayerActor->getSessionId() == sessionId)
+		{
+			_playerActorPool.push(deletedPlayerActor);
+			_playerActorList.erase(iter);
+
+			return;
+		}
+	}
 }
 
 void ActorManager::getActivePlayerActorSessionIds(std::vector<Session_ID>& sessionIdList)

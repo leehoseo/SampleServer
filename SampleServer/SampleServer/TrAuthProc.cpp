@@ -3,6 +3,7 @@
 #include "ActorManager.h"
 #include "PlayerActor.h"
 #include "SendEvent.h"
+
 void TrNetworkConnectReqProc::process(Tr* tr)
 {
 	TrNetworkConnectReq* req = static_cast<TrNetworkConnectReq*>(tr);
@@ -36,4 +37,17 @@ void TrNetworkConnectReqProc::process(Tr* tr)
 		ack->set(newPlayer->getActorKey(), newPlayer->getName().c_str());
 		makeSendEventToClient(ack, 0, sessionIdList);
 	}
+}
+
+void TrNetworkDisConnectReqProc::process(Tr* tr)
+{
+	TrNetworkDisConnectReq* req = static_cast<TrNetworkDisConnectReq*>(tr);
+
+	// 검증
+	{
+		// 뭐 스트링 그런거 하면 될듯
+	}
+
+	// 새로운 플레이어 생성
+	ActorManager::getInstance()->deletePlayerActor(req->_sessionId);
 }

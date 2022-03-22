@@ -21,5 +21,6 @@ void ServerNetworkContents::recvTr(Tr* tr)
 	{
 		CaseHandle(TrChatReq);
 		CaseHandle(TrNetworkConnectReq);
+		CaseHandle(TrNetworkDisConnectReq);
 	}
 }

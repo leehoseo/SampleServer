@@ -11,7 +11,8 @@ public:
 	virtual ~ActorManager();
 
 	PlayerActor* createPlayerActor();
-	void deletePlayerActor(const ActorKey& actorKey);
+	//void deletePlayerActorByActorKey(const ActorKey& actorKey);
+	void deletePlayerActor(const Session_ID& sessionId);
 
 	void getActivePlayerActorSessionIds(std::vector<Session_ID>& sessionIdList);
 

@@ -29,8 +29,9 @@ void CharacterActor::init()
 
 void CharacterActor::release()
 {
-	__super::release();
 	_name.clear();
+
+	__super::release();
 }
 
 void CharacterActor::active()

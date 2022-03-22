@@ -4,6 +4,7 @@
 #include "Logger.h"
 #include "PoolManager.h"
 #include "RecvEvent.h"
+#include "SendEvent.h"
 #include <WS2tcpip.h>
 #include <thread>
 #include "Tr.h"
@@ -98,6 +99,17 @@ void Iocp::execute()
 			_sessionList.erase(onEventSession->getSessionId());
 
 			PoolManager::getInstance()->getSessionPool().push(onEventSession);
+
+			// ActorManager에 대한 Erease 처리도 추가해야한다.
+			{
+				std::string str = "Disconnect Clients ID: " + std::to_string(onEventSession->getSessionId());
+				Logger::getInstance()->log(Logger::Level::DEBUG, str);
+
+				TrNetworkDisConnectReq* req = new TrNetworkDisConnectReq();
+				req->set(onEventSession->getSessionId());
+
+				makeSendEventToServer(req, 0);
+			}
 		}
 		break;
 		case BufferType::CONNECT:
