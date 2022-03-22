@@ -22,9 +22,9 @@ void TrNetworkConnectReqProc::process(Tr* tr)
 
 	// 접속 정보를 다시 클라이언트에게 보내준다.
 	{
-		TrNetworkConnectAck ack;
-		ack.set(newPlayer->getActorKey());
-		makeSendEventToClient(&ack, 0, newPlayer->getSessionId());
+		TrNetworkConnectAck* ack = new TrNetworkConnectAck();
+		ack->set(newPlayer->getActorKey());
+		makeSendEventToClient(ack, 0, newPlayer->getSessionId());
 	}
 
 	// 다른 플레이어들에게 actor를 생성하라는 요청을 보냄
@@ -32,8 +32,8 @@ void TrNetworkConnectReqProc::process(Tr* tr)
 		std::vector<Session_ID> sessionIdList;
 		ActorManager::getInstance()->getActivePlayerActorSessionIds(sessionIdList);
 
-		TrActorLoginAck ack;
-		ack.set(newPlayer->getActorKey(), newPlayer->getName().c_str());
-		makeSendEventToClient(&ack, 0, sessionIdList);
+		TrActorLoginAck* ack = new TrActorLoginAck();
+		ack->set(newPlayer->getActorKey(), newPlayer->getName().c_str());
+		makeSendEventToClient(ack, 0, sessionIdList);
 	}
 }

@@ -10,12 +10,17 @@ int main()
 	WSAStartup(MAKEWORD(2, 2), &w);
 
 	SystemManager::getInstance()->init(new ServerActor(), new ServerIocp());
-	//TrQueueManager::getInstance()->init();
 
 	Iocp* iocp = SystemManager::getInstance()->getIcop();
 	iocp->init();
 
 	SystemManager::getInstance()->insertAndRunThread();
+
+	while (true)
+	{
+		iocp->execute();
+	}
+
 
 	WSACleanup();
 

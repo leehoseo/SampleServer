@@ -1,7 +1,6 @@
 #pragma once
 #include "ThreadContents.h"
 #include "TrThread.h"
-#include "NetworkThread.h"
 #include "DispatcherThread.h"
 
 class ServerThreadContents : public ThreadContents
@@ -18,7 +17,6 @@ private:
 	TrThread _aiThread;
 	TrThread _actionThread;
 	TrThread _contentsThread;
-	//NetworkThread _networkThread;
-	//DispatcherThread _dispatcherThread;
+	DispatcherThread _dispatcherThread;
 };
 

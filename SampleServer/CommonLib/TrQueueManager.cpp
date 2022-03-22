@@ -3,6 +3,8 @@
 #include "SystemManager.h"
 #include "Actor.h"
 #include "ThreadContents.h"
+#include "NetworkContents.h"
+
 TrQueueManager::TrQueueManager()
 {
 }
@@ -13,6 +15,8 @@ TrQueueManager::~TrQueueManager()
 
 void TrQueueManager::push(Tr* tr)
 {
+	Actor* mainActor = SystemManager::getInstance()->getMainActor();
+
 	switch (tr->_type)
 	{
 		case ThreadType::eAi:
@@ -33,9 +37,10 @@ void TrQueueManager::push(Tr* tr)
 			_contentsTrList.push(tr);
 		}
 		break;
-		case ThreadType::eCount:
+		case ThreadType::eCount: // 클라이언트 따로 쓰래드에 넣지않고 바로 Proc을 호출한다.
 		{
-
+			NetworkContents* contents = static_cast<NetworkContents*>(mainActor->getContents(ContentsType::eNetwork));
+			contents->recvTr(tr);
 		}
 		break;
 		default:
@@ -44,10 +49,12 @@ void TrQueueManager::push(Tr* tr)
 		}
 		break;
 	}
-
-	Actor* mainActor = SystemManager::getInstance()->getMainActor();
-	ThreadContents* contents = static_cast<ThreadContents*>(mainActor->getContents(ContentsType::eThread));
-	contents->notifyOne(tr->_type);
+	
+	if (ThreadType::eCount != tr->_type)
+	{
+		ThreadContents* contents = static_cast<ThreadContents*>(mainActor->getContents(ContentsType::eThread));
+		contents->notifyOne(tr->_type);
+	}
 }
 
 Tr* TrQueueManager::pop(const ThreadType& type)
