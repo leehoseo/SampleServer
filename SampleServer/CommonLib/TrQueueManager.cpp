@@ -5,6 +5,8 @@
 #include "ThreadContents.h"
 #include "NetworkContents.h"
 
+#pragma optimize ("", off)
+
 TrQueueManager::TrQueueManager()
 {
 }
@@ -37,12 +39,17 @@ void TrQueueManager::push(Tr* tr)
 			_contentsTrList.push(tr);
 		}
 		break;
-		case ThreadType::eCount: // 클라이언트 따로 쓰래드에 넣지않고 바로 Proc을 호출한다.
+		case ThreadType::eClient: // 클라이언트 따로 쓰래드에 넣지않고 바로 Proc을 호출한다.
 		{
-			NetworkContents* contents = static_cast<NetworkContents*>(mainActor->getContents(ContentsType::eNetwork));
-			contents->recvTr(tr);
+			ScopeLock lock(&_clientLock);
+			_clientTrList.push(tr);
 		}
 		break;
+		case ThreadType::eCount:
+		{
+		}
+		break;
+
 		default:
 		{
 
@@ -60,27 +67,33 @@ void TrQueueManager::push(Tr* tr)
 Tr* TrQueueManager::pop(const ThreadType& type)
 {
 	Tr* outTr = nullptr;
+	Lock* lock = nullptr;
+	std::queue<Tr*>* list = nullptr;
+
 	switch (type)
 	{
 	case ThreadType::eAi:
 	{
-		ScopeLock lock(&_aiLock);
-		outTr = _aiTrList.front();
-		_aiTrList.pop();
+		lock = &_aiLock;
+		list = &_aiTrList;
 	}
 	break;
 	case ThreadType::eAction:
 	{
-		ScopeLock lock(&_actionLock);
-		outTr = _actionTrList.front();
-		_actionTrList.pop();
+		lock = &_actionLock;
+		list = &_actionTrList;
 	}
 	break;
 	case ThreadType::eContents:
 	{
-		ScopeLock lock(&_contentsLock);
-		outTr = _contentsTrList.front();
-		_contentsTrList.pop();
+		lock = &_contentsLock;
+		list = &_contentsTrList;
+	}
+	break;
+	case ThreadType::eClient: // 클라이언트 따로 쓰래드에 넣지않고 바로 Proc을 호출한다.
+	{
+		lock = &_clientLock;
+		list = &_clientTrList;
 	}
 	break;
 	case ThreadType::eCount:
@@ -93,6 +106,23 @@ Tr* TrQueueManager::pop(const ThreadType& type)
 
 	}
 	break;
+	}
+
+	if (nullptr == lock || nullptr == list)
+	{
+		return nullptr;
+	}
+
+	{
+		ScopeLock lock(&(*lock));
+
+		if (true == list->empty())
+		{
+			return nullptr;
+		}
+
+		outTr = list->front();
+		list->pop();
 	}
 
 	return outTr;

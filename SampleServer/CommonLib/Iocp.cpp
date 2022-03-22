@@ -107,7 +107,6 @@ void Iocp::execute()
 
 				TrNetworkDisConnectReq* req = new TrNetworkDisConnectReq();
 				req->set(onEventSession->getSessionId());
-
 				makeSendEventToServer(req, 0);
 			}
 		}
@@ -115,6 +114,7 @@ void Iocp::execute()
 		case BufferType::CONNECT:
 		{
 			recv(onEventSession);
+			onConnect();
 		}
 		break;
 		}
@@ -275,7 +275,14 @@ void Iocp::send(Tr* tr)
 
 void Iocp::send(const Session_ID sessionId, Tr* tr)
 {
-	Session* session = _sessionList.find(sessionId)->second;
+	auto iter = _sessionList.find(sessionId);
+	if (_sessionList.end() == iter)
+	{
+		// ¿¡·¯
+		return;
+	}
+
+	Session* session = iter->second;
 	send(session, tr);
 }
 
@@ -303,6 +310,11 @@ void Iocp::addSession(Session* session)
 	_sessionList.insert(std::make_pair(session->getSessionId(), session));
 }
 
+void Iocp::deleteSession(Session* session)
+{
+	_sessionList.erase(session->getSessionId());
+}
+
 void Iocp::getEvent(IocpEvents& output, int timeoutMs)
 {
 	const bool result = GetQueuedCompletionStatusEx(_handle, output.m_events, Iocp::MAX_EVENT_COUNT, (ULONG*)&output.m_eventCount, timeoutMs, FALSE);
@@ -315,4 +327,8 @@ void Iocp::getEvent(IocpEvents& output, int timeoutMs)
 const Session_ID& Iocp::getMainSessionId()
 {
 	return _mainSession->getSessionId();
+}
+
+void Iocp::onConnect()
+{
 }

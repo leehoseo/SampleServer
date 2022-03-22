@@ -12,6 +12,7 @@ enum class ThreadType
 	eContents,
 	eNetwork,
 	eDispatcher,
+	eClient,
 
 	eCount,
 };

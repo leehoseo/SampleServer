@@ -41,10 +41,10 @@ public:
 	void		send( const std::vector<Session_ID> sessionIdList , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
 
 	void addSession(Session* session);
+	void deleteSession(Session* session);
 	void getEvent(IocpEvents& output, int timeoutMs);
 
 	const Session_ID& getMainSessionId();
-
 protected:
 	int _threadCount; // IOCP 생성시 및 소켓 추가시 계속 사용되는 값인지라...
 
@@ -53,6 +53,8 @@ protected:
 
 	// client, Server Accept용으로 쓰는 세션은 따로 보관한다.
 	Session* _mainSession = nullptr;
+
+	virtual void onConnect();
 };
 
 // IOCP의 GetQueuedCompletionStatus로 받은 I/O 완료신호들

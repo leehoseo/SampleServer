@@ -25,7 +25,7 @@ public:
 class TrNetworkConnectAck : public Tr
 {
 public:
-	TrNetworkConnectAck() : Tr(TrId::TrNetworkConnectAck, ThreadType::eCount, sizeof(TrNetworkConnectAck)) {}
+	TrNetworkConnectAck() : Tr(TrId::TrNetworkConnectAck, ThreadType::eClient, sizeof(TrNetworkConnectAck)) {}
 	~TrNetworkConnectAck() {}
 
 	void set(const ActorKey& actorKey)
@@ -60,7 +60,7 @@ public:
 class TrActorLoginAck : public Tr
 {
 public:
-	TrActorLoginAck() : Tr(TrId::TrActorLoginAck, ThreadType::eCount, sizeof(TrActorLoginAck)) {}
+	TrActorLoginAck() : Tr(TrId::TrActorLoginAck, ThreadType::eClient, sizeof(TrActorLoginAck)) {}
 	~TrActorLoginAck() {}
 
 	void set(const ActorKey& actorKey, const char* name)

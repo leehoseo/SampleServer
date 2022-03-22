@@ -25,5 +25,8 @@ private:
 
 	Lock _contentsLock;
 	std::queue<Tr*> _contentsTrList;
+
+	Lock _clientLock;
+	std::queue<Tr*> _clientTrList; // 클라이언트에서 사용할 리스트
 };
 
