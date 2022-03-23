@@ -1,42 +1,40 @@
 #pragma once
 #include "TrId.h"
+#include "Singleton.h"
 #include <unordered_map>
+
+#define MAKE_PROC(trId)																		\
+class trId##Proc : public Proc																\
+{																							\
+public:																						\
+	trId##Proc() : Proc() { ProcManager::getInstance()->insertProc(TrId::##trId , this); }	\
+	virtual ~trId##Proc() {}																\
+																							\
+public:																						\
+	void process(Tr* tr);																	\
+};																							\
+
+#define MAKE_PROCESS(trId)				\
+trId##Proc trId##Instance;				\
+void trId##Proc::process(Tr* tr)		\
 
 class Tr;
 class Proc
 {
 public:
-	static std::unordered_map<TrId, Proc*> _procList;
-	static void insertProcList(TrId id, Proc* proc)
-	{
-		Proc::_procList.insert(std::make_pair(id, proc));
-	}
-
-public:
-	Proc();
-	virtual ~Proc();
-
-public:
+	Proc() {};
+	virtual ~Proc() {};
 	virtual void process(Tr* tr) = 0;
 };
 
-static void insertProcList(TrId id, Proc* proc)
+class ProcManager : public Singleton<ProcManager>
 {
-	Proc::_procList.insert(std::make_pair(id, proc));
-}
+public:
+	ProcManager() {};
+	virtual ~ProcManager() {};
 
-#define MAKE_PROC(trId)								\
-class trId##Proc : public Proc						\
-{													\
-public:												\
-	trId##Proc() : Proc() {}						\
-	virtual ~trId##Proc() {}						\
-													\
-public:												\
-	virtual void process(Tr* tr);					\
-};													\
-													\
-insertProcList( TrId::trId, new trId##Proc()  );	\
-
-/*클론 작업은 없어도 될 것 같다 하나의 Proc으로 만 돌려서 써보자*/
-/*Proc* clone() { return new trId##Proc(); };*/
+	void insertProc(TrId id, Proc* proc);
+	Proc* getProc(TrId id);
+private:
+	std::unordered_map<TrId, Proc*> _procList;
+};

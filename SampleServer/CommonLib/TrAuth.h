@@ -9,15 +9,6 @@ class TrNetworkConnectReq : public Tr
 public:
 	TrNetworkConnectReq() : Tr(TrId::TrNetworkConnectReq, ThreadType::eContents, sizeof(TrNetworkConnectReq)) {}
 	~TrNetworkConnectReq() {}
-
-	void set(const char* name)
-	{
-		// 검증을 넣는다.
-		strcpy_s(_name, name);
-	}
-public:
-	char _name[60] = {};
-	Session_ID _sessionId = undefinedSessionId;	// 이친구만 서버에서 채워진다. 구현의 편리를 위해서
 };
 #pragma pack(pop)
 
@@ -55,6 +46,22 @@ public:
 };
 #pragma pack(pop)
 
+#pragma pack(push, 1)    // 1바이트 크기로 정렬 byte padding
+class TrActorLoginReq : public Tr
+{
+public:
+	TrActorLoginReq() : Tr(TrId::TrActorLoginReq, ThreadType::eContents, sizeof(TrActorLoginReq)) {}
+	~TrActorLoginReq() {}
+
+	void set(const char* name)
+	{
+		// 검증을 넣는다.
+		strcpy_s(_name, name);
+	}
+public:
+	char _name[60] = {};
+};
+#pragma pack(pop)
 
 #pragma pack(push, 1)    // 1바이트 크기로 정렬 byte padding
 class TrActorLoginAck : public Tr
@@ -63,14 +70,16 @@ public:
 	TrActorLoginAck() : Tr(TrId::TrActorLoginAck, ThreadType::eClient, sizeof(TrActorLoginAck)) {}
 	~TrActorLoginAck() {}
 
-	void set(const ActorKey& actorKey, const char* name)
+	void set(const ActorKey& actorKey, const char* name, const bool isSelfPlayer)
 	{
 		// 검증을 넣는다.
 		_actorKey = actorKey;
 		strcpy_s(_name, name);
+		_isSelfPlayer = isSelfPlayer;
 	}
 public:
 	ActorKey _actorKey = undefinedActorKey;
 	char _name[60] = {};
+	bool _isSelfPlayer;
 };
 #pragma pack(pop)

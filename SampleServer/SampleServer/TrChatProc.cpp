@@ -4,7 +4,7 @@
 #include <chrono>
 #include <thread>
 
-void TrChatReqProc::process(Tr* tr)
+MAKE_PROCESS(TrChatReq)
 {
 	TrChatReq* chatReq = static_cast<TrChatReq*>(tr);
 

@@ -55,6 +55,7 @@ protected:
 	Session* _mainSession = nullptr;
 
 	virtual void onConnect();
+	virtual void onAccept(Session* acceptSession );
 };
 
 // IOCP의 GetQueuedCompletionStatus로 받은 I/O 완료신호들

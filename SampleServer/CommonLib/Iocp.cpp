@@ -61,16 +61,10 @@ void Iocp::execute()
 			std::string connectStr = "Accept New Clients ID: " + std::to_string(overlappedBuffer->_session_id);
 			Logger::getInstance()->log(Logger::Level::DEBUG, connectStr);
 
-			{
-				TrNetworkConnectReq* req = new TrNetworkConnectReq();
-				memcpy(req, overlappedBuffer->_buffer, readEvent.dwNumberOfBytesTransferred);
-				req->_sessionId = overlappedBuffer->_session_id;
-
-				makeRecvEvent(req, 0);
-			}
-
 			recv(onEventSession);
 			accept();
+
+			onAccept(onEventSession);
 		}
 		break;
 		case BufferType::SEND:
@@ -330,5 +324,9 @@ const Session_ID& Iocp::getMainSessionId()
 }
 
 void Iocp::onConnect()
+{
+}
+
+void Iocp::onAccept(Session* acceptSession)
 {
 }

@@ -1,5 +1,6 @@
 #include "ServerIocp.h"
 #include "PoolManager.h"
+#include "Session.h"
 
 ServerIocp::ServerIocp()
 	: Iocp(1)
@@ -28,4 +29,9 @@ void ServerIocp::init()
 	listen(_mainSession);
 
 	accept();
+}
+
+void ServerIocp::onAccept(Session* acceptSession)
+{
+
 }
