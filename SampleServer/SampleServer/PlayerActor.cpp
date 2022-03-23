@@ -1,8 +1,13 @@
 #include "PlayerActor.h"
+#include "ServerFieldContents.h"
 
 PlayerActor::PlayerActor()
 	:CharacterActor()
 {
+#define MAKE_CONTENTS(Contents) { Contents* contents = new Server##Contents(); insertContents(contents); };
+
+	// NetworkContents
+	MAKE_CONTENTS(FieldContents);
 }
 
 PlayerActor::~PlayerActor()

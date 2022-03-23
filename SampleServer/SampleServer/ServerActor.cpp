@@ -4,10 +4,10 @@
 
 ServerActor::ServerActor()
 {
-#define InsertContents(Contents) { Contents* contents = new Server##Contents(); insertContents(contents); };
+#define MAKE_CONTENTS(Contents) { Contents* contents = new Server##Contents(); insertContents(contents); };
 
-	InsertContents(NetworkContents);
-	InsertContents(ThreadContents);
+	MAKE_CONTENTS(NetworkContents);
+	MAKE_CONTENTS(ThreadContents);
 }
 
 ServerActor::~ServerActor()

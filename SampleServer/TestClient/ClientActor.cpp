@@ -4,11 +4,11 @@
 
 ClientActor::ClientActor()
 {
-#define InsertContents(Contents) { Contents* contents = new Client##Contents(); insertContents(contents); };
+#define MAKE_CONTENTS(Contents) { Contents* contents = new Client##Contents(); insertContents(contents); };
 
 	// NetworkContents
-	InsertContents(NetworkContents);
-	InsertContents(ThreadContents);
+	MAKE_CONTENTS(NetworkContents);
+	MAKE_CONTENTS(ThreadContents);
 }
 
 ClientActor::~ClientActor()

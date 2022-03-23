@@ -6,6 +6,7 @@ enum class ContentsType
 {
 	eNetwork = 0,
 	eThread,
+	eField,
 	eCount,
 };
 

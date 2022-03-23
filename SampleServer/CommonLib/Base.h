@@ -33,3 +33,4 @@ private:																			\
 
 MAKE_KEY(ActorKey , unsigned int)
 MAKE_KEY(SessionKey, unsigned int)
+MAKE_KEY(FieldKey, unsigned int)
