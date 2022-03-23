@@ -23,29 +23,33 @@ void ServerNetworkContents::onAccept(Session* acceptSession)
 
 	TrNetworkConnectAck ack;
 	ack.set(newPlayerActor->getActorKey());
-	sendToClient(&ack, 0, newPlayerActor->getActorKey());
+	sendToActor(&ack, 0, newPlayerActor->getActorKey());
 }
 
-void ServerNetworkContents::sendToClient(Tr* tr, const TickCount64 timer, const std::vector<ActorKey>& actorKeyList)
+void ServerNetworkContents::sendToActor(Tr* tr, const TickCount64 timer, const std::vector<ActorKey>& actorKeyList)
 {
 	//SendEvent* sendEvent = new SendEvent(tr, timer, sessionIdList);
 	//Dispatcher::getInstance()->push(sendEvent);
 }
 
-void ServerNetworkContents::sendToClient(Tr* tr, const TickCount64 timer, const std::vector<SessionKey>& sessionKeyList)
+void ServerNetworkContents::sendToActor(Tr* tr, const TickCount64 timer, const std::vector<SessionKey>& sessionKeyList)
 {
 	SendEvent* sendEvent = new SendEvent(tr, timer, sessionKeyList);
 	Dispatcher::getInstance()->push(sendEvent);
 }
 
-void ServerNetworkContents::sendToClient(Tr* tr, const TickCount64 timer, const ActorKey& actorKey)
+void ServerNetworkContents::sendToActor(Tr* tr, const TickCount64 timer, const ActorKey& actorKey)
 {
 	//SendEvent* sendEvent = new SendEvent(tr, timer, sessionId);
 	//Dispatcher::getInstance()->push(sendEvent);
 }
 
-void ServerNetworkContents::sendToClient(Tr* tr, const TickCount64 timer, const SessionKey& sessionKey)
+void ServerNetworkContents::sendToActor(Tr* tr, const TickCount64 timer, const SessionKey& sessionKey)
 {
 	SendEvent* sendEvent = new SendEvent(tr, timer, sessionKey);
 	Dispatcher::getInstance()->push(sendEvent);
+}
+
+void ServerNetworkContents::sendToAllActor()
+{
 }

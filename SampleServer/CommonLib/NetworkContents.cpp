@@ -16,12 +16,6 @@ NetworkContents::~NetworkContents()
 {
 }
 
-void NetworkContents::init(Actor* owner)
-{
-	__super::init(owner);
-	_iocp = SystemManager::getInstance()->getIcop();
-}
-
 void NetworkContents::sendToServer(Tr* tr, const TickCount64 timer)
 {
 	SendEvent* sendEvent = new SendEvent(tr, timer, SystemManager::getInstance()->getIcop()->getMainSessionKey());

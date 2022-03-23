@@ -14,10 +14,6 @@ public:
 public:
 	virtual const ContentsType getType() { return ContentsType::eNetwork; };
 	void recvTr(Tr* tr);
-	virtual void init(Actor* owner);
-
 	void sendToServer(Tr* tr, const TickCount64 timer);
 	void recvTrEvent(Tr* tr, const TickCount64 timer);
-protected:
-	Iocp* _iocp = nullptr;
 };

@@ -12,9 +12,13 @@ public:
 	void onAccept(Session* acceptSession);
 
 public:
-	void sendToClient(Tr* tr, const TickCount64 timer, const std::vector<ActorKey>& actorKeyList);
-	void sendToClient(Tr* tr, const TickCount64 timer, const std::vector<SessionKey>& sessionKeyList);
-	void sendToClient(Tr* tr, const TickCount64 timer, const ActorKey& actorKey);
-	void sendToClient(Tr* tr, const TickCount64 timer, const SessionKey& sessionKey);
+	void sendToActor(Tr* tr, const TickCount64 timer, const std::vector<ActorKey>& actorKeyList);
+	void sendToActor(Tr* tr, const TickCount64 timer, const ActorKey& actorKey);
+
+	void sendToActor(Tr* tr, const TickCount64 timer, const std::vector<SessionKey>& sessionKeyList);
+	void sendToActor(Tr* tr, const TickCount64 timer, const SessionKey& sessionKey);
+
+	// field 정보가 있긴 해야할것 같음
+	void sendToAllActor();
 };
 
