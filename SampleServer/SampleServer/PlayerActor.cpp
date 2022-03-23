@@ -9,14 +9,14 @@ PlayerActor::~PlayerActor()
 {
 }
 
-const Session_ID& PlayerActor::getSessionId()
+const SessionKey& PlayerActor::getSessionKey()
 {
-	return _sessionId;
+	return _sessionKey;
 }
 
-void PlayerActor::setSessionId(const Session_ID& sessionId)
+void PlayerActor::setSessionKey(const SessionKey& sessionKey)
 {
-	_sessionId = sessionId;
+	_sessionKey = sessionKey;
 }
 
 void PlayerActor::init()
@@ -26,7 +26,7 @@ void PlayerActor::init()
 
 void PlayerActor::release()
 {
-	_sessionId = undefinedSessionId;
+	_sessionKey.clear();
 
 	__super::release();
 }

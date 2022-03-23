@@ -17,32 +17,32 @@ PlayerActor* ActorManager::createPlayerActor()
 {
 	PlayerActor* newPlayerActor = _playerActorPool.pop();
 
-	_playerActorList.insert(std::make_pair(newPlayerActor->getActorKey(), newPlayerActor));
+	_playerActorList.insert(std::make_pair(newPlayerActor->getActorKey().get(), newPlayerActor));
 
 	// 기타 세팅은 외부에서 한다.
 	return newPlayerActor;
 }
 
-//void ActorManager::deletePlayerActor(const ActorKey& actorKey)
-//{
-//	auto iter = _playerActorList.find(actorKey);
-//	if (_playerActorList.end() == iter)
-//	{
-//		return;
-//	}
-//
-//	PlayerActor* deletedPlayerActor = iter->second;
-//
-//	_playerActorPool.push(deletedPlayerActor);
-//	_playerActorList.erase(actorKey);
-//}
+void ActorManager::deletePlayerActor(const ActorKey& actorKey)
+{
+	auto iter = _playerActorList.find(actorKey.get());
+	if (_playerActorList.end() == iter)
+	{
+		return;
+	}
 
-void ActorManager::deletePlayerActor(const Session_ID& sessionId)
+	PlayerActor* deletedPlayerActor = iter->second;
+
+	_playerActorPool.push(deletedPlayerActor);
+	_playerActorList.erase(actorKey.get());
+}
+
+void ActorManager::deletePlayerActor(const SessionKey& sessionKey)
 {
 	for (auto iter = _playerActorList.begin(); iter != _playerActorList.end(); ++iter)
 	{
 		PlayerActor* deletedPlayerActor = iter->second;
-		if (deletedPlayerActor->getSessionId() == sessionId)
+		if (deletedPlayerActor->getSessionKey() == sessionKey)
 		{
 			_playerActorPool.push(deletedPlayerActor);
 			_playerActorList.erase(iter);
@@ -52,12 +52,12 @@ void ActorManager::deletePlayerActor(const Session_ID& sessionId)
 	}
 }
 
-void ActorManager::getActivePlayerActorSessionIds(std::vector<Session_ID>& sessionIdList)
+void ActorManager::getActivePlayerActorSessionIds(std::vector<SessionKey>& sessionKeyList)
 {
 	for (auto iter = _playerActorList.begin(); iter != _playerActorList.end(); ++iter)
 	{
 		PlayerActor* playerActor = iter->second;
-		sessionIdList.push_back(playerActor->getSessionId());
+		sessionKeyList.push_back(playerActor->getSessionKey());
 	}
 }
 

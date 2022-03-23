@@ -37,19 +37,19 @@ public:
 	void		recv(Session* session); // overlapeed 수신 준비 ( 백그라운드에서 수신 처리를 함)
 	void		send(Session* session , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
 	void		send(Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
-	void		send( const Session_ID sessionId , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
-	void		send( const std::vector<Session_ID> sessionIdList , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
+	void		send( const SessionKey sessionKey , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
+	void		send( const std::vector<SessionKey> sessionKeyList , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
 
 	void addSession(Session* session);
 	void deleteSession(Session* session);
 	void getEvent(IocpEvents& output, int timeoutMs);
 
-	const Session_ID& getMainSessionId();
+	const SessionKey& getMainSessionKey();
 protected:
 	int _threadCount; // IOCP 생성시 및 소켓 추가시 계속 사용되는 값인지라...
 
 	HANDLE _handle;
-	std::unordered_map< Session_ID, Session*> _sessionList;
+	std::unordered_map< SessionKey::Type, Session*> _sessionList;
 
 	// client, Server Accept용으로 쓰는 세션은 따로 보관한다.
 	Session* _mainSession = nullptr;

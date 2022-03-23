@@ -33,7 +33,6 @@ void RecvEventHandle::process(Event* event)
 	TrQueueManager::getInstance()->push( tr );
 }
 
-
 void makeRecvEvent(Tr* tr, const TickCount64 timer)
 {
 	RecvEvent* trEvent = new RecvEvent(tr, timer);

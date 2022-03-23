@@ -14,13 +14,14 @@ Actor* Contents::getOwner()
 	return _owner;
 }
 
-void Contents::init()
-{
-}
-
-void Contents::active(Actor* owner)
+void Contents::init(Actor* owner)
 {
 	_owner = owner;
+}
+
+void Contents::active()
+{
+
 }
 
 void Contents::deactive()

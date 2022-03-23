@@ -34,7 +34,7 @@ void ClientIocp::init()
 		//inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr.s_addr);
 
 		TrNetworkConnectReq ack;
-		ack.set("hello");
+		ack.set();
 		connect(_mainSession, server_addr, &ack);
 	}
 

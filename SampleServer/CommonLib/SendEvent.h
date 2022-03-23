@@ -4,17 +4,16 @@
 #include <vector>
 
 class Tr;
-
 class SendEvent : public Event
 {
 public:
-	SendEvent(Tr* tr, const TickCount64 timer, const std::vector<Session_ID>& sessionIdList);
-	SendEvent(Tr* tr, const TickCount64 timer, const Session_ID& sessionId);
+	SendEvent(Tr* tr, const TickCount64 timer, const std::vector<SessionKey>& sessionKeyList);
+	SendEvent(Tr* tr, const TickCount64 timer, const SessionKey& sessionKey);
 	virtual ~SendEvent();
 
 public:
 	Tr* _tr;
-	std::vector<Session_ID> _sessionIdList;
+	std::vector<SessionKey> _sessionKeyList;
 };
 
 class SendEventHandle : public EventHandle
@@ -26,7 +25,3 @@ public:
 public:
 	virtual void process(Event* event);
 };
-
-void makeSendEventToServer(Tr* tr, const TickCount64 timer);
-void makeSendEventToClient(Tr* tr, const TickCount64 timer, const std::vector<Session_ID>& sessionIdList);
-void makeSendEventToClient(Tr* tr, const TickCount64 timer, const Session_ID& sessionId);

@@ -13,7 +13,7 @@ public:
 
 public:
 	SOCKET&				getSocketHandle();
-	const Session_ID&	getSessionId();
+	const SessionKey&	getSessionKey();
 
 public:	// 생성시 초기화 또는 가져올때
 	void init();
@@ -28,6 +28,6 @@ public:	// 생성시 초기화 또는 가져올때
 	void deactive();
 
 private:
-	Session_ID		_id = 0;
+	SessionKey		_key;
 	Socket			_socket;
 };

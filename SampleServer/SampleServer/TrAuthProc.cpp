@@ -4,6 +4,7 @@
 #include "PlayerActor.h"
 #include "SendEvent.h"
 
+// 지금은 쓰이는곳 없다. 최초로 서버와 클라이언트가 연결되었을때
 MAKE_PROCESS(TrNetworkConnectReq)
 {
 	TrNetworkConnectReq* req = static_cast<TrNetworkConnectReq*>(tr);
@@ -11,12 +12,6 @@ MAKE_PROCESS(TrNetworkConnectReq)
 	{
 		// 뭐 스트링 그런거 하면 될듯
 	}
-
-	//PlayerActor* newPlayer = ActorManager::getInstance()->createPlayerActor();
-
-	//// 나중에 커지면 구조체로 빼자
-	////newPlayer->setName(req->_name);
-	////newPlayer->setSessionId(req->_sessionId);
 }
 
 MAKE_PROCESS(TrNetworkDisConnectReq)
@@ -25,7 +20,7 @@ MAKE_PROCESS(TrNetworkDisConnectReq)
 	{
 		// 뭐 스트링 그런거 하면 될듯
 	}
-	ActorManager::getInstance()->deletePlayerActor(req->_sessionId);
+	ActorManager::getInstance()->deletePlayerActor(req->_sessionKey);
 }
 
 MAKE_PROCESS(TrActorLoginReq)

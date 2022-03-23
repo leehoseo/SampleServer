@@ -9,8 +9,8 @@ public:
 	PlayerActor();
 	virtual ~PlayerActor();
 
-	const Session_ID& getSessionId();
-	void			  setSessionId(const Session_ID& sessionId);
+	const SessionKey& getSessionKey();
+	void			  setSessionKey(const SessionKey& sessionKey);
 
 
 public:
@@ -28,6 +28,6 @@ public:
 
 
 private:
-	Session_ID _sessionId = undefinedSessionId;
+	SessionKey _sessionKey;
 };
 

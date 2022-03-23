@@ -32,6 +32,6 @@ protected:
 private:
 	std::unordered_map<ContentsType, Contents*> _contentsList;
 
-	ActorKey _actorKey = undefinedActorKey;
+	ActorKey _actorKey;
 };
 

@@ -18,8 +18,8 @@ public:
 public: 
 	virtual const ContentsType getType() = 0;
 
-	virtual void init();
-	virtual void active(Actor* owner);
+	virtual void init(Actor* owner);
+	virtual void active();
 	virtual void deactive();
 	Actor* getOwner();
 

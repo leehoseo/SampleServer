@@ -11,15 +11,15 @@ public:
 	virtual ~ActorManager();
 
 	PlayerActor* createPlayerActor();
-	//void deletePlayerActorByActorKey(const ActorKey& actorKey);
-	void deletePlayerActor(const Session_ID& sessionId);
+	void deletePlayerActor(const ActorKey& actorKey);
+	void deletePlayerActor(const SessionKey& sessionKey);
 
-	void getActivePlayerActorSessionIds(std::vector<Session_ID>& sessionIdList);
+	void getActivePlayerActorSessionIds(std::vector<SessionKey>& sessionKeyList);
 
 private:
 	Pool<PlayerActor>& getPlayerActorPool();
 	Pool<PlayerActor> _playerActorPool;			// Pool에 대기중인 엑터들
 
-	std::unordered_map<ActorKey, PlayerActor*> _playerActorList;	// 실제 사용중인 엑터들
+	std::unordered_map<ActorKey::Type, PlayerActor*> _playerActorList;	// 실제 사용중인 엑터들
 };
 

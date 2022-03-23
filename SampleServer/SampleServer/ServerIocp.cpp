@@ -1,6 +1,8 @@
 #include "ServerIocp.h"
 #include "PoolManager.h"
 #include "Session.h"
+#include "SystemManager.h"
+#include "ServerNetworkContents.h"
 
 ServerIocp::ServerIocp()
 	: Iocp(1)
@@ -33,5 +35,8 @@ void ServerIocp::init()
 
 void ServerIocp::onAccept(Session* acceptSession)
 {
+	Actor* mainActor = SystemManager::getInstance()->getMainActor();
+	ServerNetworkContents* contents = static_cast<ServerNetworkContents*>(mainActor->getContents(ContentsType::eNetwork));
 
+	contents->onAccept(acceptSession);
 }

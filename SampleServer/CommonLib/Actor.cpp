@@ -2,7 +2,7 @@
 
 Actor::Actor()
 {
-    static ActorKey currentActorKey = undefinedActorKey;
+    static ActorKey::Type currentActorKey = ActorKey::undefined;
     _actorKey = ++currentActorKey;
 }
 
@@ -43,6 +43,6 @@ const ActorKey& Actor::getActorKey()
 
 void Actor::insertContents(Contents* contents)
 {
-    contents->active(this);
+    contents->init(this);
     _contentsList.insert(std::make_pair(contents->getType(), contents));
 }

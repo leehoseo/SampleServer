@@ -15,7 +15,7 @@ void OverlappedBuffer::init()
 	ZeroMemory(&_wsaBuffer, sizeof(_wsaBuffer));
 	ZeroMemory(&_buffer, sizeof(_buffer));
 
-	_session_id = undefinedSessionId;
+	_sessionKey.clear();
 	_type = BufferType::COUNT;
 }
 

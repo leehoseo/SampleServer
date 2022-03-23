@@ -3,12 +3,12 @@
 #include "Session.h"
 #include "Logger.h"
 #include "PoolManager.h"
-#include "RecvEvent.h"
-#include "SendEvent.h"
 #include <WS2tcpip.h>
 #include <thread>
 #include "Tr.h"
 #include "TrAuth.h"
+#include "SystemManager.h"
+#include "NetworkContents.h"
 
 #pragma optimize ("" , off )
 
@@ -31,12 +31,15 @@ void Iocp::execute()
 	IocpEvents readEvents;
 	getEvent(readEvents, 0);
 
+	Actor* mainActor = SystemManager::getInstance()->getMainActor();
+	NetworkContents* networkContents = static_cast<NetworkContents*>(mainActor->getContents(ContentsType::eNetwork));
+
 	for (int index = 0; index < readEvents.m_eventCount; ++index)
 	{
 		OVERLAPPED_ENTRY& readEvent = readEvents.m_events[index];
 		OverlappedBuffer* overlappedBuffer = reinterpret_cast<OverlappedBuffer*>(readEvent.lpOverlapped);
 
-		Session* onEventSession = _sessionList[overlappedBuffer->_session_id];
+		Session* onEventSession = _sessionList[overlappedBuffer->_sessionKey.get()];
 
 		if (nullptr == onEventSession)
 		{
@@ -58,7 +61,7 @@ void Iocp::execute()
 				sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16,
 				&pLocalSocketAddr, &pLocalSocketAddrLength, &pRemoteSocketAddr, &pRemoteSocketAddrLength);
 
-			std::string connectStr = "Accept New Clients ID: " + std::to_string(overlappedBuffer->_session_id);
+			std::string connectStr = "Accept New Clients ID: " + std::to_string(overlappedBuffer->_sessionKey.get());
 			Logger::getInstance()->log(Logger::Level::DEBUG, connectStr);
 
 			recv(onEventSession);
@@ -82,26 +85,26 @@ void Iocp::execute()
 			{
 				Tr* tr = new Tr();
 				memcpy(tr, overlappedBuffer->_buffer, readEvent.dwNumberOfBytesTransferred);
-				makeRecvEvent(tr, 0);
-
+				networkContents->recvTrEvent(tr, 0);
+				
 				recv(onEventSession);
 			}
 		}
 		break;
 		case BufferType::DISCONNECT:
 		{
-			_sessionList.erase(onEventSession->getSessionId());
+			_sessionList.erase(onEventSession->getSessionKey().get());
 
 			PoolManager::getInstance()->getSessionPool().push(onEventSession);
 
 			// ActorManager에 대한 Erease 처리도 추가해야한다.
 			{
-				std::string str = "Disconnect Clients ID: " + std::to_string(onEventSession->getSessionId());
+				std::string str = "Disconnect Clients ID: " + std::to_string(onEventSession->getSessionKey().get());
 				Logger::getInstance()->log(Logger::Level::DEBUG, str);
 
 				TrNetworkDisConnectReq* req = new TrNetworkDisConnectReq();
-				req->set(onEventSession->getSessionId());
-				makeSendEventToServer(req, 0);
+				req->set(onEventSession->getSessionKey());
+				networkContents->sendToServer(req, 0);
 			}
 		}
 		break;
@@ -148,7 +151,7 @@ const bool Iocp::connect(Session* session, sockaddr_in& socketAddr, TrNetworkCon
 
 	SOCKET& connectSocket = session->getSocketHandle();
 
-	overlappedBuffer->_session_id = session->getSessionId();
+	overlappedBuffer->_sessionKey = session->getSessionKey();
 	overlappedBuffer->_type = BufferType::CONNECT;
 	overlappedBuffer->_wsaBuffer.len = tr->_maxSize;
 
@@ -181,7 +184,7 @@ const bool Iocp::accept()
 	Session* newSession = PoolManager::getInstance()->getSessionPool().pop();
 	addSession(newSession);
 
-	overlappedBuffer->_session_id = newSession->getSessionId();
+	overlappedBuffer->_sessionKey = newSession->getSessionKey();
 	overlappedBuffer->_type = BufferType::ACCEPT;
 
 	LPFN_ACCEPTEX acceptFunc = nullptr;
@@ -213,7 +216,7 @@ const bool Iocp::disconnect(Session* session)
 		&disconnectFunc, sizeof(disconnectFunc),
 		&dwbyte, NULL, NULL);
 
-	overlappedBuffer->_session_id = session->getSessionId();
+	overlappedBuffer->_sessionKey = session->getSessionKey();
 	overlappedBuffer->_type = BufferType::DISCONNECT;
 
 	int error = disconnectFunc(session->getSocketHandle(), reinterpret_cast<LPOVERLAPPED>(&overlappedBuffer->_overlapped), TF_REUSE_SOCKET, 0);
@@ -235,7 +238,7 @@ void Iocp::recv(Session* session)
 
 	DWORD flag{ 0 };
 
-	overlappedBuffer->_session_id = session->getSessionId();
+	overlappedBuffer->_sessionKey = session->getSessionKey();
 	overlappedBuffer->_type = BufferType::RECV;
 
 	int error = WSARecv(session->getSocketHandle(), &overlappedBuffer->_wsaBuffer, 1, NULL, &flag, &overlappedBuffer->_overlapped, 0);
@@ -253,7 +256,7 @@ void Iocp::send(Session* session, Tr* tr)
 {
 	OverlappedBuffer* overlappedBuffer = PoolManager::getInstance()->getOverlappedBufferPool().pop();
 
-	overlappedBuffer->_session_id = session->getSessionId();
+	overlappedBuffer->_sessionKey = session->getSessionKey();
 	overlappedBuffer->_type = BufferType::SEND;
 	overlappedBuffer->_wsaBuffer.len = tr->_maxSize;
 
@@ -267,9 +270,9 @@ void Iocp::send(Tr* tr)
 	send(_mainSession, tr);
 }
 
-void Iocp::send(const Session_ID sessionId, Tr* tr)
+void Iocp::send(const SessionKey sessionKey, Tr* tr)
 {
-	auto iter = _sessionList.find(sessionId);
+	auto iter = _sessionList.find(sessionKey.get());
 	if (_sessionList.end() == iter)
 	{
 		// 에러
@@ -280,19 +283,19 @@ void Iocp::send(const Session_ID sessionId, Tr* tr)
 	send(session, tr);
 }
 
-void Iocp::send(const std::vector<Session_ID> sessionIdList, Tr* tr)
+void Iocp::send(const std::vector<SessionKey> sessionKeyList, Tr* tr)
 {
-	const int size = sessionIdList.size();
+	const int size = sessionKeyList.size();
 
 	for (int index = 0; index < size; ++index)
 	{
-		send(sessionIdList[index], tr);
+		send(sessionKeyList[index], tr);
 	}
 }
 
 void Iocp::addSession(Session* session)
 {
-	const bool result = CreateIoCompletionPort((HANDLE)session->getSocketHandle(), _handle, session->getSessionId(), _threadCount);
+	const bool result = CreateIoCompletionPort((HANDLE)session->getSocketHandle(), _handle, session->getSessionKey().get(), _threadCount);
 
 	if (false == result)
 	{
@@ -301,12 +304,12 @@ void Iocp::addSession(Session* session)
 		Logger::getInstance()->log(Logger::Level::WARNING, "IOCP add failed!");
 	}
 
-	_sessionList.insert(std::make_pair(session->getSessionId(), session));
+	_sessionList.insert(std::make_pair(session->getSessionKey().get(), session));
 }
 
 void Iocp::deleteSession(Session* session)
 {
-	_sessionList.erase(session->getSessionId());
+	_sessionList.erase(session->getSessionKey().get());
 }
 
 void Iocp::getEvent(IocpEvents& output, int timeoutMs)
@@ -318,9 +321,9 @@ void Iocp::getEvent(IocpEvents& output, int timeoutMs)
 	}
 }
 
-const Session_ID& Iocp::getMainSessionId()
+const SessionKey& Iocp::getMainSessionKey()
 {
-	return _mainSession->getSessionId();
+	return _mainSession->getSessionKey();
 }
 
 void Iocp::onConnect()
