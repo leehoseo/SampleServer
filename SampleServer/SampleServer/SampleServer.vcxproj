@@ -187,6 +187,7 @@
     <ClCompile Include="ServerThreadContents.cpp" />
     <ClCompile Include="TrAuthProc.cpp" />
     <ClCompile Include="TrChatProc.cpp" />
+    <ClCompile Include="TrFieldProc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorManager.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TrAuthProc.h" />
     <ClInclude Include="TrChatProc.h" />
+    <ClInclude Include="TrFieldProc.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLib\CommonLib.vcxproj">

@@ -25,6 +25,7 @@ public:																				\
 	void operator=(const keyName& ref) { _data = ref._data; }						\
 	void operator=(Type& ref) { _data = ref; }										\
 	bool operator==(const keyName& ref) const { return _data == ref._data; }		\
+	bool operator!=(const keyName& ref) const { return _data != ref._data; }		\
 																					\
 private:																			\
 	Type _data = undefined;															\

@@ -34,9 +34,6 @@
     <Filter Include="Tr">
       <UniqueIdentifier>{6a426f64-93a2-4ee9-95ae-9b5e2d20c5d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tr\ChatTr">
-      <UniqueIdentifier>{fa8a2896-f7f5-44da-88f8-0d5f652edf2d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Dispatcher">
       <UniqueIdentifier>{9c48febe-9d02-49cd-90f6-002e8f8baf2d}</UniqueIdentifier>
     </Filter>
@@ -49,11 +46,11 @@
     <Filter Include="Contents">
       <UniqueIdentifier>{6c54278b-bc2d-480b-873c-31f31f7b7674}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tr\Authentication">
-      <UniqueIdentifier>{a60bbafb-5ffa-4593-95b9-76f925e670f9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{728f1224-5dbf-40fc-89e6-0092d28201d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tr\TrContents">
+      <UniqueIdentifier>{fa8a2896-f7f5-44da-88f8-0d5f652edf2d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -185,9 +182,6 @@
     <ClInclude Include="TrId.h">
       <Filter>Tr</Filter>
     </ClInclude>
-    <ClInclude Include="TrChat.h">
-      <Filter>Tr\ChatTr</Filter>
-    </ClInclude>
     <ClInclude Include="Dispatcher.h">
       <Filter>Dispatcher</Filter>
     </ClInclude>
@@ -236,11 +230,17 @@
     <ClInclude Include="SendEvent.h">
       <Filter>Dispatcher\Event</Filter>
     </ClInclude>
-    <ClInclude Include="TrAuth.h">
-      <Filter>Tr\Authentication</Filter>
-    </ClInclude>
     <ClInclude Include="FieldContents.h">
       <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="TrAuth.h">
+      <Filter>Tr\TrContents</Filter>
+    </ClInclude>
+    <ClInclude Include="TrChat.h">
+      <Filter>Tr\TrContents</Filter>
+    </ClInclude>
+    <ClInclude Include="TrField.h">
+      <Filter>Tr\TrContents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

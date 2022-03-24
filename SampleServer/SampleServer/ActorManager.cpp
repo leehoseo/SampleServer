@@ -23,6 +23,11 @@ PlayerActor* ActorManager::createPlayerActor()
 	return newPlayerActor;
 }
 
+PlayerActor* ActorManager::getPlayerActor(const ActorKey& actorKey)
+{
+	return _playerActorList[actorKey.get()];
+}
+
 void ActorManager::deletePlayerActor(const ActorKey& actorKey)
 {
 	auto iter = _playerActorList.find(actorKey.get());

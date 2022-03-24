@@ -33,12 +33,3 @@ MAKE_PROCESS(TrNetworkDisConnectReq)
 
 	networkContents->responseTrNetworkDisConnectReq(req);
 }
-
-MAKE_PROCESS(TrActorLoginReq)
-{
-	TrActorLoginReq* req = static_cast<TrActorLoginReq*>(tr);
-	// 검증
-	{
-		// 뭐 스트링 그런거 하면 될듯
-	}
-}

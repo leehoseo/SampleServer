@@ -23,6 +23,7 @@ public:
 	void addPlayer(PlayerActor* player);
 	void removePlayer(PlayerActor* player);
 	void getPlayerList(std::vector<ActorKey>& outList);
+	void getPlayerList(std::vector<PlayerActor*>& outList);
 
 	const bool isFull();
 

@@ -701,6 +701,7 @@ copy $(ProjectDir)*.hpp D:\Programming\Server\SampleUnreal\SampleClient\Source\T
     <ClInclude Include="TrAuth.h" />
     <ClInclude Include="TrChat.h" />
     <ClInclude Include="RecvEvent.h" />
+    <ClInclude Include="TrField.h" />
     <ClInclude Include="TrId.h" />
     <ClInclude Include="TrQueueManager.h" />
     <ClInclude Include="TrThread.h" />

@@ -11,6 +11,7 @@ public:
 	virtual ~ActorManager();
 
 	PlayerActor* createPlayerActor();
+	PlayerActor* getPlayerActor(const ActorKey& actorKey);
 	void deletePlayerActor(const ActorKey& actorKey);
 	void deletePlayerActor(const SessionKey& sessionKey);
 

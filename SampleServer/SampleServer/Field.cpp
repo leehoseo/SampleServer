@@ -54,6 +54,16 @@ void Field::getPlayerList(std::vector<ActorKey>& outList)
 	}
 }
 
+void Field::getPlayerList(std::vector<PlayerActor*>& outList)
+{
+	ScopeLock lock(&_lock);
+	for (auto iter = _playerList.begin(); iter != _playerList.end(); ++iter)
+	{
+		PlayerActor* player = *iter;
+		outList.push_back(player);
+	}
+}
+
 const bool Field::isFull()
 {
 	ScopeLock lock(&_lock);

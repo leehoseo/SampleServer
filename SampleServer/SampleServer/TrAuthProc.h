@@ -3,4 +3,3 @@
 
 MAKE_PROC(TrNetworkConnectReq)
 MAKE_PROC(TrNetworkDisConnectReq)
-MAKE_PROC(TrActorLoginReq)

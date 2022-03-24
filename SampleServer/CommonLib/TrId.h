@@ -9,7 +9,7 @@ enum class TrId
 	TrNetworkConnectReq,
 	TrNetworkConnectAck,
 	TrNetworkDisConnectReq,
-	TrActorLoginReq,
-	TrActorLoginAck,
+	TrLoginToLobbyReq,
+	TrLoginToLobbyAck,
 	Count,
 };

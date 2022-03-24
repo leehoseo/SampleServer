@@ -28,12 +28,6 @@
     <Filter Include="소스 파일\Proc">
       <UniqueIdentifier>{dd79b02c-415f-4fc1-8ce9-92c90439645a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Proc\TrAuth">
-      <UniqueIdentifier>{39126305-2832-45cd-abc5-78144a52b023}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Proc\TrChat">
-      <UniqueIdentifier>{fcc84b27-df8e-4bfc-a913-b258fe250801}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Field">
       <UniqueIdentifier>{ee5bb532-54bd-49cd-a407-5fe7dc9539bd}</UniqueIdentifier>
     </Filter>
@@ -41,9 +35,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TrChatProc.cpp">
-      <Filter>소스 파일\Proc\TrChat</Filter>
     </ClCompile>
     <ClCompile Include="ServerNetworkContents.cpp">
       <Filter>소스 파일\Contents</Filter>
@@ -63,9 +54,6 @@
     <ClCompile Include="PlayerActor.cpp">
       <Filter>소스 파일\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="TrAuthProc.cpp">
-      <Filter>소스 파일\Proc\TrAuth</Filter>
-    </ClCompile>
     <ClCompile Include="Field.cpp">
       <Filter>소스 파일\Field</Filter>
     </ClCompile>
@@ -84,13 +72,19 @@
     <ClCompile Include="ServerFieldContents.cpp">
       <Filter>소스 파일\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="TrChatProc.cpp">
+      <Filter>소스 파일\Proc</Filter>
+    </ClCompile>
+    <ClCompile Include="TrAuthProc.cpp">
+      <Filter>소스 파일\Proc</Filter>
+    </ClCompile>
+    <ClCompile Include="TrFieldProc.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TrChatProc.h">
-      <Filter>소스 파일\Proc\TrChat</Filter>
     </ClInclude>
     <ClInclude Include="ServerNetworkContents.h">
       <Filter>소스 파일\Contents</Filter>
@@ -110,9 +104,6 @@
     <ClInclude Include="PlayerActor.h">
       <Filter>소스 파일\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="TrAuthProc.h">
-      <Filter>소스 파일\Proc\TrAuth</Filter>
-    </ClInclude>
     <ClInclude Include="Field.h">
       <Filter>소스 파일\Field</Filter>
     </ClInclude>
@@ -130,6 +121,15 @@
     </ClInclude>
     <ClInclude Include="ServerFieldContents.h">
       <Filter>소스 파일\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="TrChatProc.h">
+      <Filter>소스 파일\Proc</Filter>
+    </ClInclude>
+    <ClInclude Include="TrAuthProc.h">
+      <Filter>소스 파일\Proc</Filter>
+    </ClInclude>
+    <ClInclude Include="TrFieldProc.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
