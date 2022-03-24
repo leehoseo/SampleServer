@@ -646,6 +646,7 @@ copy $(ProjectDir)*.hpp D:\Programming\Server\SampleUnreal\SampleClient\Source\T
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="DispatcherThread.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="FieldContents.cpp" />
     <ClCompile Include="Iocp.cpp" />
     <ClCompile Include="NetworkThread.cpp" />
     <ClCompile Include="Lock.cpp" />
@@ -677,6 +678,7 @@ copy $(ProjectDir)*.hpp D:\Programming\Server\SampleUnreal\SampleClient\Source\T
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="DispatcherThread.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="FieldContents.h" />
     <ClInclude Include="Iocp.h" />
     <ClInclude Include="NetworkThread.h" />
     <ClInclude Include="Lock.h" />

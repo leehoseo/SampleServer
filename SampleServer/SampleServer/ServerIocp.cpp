@@ -40,3 +40,11 @@ void ServerIocp::onAccept(Session* acceptSession)
 
 	contents->onAccept(acceptSession);
 }
+
+void ServerIocp::onDisconnect(Session* acceptSession)
+{
+	Actor* mainActor = SystemManager::getInstance()->getMainActor();
+	ServerNetworkContents* contents = static_cast<ServerNetworkContents*>(mainActor->getContents(ContentsType::eNetwork));
+
+	contents->onDisconnect(acceptSession);
+}	

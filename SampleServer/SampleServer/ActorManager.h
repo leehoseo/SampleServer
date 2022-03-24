@@ -14,7 +14,8 @@ public:
 	void deletePlayerActor(const ActorKey& actorKey);
 	void deletePlayerActor(const SessionKey& sessionKey);
 
-	void getActivePlayerActorSessionIds(std::vector<SessionKey>& sessionKeyList);
+	void getPlayerSessionKey( const std::vector<ActorKey>& actorKeyList, std::vector<SessionKey>& outList);
+	void getPlayerSessionKey( const ActorKey& actorKey, SessionKey& outKey);
 
 private:
 	Pool<PlayerActor>& getPlayerActorPool();

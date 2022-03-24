@@ -31,8 +31,6 @@ void PlayerActor::init()
 
 void PlayerActor::release()
 {
-	_sessionKey.clear();
-
 	__super::release();
 }
 
@@ -43,5 +41,6 @@ void PlayerActor::active()
 
 void PlayerActor::deactive()
 {
+	_sessionKey.clear();
 	__super::deactive();
 }

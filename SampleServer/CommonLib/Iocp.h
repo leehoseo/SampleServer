@@ -41,7 +41,7 @@ public:
 	void		send( const std::vector<SessionKey> sessionKeyList , Tr* tr); // overlapeed 송신 준비 ( 백그라운드에서 수신 처리를 함)
 
 	void addSession(Session* session);
-	void deleteSession(Session* session);
+	void deleteSession(const SessionKey& sessionKey);
 	void getEvent(IocpEvents& output, int timeoutMs);
 
 	const SessionKey& getMainSessionKey();
@@ -56,6 +56,7 @@ protected:
 
 	virtual void onConnect();
 	virtual void onAccept(Session* acceptSession );
+	virtual void onDisconnect(Session* acceptSession );
 };
 
 // IOCP의 GetQueuedCompletionStatus로 받은 I/O 완료신호들

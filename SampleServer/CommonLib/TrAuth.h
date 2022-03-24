@@ -37,12 +37,21 @@ public:
 	TrNetworkDisConnectReq() : Tr(TrId::TrNetworkDisConnectReq, ThreadType::eContents, sizeof(TrNetworkDisConnectReq)) {}
 	~TrNetworkDisConnectReq() {}
 
+	// 클라이언트에서 요청했을때는 actorKey를 사용한다.
+	void set(const ActorKey& actorKey)
+	{
+		// 검증을 넣는다.
+		_actorKey = actorKey;
+	}
+
+	// 강제로 소켓 연결이 해제됐을경우 서버에서 사용한다.
 	void set(const SessionKey& sessionKey)
 	{
 		// 검증을 넣는다.
 		_sessionKey = sessionKey;
 	}
 public:
+	ActorKey _actorKey;
 	SessionKey _sessionKey;
 };
 #pragma pack(pop)

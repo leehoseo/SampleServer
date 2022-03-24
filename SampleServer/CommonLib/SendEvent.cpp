@@ -4,18 +4,16 @@
 #include "Iocp.h"
 
 SendEvent::SendEvent(Tr* tr, const TickCount64 timer, const std::vector<SessionKey>& sessionKeyList)
-	: Event(EventType::Send)
+	: Event(EventType::Send, timer)
 	, _tr(tr)
 {
-	_timer = getCurrentTimeTick64() + timer;
 	_sessionKeyList = sessionKeyList;
 }
 
 SendEvent::SendEvent(Tr* tr, const TickCount64 timer, const SessionKey& sessionKey)
-	: Event(EventType::Send)
+	: Event(EventType::Send, timer)
 	, _tr(tr)
 {
-	_timer = getCurrentTimeTick64() + timer;
 	_sessionKeyList.push_back(sessionKey);
 }
 
@@ -39,4 +37,6 @@ void SendEventHandle::process(Event* event)
  	Iocp* iocp = SystemManager::getInstance()->getIcop();
 
 	iocp->send(sendEvent->_sessionKeyList, sendEvent->_tr);
+
+	delete tr;
 }

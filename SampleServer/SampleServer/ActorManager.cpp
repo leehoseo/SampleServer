@@ -52,13 +52,31 @@ void ActorManager::deletePlayerActor(const SessionKey& sessionKey)
 	}
 }
 
-void ActorManager::getActivePlayerActorSessionIds(std::vector<SessionKey>& sessionKeyList)
+void ActorManager::getPlayerSessionKey(const std::vector<ActorKey>& actorKeyList, std::vector<SessionKey>& outList)
 {
-	for (auto iter = _playerActorList.begin(); iter != _playerActorList.end(); ++iter)
+	for (auto iter = actorKeyList.begin(); iter != actorKeyList.end(); ++iter)
 	{
-		PlayerActor* playerActor = iter->second;
-		sessionKeyList.push_back(playerActor->getSessionKey());
+		SessionKey outKey;
+		getPlayerSessionKey( *iter , outKey );
+
+		if (true == outKey.isValid())
+		{
+			outList.push_back(outKey);
+		}
 	}
+}
+
+void ActorManager::getPlayerSessionKey(const ActorKey& actorKey, SessionKey& outKey)
+{
+	auto iter = _playerActorList.find(actorKey.get());
+	if (iter == _playerActorList.end())
+	{
+		// 拭君っっっっ
+		return;
+	}
+
+	PlayerActor* playerActor = iter->second;
+	outKey = playerActor->getSessionKey();
 }
 
 Pool<PlayerActor>& ActorManager::getPlayerActorPool()

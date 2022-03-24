@@ -141,6 +141,9 @@
     <ClCompile Include="SendEvent.cpp">
       <Filter>Dispatcher\Event</Filter>
     </ClCompile>
+    <ClCompile Include="FieldContents.cpp">
+      <Filter>Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Iocp.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="TrAuth.h">
       <Filter>Tr\Authentication</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldContents.h">
+      <Filter>Contents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

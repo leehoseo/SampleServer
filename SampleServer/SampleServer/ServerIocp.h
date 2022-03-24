@@ -11,4 +11,5 @@ public:
 public:
 	virtual void init();
 	virtual void onAccept(Session* acceptSession);
+	virtual void onDisconnect(Session* acceptSession);
 };

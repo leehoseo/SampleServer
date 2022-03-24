@@ -13,7 +13,7 @@ enum class EventType
 class Event
 {
 public:
-	Event(const EventType& type);
+	Event(const EventType& type, const TickCount64 timer);
 	virtual ~Event();
 
 

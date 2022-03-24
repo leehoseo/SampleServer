@@ -19,6 +19,7 @@ public:																				\
 public:																				\
 	const Type& get() const { return _data; }										\
 	void clear() { _data = undefined; }												\
+	bool isValid() { return _data != undefined; }									\
 																					\
 	void operator=(keyName& ref) { _data = ref._data; }								\
 	void operator=(const keyName& ref) { _data = ref._data; }						\

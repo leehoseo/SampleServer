@@ -93,19 +93,7 @@ void Iocp::execute()
 		break;
 		case BufferType::DISCONNECT:
 		{
-			_sessionList.erase(onEventSession->getSessionKey().get());
-
-			PoolManager::getInstance()->getSessionPool().push(onEventSession);
-
-			// ActorManager에 대한 Erease 처리도 추가해야한다.
-			{
-				std::string str = "Disconnect Clients ID: " + std::to_string(onEventSession->getSessionKey().get());
-				Logger::getInstance()->log(Logger::Level::DEBUG, str);
-
-				TrNetworkDisConnectReq* req = new TrNetworkDisConnectReq();
-				req->set(onEventSession->getSessionKey());
-				networkContents->sendToServer(req, 0);
-			}
+			onDisconnect(onEventSession);
 		}
 		break;
 		case BufferType::CONNECT:
@@ -307,9 +295,19 @@ void Iocp::addSession(Session* session)
 	_sessionList.insert(std::make_pair(session->getSessionKey().get(), session));
 }
 
-void Iocp::deleteSession(Session* session)
+void Iocp::deleteSession(const SessionKey& sessionKey)
 {
-	_sessionList.erase(session->getSessionKey().get());
+	auto iter = _sessionList.find(sessionKey.get());
+	if (iter == _sessionList.end())
+	{
+		// 에러ㅓㅓㅓㅓ 나 로그ㅡㅡㅡㅡ
+		return;
+	}
+
+	Session* session = iter->second;
+	
+	_sessionList.erase(iter);
+	PoolManager::getInstance()->getSessionPool().push(session);
 }
 
 void Iocp::getEvent(IocpEvents& output, int timeoutMs)
@@ -331,5 +329,9 @@ void Iocp::onConnect()
 }
 
 void Iocp::onAccept(Session* acceptSession)
+{
+}
+
+void Iocp::onDisconnect(Session* acceptSession)
 {
 }

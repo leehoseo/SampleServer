@@ -175,9 +175,13 @@
     <ClCompile Include="ActorManager.cpp" />
     <ClCompile Include="CharacterActor.cpp" />
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="FieldManager.cpp" />
+    <ClCompile Include="InGameField.cpp" />
+    <ClCompile Include="LobbyField.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerActor.cpp" />
     <ClCompile Include="ServerActor.cpp" />
+    <ClCompile Include="ServerFieldContents.cpp" />
     <ClCompile Include="ServerIocp.cpp" />
     <ClCompile Include="ServerNetworkContents.cpp" />
     <ClCompile Include="ServerThreadContents.cpp" />
@@ -188,8 +192,12 @@
     <ClInclude Include="ActorManager.h" />
     <ClInclude Include="CharacterActor.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="FieldManager.h" />
+    <ClInclude Include="InGameField.h" />
+    <ClInclude Include="LobbyField.h" />
     <ClInclude Include="PlayerActor.h" />
     <ClInclude Include="ServerActor.h" />
+    <ClInclude Include="ServerFieldContents.h" />
     <ClInclude Include="ServerIocp.h" />
     <ClInclude Include="ServerNetworkContents.h" />
     <ClInclude Include="ServerThreadContents.h" />

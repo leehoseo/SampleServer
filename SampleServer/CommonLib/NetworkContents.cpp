@@ -23,7 +23,7 @@ void NetworkContents::sendToServer(Tr* tr, const TickCount64 timer)
 }
 
 void NetworkContents::recvTrEvent(Tr* tr, const TickCount64 timer)
-{
+{	
 	RecvEvent* recvEvent = new RecvEvent(tr, timer);
 	Dispatcher::getInstance()->push(recvEvent);
 }

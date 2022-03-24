@@ -12,7 +12,15 @@ Dispatcher::Dispatcher()
 
 void Dispatcher::push(Event* event)
 {
-	_eventList.push(event);
+	if (0 == event->_timer)
+	{
+		dispatch(event);
+	}
+	else
+	{
+		ScopeLock lock(&_lock);
+		_eventList.push(event);
+	}
 }
 
 Event* Dispatcher::pop()
@@ -37,6 +45,18 @@ Event* Dispatcher::pop()
 	return outEvent;
 }
 
+void Dispatcher::dispatch(Event* event)
+{
+#define MAKE_EVENTHANDLE(Type) case EventType::##Type: { Type##EventHandle handle; handle.process(event); } break;
+	switch (event->_type)
+	{
+	MAKE_EVENTHANDLE(Send)
+	MAKE_EVENTHANDLE(Recv)
+	}
+
+	delete event;
+}
+
 void Dispatcher::execute()
 {
 	Event* event = pop();
@@ -47,26 +67,5 @@ void Dispatcher::execute()
 		return;
 	}
 
-	EventHandle* handle = nullptr;
-
-#define CaseHandle(Type) case EventType::##Type: handle = new Type##EventHandle(); break;
-
-	switch (event->_type)
-	{
-		CaseHandle(Recv);
-		CaseHandle(Send);
-	default: break;
-	}
-
-	if (nullptr == handle)
-	{
-		delete event;
-		return; // 아직 Event 구현이 안됨
-	}
-
-	handle->process(event);
-
-	// 아아아악 이런것도 Pool로 만들어야 할까..?
-	delete event;
-	delete handle;
+	dispatch(event);
 }

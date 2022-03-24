@@ -23,5 +23,3 @@ public:
 public:
 	virtual void process( Event* event );
 };
-
-void makeRecvEvent(Tr* tr, const TickCount64 timer);

@@ -17,7 +17,7 @@ public:
 
 private:
 	Event* pop();
-
+	void dispatch(Event* event);
 private:
 	std::priority_queue<Event*> _eventList;
 	Lock _lock;
