@@ -19,6 +19,11 @@ void ServerFieldContents::responseTrLoginToLobbyReq(TrLoginToLobbyReq* req)
 
 	Field* field = FieldManager::getInstance()->getAccessibleField(FieldType::eLobby);
 
+	if (nullptr == field)
+	{
+		return;
+	}
+
 	_currentFieldKey = field->getKey();
 	field->addPlayer(loginedPlayer);
 
@@ -37,11 +42,11 @@ void ServerFieldContents::responseTrLoginToLobbyReq(TrLoginToLobbyReq* req)
 		{
 			TrLoginToLobbyAck* ack = new TrLoginToLobbyAck();
 			ack->set(player->getActorKey(), player->getName().c_str());
-			networkContents->sendToActor(ack, 0, loginedPlayer->getActorKey());
+			networkContents->sendToActor(ack, 0, loginedPlayer->getSessionKey());
 		}
 
 		TrLoginToLobbyAck * ack = new TrLoginToLobbyAck();
 		ack->set(loginedPlayer->getActorKey(), loginedPlayer->getName().c_str());
-		networkContents->sendToActor(ack, 0, player->getActorKey());
+		networkContents->sendToActor(ack, 0, player->getSessionKey());
 	}
 }

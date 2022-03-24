@@ -3,7 +3,7 @@
 #include "ServerIocp.h"
 #include "Dispatcher.h"
 #include "TrQueueManager.h"
-
+#include "FieldManager.h"
 int main()
 {
 	WSADATA w;
@@ -13,6 +13,8 @@ int main()
 
 	Iocp* iocp = SystemManager::getInstance()->getIcop();
 	iocp->init();
+
+	FieldManager::getInstance()->init();
 
 	SystemManager::getInstance()->insertAndRunThread();
 
