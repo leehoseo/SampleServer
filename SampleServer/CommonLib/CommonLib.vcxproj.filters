@@ -141,6 +141,9 @@
     <ClCompile Include="FieldContents.cpp">
       <Filter>Contents</Filter>
     </ClCompile>
+    <ClCompile Include="ErrorCode.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Iocp.h">
@@ -241,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="TrField.h">
       <Filter>Tr\TrContents</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorCode.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

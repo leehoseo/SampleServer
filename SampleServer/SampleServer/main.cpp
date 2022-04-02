@@ -4,8 +4,14 @@
 #include "Dispatcher.h"
 #include "TrQueueManager.h"
 #include "FieldManager.h"
+#include "ErrorCode.h"
+
 int main()
 {
+	ErrorCode tester = ErrorCode::ERROR_INVALIED_PLAYER;
+
+	const char* str = convertErrorToString(tester);
+
 	WSADATA w;
 	WSAStartup(MAKEWORD(2, 2), &w);
 

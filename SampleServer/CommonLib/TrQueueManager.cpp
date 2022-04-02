@@ -114,7 +114,7 @@ Tr* TrQueueManager::pop(const ThreadType& type)
 	}
 
 	{
-		ScopeLock lock(&(*lock));
+		ScopeLock scopeLock(lock);
 
 		if (true == list->empty())
 		{
